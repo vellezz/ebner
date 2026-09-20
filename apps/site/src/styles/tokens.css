@@ -6,9 +6,17 @@
  * design share one vocabulary. Their semantics are inferred from usage — the
  * design carries no legend.
  *
- * The night palette is applied at runtime by the design's own Tweaks panel and
- * is not literal in that file, so the dark block below is deliberately left
- * unfilled rather than invented. Fill it from the design before enabling.
+ * The night values are DERIVED, not taken from the design: it applies its dark
+ * palette at runtime through its own Tweaks panel, so no dark value exists in
+ * the exported file. They mirror the day ramp's lightness while keeping the
+ * warm-grey family and the single rust accent, which is lifted because #8f4520
+ * has too little contrast against a dark ground. Swap them for the real ones
+ * if the design ever exports them.
+ *
+ * Three ways in, and the toggle has to beat the system preference in both
+ * directions — hence the same tokens declared under a media query guarded by
+ * :not([data-theme="light"]) and again under [data-theme="dark"]. No colour is
+ * defined only inside a media query.
  */
 
 :root {
@@ -36,6 +44,49 @@
 
   --measure: 66ch;
   --gutter: clamp(20px, 5vw, 56px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --bg: #1a1917;
+    --fg: #e6e4dd;
+    --f2: #bbb8af;
+    --ln: #6f6d66;
+    --ls: #8e8b83;
+    --sp: #2e2d29;
+    --wb: #232220;
+    --wl: #3a3935;
+    --wt: #9c998f;
+    --pl: #232220;
+    --pf: #1a1917;
+    --p2: #6f6d66;
+    /* The tape inverts: light ground, dark lettering. */
+    --ts: #d3d0c8;
+    --tf: #1a1917;
+    --ac: #c2663a;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #1a1917;
+  --fg: #e6e4dd;
+  --f2: #bbb8af;
+  --ln: #6f6d66;
+  --ls: #8e8b83;
+  --sp: #2e2d29;
+  --wb: #232220;
+  --wl: #3a3935;
+  --wt: #9c998f;
+  --pl: #232220;
+  --pf: #1a1917;
+  --p2: #6f6d66;
+  --ts: #d3d0c8;
+  --tf: #1a1917;
+  --ac: #c2663a;
 }
 
 *,

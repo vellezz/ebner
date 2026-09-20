@@ -1,0 +1,19 @@
+{
+  "name": "Dziennik roboczy Ebnera Gripe",
+  "short_name": "Ebner",
+  "description": "Codzienny wpis z dziennika roboczego Ebnera Gripe, fachowca od infrastruktury obcych cywilizacji.",
+  "lang": "pl",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#d3d0c8",
+  "theme_color": "#1a1917",
+  "categories": ["books", "entertainment"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

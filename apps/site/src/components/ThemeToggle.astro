@@ -1,0 +1,78 @@
+---
+// Light / dark / system, with system as the default until someone chooses.
+// The choice lives in localStorage, which is per-browser and never leaves it —
+// there is no account here to attach a preference to.
+---
+
+<div class="theme" role="group" aria-label="Motyw">
+  <button type="button" data-theme-set="light" title="Jasny">jasny</button>
+  <button type="button" data-theme-set="dark" title="Ciemny">ciemny</button>
+  <button type="button" data-theme-set="system" title="Jak w systemie">auto</button>
+</div>
+
+<script is:inline>
+  (() => {
+    const KEY = 'ebner-theme';
+    const root = document.documentElement;
+
+    const read = () => {
+      try {
+        return localStorage.getItem(KEY) || 'system';
+      } catch {
+        // Private windows and blocked site data both throw here. A theme is a
+        // convenience; losing it must not take the page with it.
+        return 'system';
+      }
+    };
+
+    const apply = (value) => {
+      if (value === 'light' || value === 'dark') root.dataset.theme = value;
+      else delete root.dataset.theme;
+      for (const button of document.querySelectorAll('[data-theme-set]')) {
+        button.setAttribute(
+          'aria-pressed',
+          String(button.dataset.themeSet === value),
+        );
+      }
+    };
+
+    apply(read());
+
+    for (const button of document.querySelectorAll('[data-theme-set]')) {
+      button.addEventListener('click', () => {
+        const value = button.dataset.themeSet;
+        try {
+          if (value === 'system') localStorage.removeItem(KEY);
+          else localStorage.setItem(KEY, value);
+        } catch {}
+        apply(value);
+      });
+    }
+  })();
+</script>
+
+<style>
+  .theme {
+    display: flex;
+    gap: 1px;
+    background: var(--wl);
+    border: 1px solid var(--wl);
+  }
+
+  .theme button {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border: 0;
+    background: var(--pl);
+    color: var(--f2);
+    cursor: pointer;
+  }
+
+  .theme button[aria-pressed='true'] {
+    background: var(--ts);
+    color: var(--tf);
+  }
+</style>
