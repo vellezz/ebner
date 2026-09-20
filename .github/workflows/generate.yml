@@ -23,6 +23,8 @@ concurrency:
 
 permissions:
   contents: write
+  # To hand off to the workflows that would otherwise follow this push.
+  actions: write
 
 jobs:
   generate:
@@ -76,3 +78,16 @@ jobs:
           git add content/
           git commit -m "${title}"
           git push
+
+      # A push made with GITHUB_TOKEN does not trigger other workflows —
+      # GitHub's guard against recursion, the same one that makes a bot PR's
+      # checks never run. So the two workflows that should have followed this
+      # push are handed off explicitly. Without this the entry lands in the
+      # repository and nothing else happens: D1 stays a day behind and the
+      # site never rebuilds.
+      - name: Hand off
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run apply-state.yml --repo "${{ github.repository }}"
+          gh workflow run deploy-site.yml --repo "${{ github.repository }}"

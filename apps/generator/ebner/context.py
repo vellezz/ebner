@@ -135,15 +135,19 @@ def render_state(world: dict) -> str:
         lines.append("### Reguły światów")
         for fact in rules:
             where = fact.get("subject_name") or fact.get("subject") or "?"
-            lines.append(f"- **{where}**: {fact['content']}")
+            lines.append(f"- `{fact['id']}` **{where}**: {fact['content']}")
         lines.append("")
 
     general = [f for f in world["facts"] if f.get("kind") != "world_rule"]
     if general:
         lines.append("### Co obowiązuje")
+        # Ids are shown because closing a fact needs one. Without them the
+        # extractor has no way to name an existing fact and invents an id
+        # instead — the UPDATE then matches nothing, in silence, and the world
+        # goes on believing something the entry just ended.
         for fact in general:
             who = fact.get("subject_name") or fact.get("subject")
-            lines.append(f"- {'**' + who + '** — ' if who else ''}{fact['content']}")
+            lines.append(f"- `{fact['id']}` {'**' + who + '** — ' if who else ''}{fact['content']}")
         lines.append("")
 
     if world["threads"]:

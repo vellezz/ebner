@@ -42,6 +42,10 @@ Fakt, który **przestał obowiązywać**, zamykasz osobnym wpisem z `op: "close"
 jego identyfikatorem. Faktów się nie edytuje: naprawa, spłata czy zmiana
 okoliczności **zamyka stary fakt i otwiera nowy**.
 
+Identyfikator do zamknięcia **musi pochodzić z listy w stanie świata powyżej** —
+jest tam podany przy każdym fakcie. Nie wymyślaj własnego: zamknięcie
+nieistniejącego faktu niczego nie zamyka i nikt tego nie zauważy.
+
 **Reguła, na której stoi obca cywilizacja** → fakt z `kind: "world_rule"`,
 którego podmiotem jest to miejsce. Jedno zdanie. Tylko wtedy, gdy wpis taką
 regułę faktycznie odsłonił.

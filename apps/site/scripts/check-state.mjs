@@ -58,6 +58,7 @@ for (const f of readdirSync(entryDir).filter((n) => n.endsWith('.md'))) {
 const stateDir = join(ROOT, 'content/state');
 const knownEntities = new Set();
 const knownThreads = new Set();
+const knownFacts = new Set();
 let prevLocation = null;
 let prevDay = -1;
 
@@ -90,6 +91,13 @@ for (const f of readdirSync(stateDir).filter((n) => n.endsWith('.json')).sort())
   for (const fact of s.facts ?? []) {
     if (fact.subject && !knownEntities.has(fact.subject))
       problems.push(`${f}: fact ${fact.id} has unknown subject ${fact.subject}`);
+
+    // Closing a fact that was never opened is the quietest failure in the
+    // system: the UPDATE matches no row, nothing errors, and the world keeps
+    // believing something the entry just said is over.
+    if (fact.op === 'open') knownFacts.add(fact.id);
+    else if (!knownFacts.has(fact.id))
+      problems.push(`${f}: fact ${fact.id}: close before open`);
   }
   for (const fr of s.fragments ?? []) {
     for (const t of fr.threads ?? []) {
