@@ -93,7 +93,14 @@ _SLUG_FIELDS = {
 }
 
 
-def normalise_slugs(state: dict) -> dict:
+def normalise_state(state: dict, known_threads: set[str] | None = None) -> dict:
+    """Fix mechanically what a prompt would only ask for.
+
+    Four separate failures today came from instructing a model to get a
+    mechanical detail right and then rejecting its answer when it did not.
+    Slugs were the first; thread operations are the fourth. Anything with a
+    single correct answer derivable from the data belongs here, not in prose.
+    """
     for section, fields in _SLUG_FIELDS.items():
         for item in state.get(section) or []:
             for field in fields:
@@ -102,6 +109,16 @@ def normalise_slugs(state: dict) -> dict:
     for fragment in state.get("fragments") or []:
         if isinstance(fragment.get("threads"), list):
             fragment["threads"] = [slugify(t) for t in fragment["threads"] if isinstance(t, str)]
+
+    # A thread the world has never heard of cannot be updated or closed. The
+    # entry plainly introduced it, so it is being opened — whatever the model
+    # called the operation.
+    if known_threads is not None:
+        for thread in state.get("threads") or []:
+            if thread.get("op") != "open" and thread.get("id") not in known_threads:
+                thread["op"] = "open"
+                thread.setdefault("status", "active")
+
     return state
 
 
@@ -189,7 +206,10 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
             "Wyciągnij stan.",
             output_schema=schema,
         )
-        state = normalise_slugs(json.loads(_strip_fence(state_text)))
+        state = normalise_state(
+            json.loads(_strip_fence(state_text)),
+            {t["id"] for t in world["threads"]},
+        )
     except Exception as error:
         raise PipelineError(
             f"state extraction failed: {error}\n\n"
@@ -247,7 +267,10 @@ def extract_for(day: int, *, remote: bool = True) -> dict:
         "Wyciągnij stan.",
         output_schema=schema,
     )
-    state = normalise_slugs(json.loads(_strip_fence(state_text)))
+    state = normalise_state(
+        json.loads(_strip_fence(state_text)),
+        {t["id"] for t in world["threads"]},
+    )
     state["day"] = day
 
     state_path = STATE_DIR / f"{day:04d}.json"
