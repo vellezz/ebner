@@ -66,11 +66,15 @@ What this gives up, stated plainly: **nothing detects drift.** Change a resource
 
 Changing a model must be a one-line config change. Pin exact model IDs — `claude-opus-5`, `claude-sonnet-5`, `claude-haiku-4-5` — and never append date suffixes.
 
-**No prompt caching.** The pipeline makes one Opus call per day and caches are scoped per model, so the three later steps cannot read what the first one wrote. A cache write costs 1.25× the input price and breaks even only on a second read of the same prefix; the next run starts 24 hours later, long after the entry expires (5 minutes by default, 1 hour at most). Caching here is a 25% surcharge for nothing. Revisit only if the consistency check ever loops back into a rewrite — a second Opus call on a warm prefix would change the arithmetic.
+**No prompt caching**, for a structural reason rather than a guess: **no two calls in a run share both a model and a prefix.** Caches are scoped per model, so Opus writes one nothing else can read. The two Sonnet steps could in principle share, but the consistency check and the language edit differ from their first byte — and the edit deliberately receives no world context at all, so giving it one just to warm a cache would buy the discount by paying for tokens the step does not need.
+
+Across days it is worse: a cache write costs 1.25× input and lives an hour at most, while runs are 24 hours apart. Revisit only if the consistency check ever loops back into a rewrite, which would put a second Opus call on a warm prefix.
 
 **Set `effort` deliberately.** Opus 5 runs adaptive thinking by default at `effort: high`, and thinking tokens bill as output. That one inherited default is the largest line in the bill, roughly two thirds of it. Choose the level on purpose in `models.yaml`.
 
-**Budget.** At the assumed context sizes the four-call pipeline costs about **$0.23 per entry — ~$7/month, ~$85/year**; long entries and deep thinking push the ceiling nearer $140/year. Sketches through OpenRouter are a separate, unpriced item. These are estimates from assumed token counts, not measurements — re-check with `count_tokens` once `prompts/diary_pl.md` exists.
+**Budget: measure it, do not estimate it.** Every run reports what it actually consumed per step, priced from the `prices` block in `models.yaml`, and a failed run reports it too — a run that dies at extraction has already paid for the prose.
+
+The first estimate here was $0.23 an entry, built from assumed context sizes before the prompts existed. Treat it as the order of magnitude and nothing more: the prompt has since grown by a third, and thinking bills as output, so effort on the writing step moves the figure more than anything else in this document.
 
 ## Repository layout
 

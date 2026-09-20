@@ -22,6 +22,33 @@ class LLMError(RuntimeError):
     pass
 
 
+# What each step actually consumed, filled as the pipeline runs. Estimating
+# from assumed context sizes is how the first budget was built; this makes
+# every run a measurement instead.
+USAGE: list[dict] = []
+
+
+def cost_report() -> str:
+    if not USAGE:
+        return "no model calls"
+    prices = load("models.yaml").get("prices", {})
+    lines, total = [], 0.0
+    for row in USAGE:
+        price = prices.get(row["model"], {})
+        spend = (
+            row["input"] * price.get("input", 0.0)
+            + row["output"] * price.get("output", 0.0)
+        ) / 1_000_000
+        total += spend
+        cached = f" cache_r={row['cache_read']}" if row["cache_read"] else ""
+        lines.append(
+            f"  {row['step']:<6} {row['model']:<18} "
+            f"in={row['input']:<7,} out={row['output']:<7,}{cached} ${spend:.4f}"
+        )
+    lines.append(f"  {'razem':<6} {'':<18} {'':<21} ${total:.4f}")
+    return "\n".join(lines)
+
+
 def _client():
     try:
         import anthropic
@@ -147,6 +174,19 @@ def complete(step: str, system: str, user: str, *, output_schema: dict | None = 
             f"the installed anthropic SDK rejected a request field ({error}). "
             "This pipeline needs a version that supports output_config."
         ) from error
+
+    usage = getattr(message, "usage", None)
+    if usage is not None:
+        USAGE.append(
+            {
+                "step": step,
+                "model": cfg["model"],
+                "input": getattr(usage, "input_tokens", 0) or 0,
+                "output": getattr(usage, "output_tokens", 0) or 0,
+                "cache_read": getattr(usage, "cache_read_input_tokens", 0) or 0,
+                "cache_write": getattr(usage, "cache_creation_input_tokens", 0) or 0,
+            }
+        )
 
     if getattr(message, "stop_reason", None) == "refusal":
         raise LLMError(f"model declined the request: {getattr(message, 'stop_details', None)}")

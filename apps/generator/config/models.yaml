@@ -31,3 +31,16 @@ steps:
   state:
     model: claude-haiku-4-5
     max_tokens: 8000
+
+# USD per million tokens, for reporting what a run actually cost. Estimates
+# from assumed context sizes were what we had before; these turn every run into
+# a measurement instead. Thinking bills as output, so the output column is
+# where effort shows up.
+#
+# cache_write is 1.25x input (5-minute TTL) and cache_read is 0.1x, which is
+# why no step caches today: caches are scoped per model and no two calls in a
+# run share both a model and a prefix, so a write would never be read.
+prices:
+  claude-opus-5:    { input: 5.00, output: 25.00 }
+  claude-sonnet-5:  { input: 2.00, output: 10.00 }
+  claude-haiku-4-5: { input: 1.00, output: 5.00 }
