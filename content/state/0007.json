@@ -4,7 +4,7 @@
     {
       "id": "stacja-glosowania",
       "kind": "place",
-      "name": "Stacja glosowania",
+      "name": "Stacja głosowania",
       "parent": "szlak-za-hoonem",
       "summary": "Stacja z trzema pierścieniami roboczymi i przeładunkiem, czterdziestu siedmiu ludzi na pokładzie, gdzie decyzje o serwisie podejmowane są głosowaniem."
     }
@@ -15,39 +15,39 @@
       "op": "open",
       "type": "medium",
       "status": "active",
-      "summary": "Zlecenie naprawy systemu powietrznego na stacji glosowania, gdzie decyzja o wymianie kolumny drugiej będzie zależeć od głosowania załogi, a nie od pomiaru."
+      "summary": "Zlecenie naprawy systemu powietrznego na stacji głosowania, gdzie decyzja o wymianie kolumny drugiej zależy od głosowania załogi, a nie od pomiaru."
     }
   ],
   "facts_opened": [
     {
       "id": "f-stacja-glosowania-powietrze",
       "kind": "world_rule",
-      "content": "Na stacji glosowania każda decyzja techniczna, nawet jeśli przeczą jej miary i obserwacja, podlegaje głosowaniu załogi. Większość głosów decyduje o rzeczywistości.",
+      "content": "Na stacji głosowania każda decyzja techniczna podlega głosowaniu załogi, nawet jeśli przeczą jej pomiary i obserwacja. Większość głosów decyduje o rzeczywistości.",
       "subject": "stacja-glosowania"
     },
     {
       "id": "f-stacja-glosowania-kolumna",
-      "content": "Kolumna druga systemu powietrznego na stacji glosowania jest zapchana i ma przepalony pochłaniacz. Miernik pokazuje wysoki dwutlenek węgla, szczególnie wysoki w trzecim pierścieniu, gdzie śpią pracownicy.",
+      "content": "Kolumna druga systemu powietrznego na stacji głosowania jest zapchana i ma przepalony pochłaniacz. Miernik pokazuje wysoki dwutlenek węgla, szczególnie w trzecim pierścieniu, gdzie śpi załoga.",
       "subject": "stacja-glosowania"
     },
     {
       "id": "f-stacja-glosowania-historia",
-      "content": "Siedem lat temu Holdmark Serwis przeprowadził na stacji odbiór w dwa dni, pozostawiając zaciśnięte dane pomiarowe za pomocą stałej poprawki wlutowanej w tor pomiarowy, aby czujniki pokazywały wartości z folderu zamiast rzeczywistych odczytów.",
+      "content": "Siedem lat temu Holdmark Serwis przeprowadził na stacji odbiór w dwa dni, zostawiając w torze pomiarowym wlutowaną stałą poprawkę, żeby czujniki pokazywały wartości z folderu zamiast rzeczywistych odczytów. Dlatego na stacji przyrząd jest świadkiem, a nie sędzią.",
       "subject": "stacja-glosowania"
     },
     {
       "id": "f-ebner-zlecenie-powietrze",
-      "content": "Ebner przyjął zlecenie naprawy systemu powietrznego na stacji glosowania; dysponuje pochłaniaczem, uszczelkami do kolumny i ma pół dnia roboty, ale nie ma trzech głosów koniecznych do udzielenia mu zgody na wymianę złoża.",
+      "content": "Ebner przyjął zlecenie naprawy systemu powietrznego na stacji głosowania. Ma pochłaniacz, uszczelki do kolumny i pół dnia roboty, ale brakuje mu trzech głosów, żeby wolno mu było wymienić złoże.",
       "subject": "ebner-gripe"
     },
     {
       "id": "f-ebner-strategia-wywiad",
-      "content": "Ebner planuje pójść do trzeciego pierścienia do dziewięciu pracowników, którzy głosowali wczoraj na rzecz naprawy, aby szukać wsparcia do dalszych głosowań.",
+      "content": "Ebner zamierza pójść do trzeciego pierścienia, do dziewięciorga pracowników, którzy w ostatnim głosowaniu byli za naprawą, żeby szukać wsparcia w kolejnych głosowaniach.",
       "subject": "ebner-gripe"
     },
     {
       "id": "f-ebner-nowa-pozycja-faktury",
-      "content": "Ebner dopisał do faktury pozycję, której jeszcze nigdy nie wystawiał, i zostawił przy niej puste miejsce na cenę - dotyczy to zmiany stanowiska wobec systemu glosowania na stacji.",
+      "content": "Ebner dopisał do faktury pozycję, której jeszcze nigdy nie wystawiał, i zostawił przy niej puste miejsce na cenę.",
       "subject": "ebner-gripe"
     }
   ],
@@ -85,5 +85,5 @@
       ]
     }
   ],
-  "sketch": "Ebner przebiera się z pomiarnika na stacji pracy; w tle widać skomplikowany system kolumn powietrznych i twarze pracowników głosujących nad jego przyszłością."
+  "sketch": "Ebner z miernikiem przy rozkręconej kolumnie skrubera; w tle pierścień roboczy stacji i załoga z podniesionymi rękami w głosowaniu."
 }
