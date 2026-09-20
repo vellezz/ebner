@@ -177,7 +177,7 @@ A state file with no matching entry is a supported case, not an error — `0000.
 
 Cloudflare Pages was absorbed into Cloudflare Workers, and the Git integration went with it — `wrangler pages project create` now delegates to the Workers implementation. The site is therefore a **static assets-only Worker**: no `main`, no server code, just the Astro output from `apps/site/dist`.
 
-Configuration lives in `apps/site/wrangler.jsonc`, including the `ebner.gripe` custom domain binding. GitHub Actions builds the site and runs `wrangler deploy`, so the Node version, pnpm, the Pagefind index and the map build all stay under our control instead of Cloudflare's build image. Requires Node 22 or newer (`.node-version`), which is what wrangler 4 demands.
+Configuration lives in `apps/site/wrangler.jsonc`, including the `ebner.gripe` custom domain binding. GitHub Actions builds the site and runs `wrangler deploy`, so the Node version, pnpm, the Pagefind index and the map build all stay under our control instead of Cloudflare's build image. Runs on Node 24 (`.node-version`); wrangler 4 requires at least 22.
 
 The site never talks to D1 or Vectorize: it builds everything it needs from `content/`.
 
