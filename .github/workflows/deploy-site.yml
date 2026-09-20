@@ -1,0 +1,61 @@
+name: Deploy site
+
+# Pull requests build but do not deploy: the build is where the frontmatter
+# guard runs, so a bad entry fails its check and never reaches main. Pushes to
+# main build and deploy.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/site/**'
+      - 'content/**'
+      - '.node-version'
+      - '.github/workflows/deploy-site.yml'
+  pull_request:
+    paths:
+      - 'apps/site/**'
+      - 'content/**'
+      - '.node-version'
+      - '.github/workflows/deploy-site.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-site-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: apps/site/pnpm-lock.yaml
+
+      - name: Install
+        working-directory: apps/site
+        run: pnpm install --frozen-lockfile
+
+      # Validates every entry against content/schema/entry.schema.json on the
+      # way through. A drifted `kind` fails here, not in production.
+      - name: Build
+        working-directory: apps/site
+        run: pnpm build
+
+      - name: Deploy
+        if: github.event_name != 'pull_request'
+        working-directory: apps/site
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy

@@ -1,0 +1,9 @@
+# One line ending everywhere. The repo is authored on Windows but built on
+# Linux runners, and Astro content files are read byte-for-byte.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.webp binary
+*.avif binary
+*.woff2 binary
