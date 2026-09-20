@@ -1,0 +1,61 @@
+{
+  "day": 13,
+  "entities": [
+    {
+      "id": "czwarta-pasazera",
+      "kind": "person",
+      "name": "Czwarta pasażerka"
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "czwarta-pasazera-status",
+      "content": "Czwarta pasażerka weszła na frachtowiec jako pasażer bez papieru trzy porty temu, pracując w kuchni i przy ładunku; na liście załogi figuruje jako ładunek sypki.",
+      "subject": "czwarta-pasazera"
+    },
+    {
+      "id": "czwarta-pasazera-cel",
+      "content": "Czwarta pasażerka jedzie na Varnu, do siostry, i ma tam być do zimy.",
+      "subject": "czwarta-pasazera"
+    },
+    {
+      "id": "ebner-czwarta-pasazera-decyzja",
+      "content": "Ebner postanowił nie zgłaszać czwartej pasażerki stacji; stwierdził, że decyzja już zapadła i nie było komu jej zaskarżyć.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "hanna-drugie-ogniwo",
+      "content": "Ebner dał czwartej pasażerce drugie ogniwo grzewcze do użytku w ładowni Hanny, nakazując podłączyć je do gniazda przy przegrodzie, nie do obwodu warsztatowego.",
+      "subject": "hanna"
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-hanna-rura-do-sprzedazy"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "scena-czwarta-pasazera",
+      "kind": "scene",
+      "content": "Kobieta, koło pięćdziesiątki, w kurtce za dużej o dwa numery, siedzi w ładowni Hanny z zapasowym ogniwem grzewczym na kolanach. — Nie podłączyłam, bo by pan zobaczył zużycie."
+    },
+    {
+      "id": "mysl-glosowanie",
+      "kind": "punchline",
+      "content": "Gdybym się zapisała, byłoby ich czterdziestu ośmiu. I miałabym głos. Ale papier idzie potem do portu wyjściowego, a w porcie wyjściowym leży rejestr z trzema nazwiskami.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "spostrzezenie-oddychanie",
+      "kind": "world_description",
+      "content": "U nich w trzecim pierścieniu ludzie budzą się z uczuciem, że ktoś im siedzi na mostku, i nazywają to uczuciem, bo miernik przegrał głosowanie. Oddychają tym, co przegłosowali.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    }
+  ],
+  "sketch": "Czwarta pasażerka siedzi w ładowni Hanny z ogniwem grzewczym na kolanach; Ebner, który obserwuje to z bezsilności systemu głosowań na stacji, daje jej drugie ogniwo, wiedząc, że nie będzie jej zgłaszał."
+}
