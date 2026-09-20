@@ -107,15 +107,16 @@ def wait_for_site(day: int, *, timeout: int = 240) -> bool:
     decide what to say. Firing before the deploy lands would announce
     yesterday's entry with today's notification.
 
-    Every poll goes around the edge cache and says who is asking. Day 7
-    deployed in 31 seconds and this function still declared the site behind
-    four minutes later, twice.
+    Day 7 deployed in 31 seconds and this function declared the site behind
+    four minutes later, twice. The cause was the request identifying itself as
+    `Python-urllib/3.12` from a datacentre address, which Cloudflare declined;
+    naming the caller fixed it outright.
 
-    **Every attempt reports why it failed.** The first diagnosis of that
-    failure was wrong — the edge cache was serving hits, which was true and
-    irrelevant — and it was wrong because `except Exception: pass` threw away
-    the one piece of evidence that mattered. A loop that polls in silence can
-    only ever be guessed at.
+    **Every attempt reports its outcome.** The first diagnosis was the edge
+    cache — which was genuinely serving hits, and was genuinely irrelevant —
+    and it survived a whole fix and a rerun because `except Exception: pass`
+    discarded the only evidence that mattered. The cache-busting stayed on
+    afterwards: it costs nothing and the answer must be fresh regardless.
     """
     deadline = time.time() + timeout
     attempt = 0
@@ -127,8 +128,9 @@ def wait_for_site(day: int, *, timeout: int = 240) -> bool:
                 headers={
                     "Cache-Control": "no-cache",
                     "Pragma": "no-cache",
-                    # A bare urllib User-Agent from a datacentre IP is the kind
-                    # of request a WAF is built to turn away.
+                    # This line is the fix. A bare `Python-urllib/3.12` from a
+                    # datacentre address was being turned away; with a real
+                    # User-Agent the same poll succeeds on its first attempt.
                     "User-Agent": "ebner-bot (+https://ebner.gripe)",
                 },
             )
