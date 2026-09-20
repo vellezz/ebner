@@ -25,6 +25,12 @@ MEDIA_BUCKET="ebner-media"
 BACKUP_BUCKET="ebner-backups"
 MEDIA_DOMAIN="media.ebner.gripe"
 
+# Wrangler cannot look a zone id up, and requiring one from the environment
+# would defeat the point of this script — it is supposed to rebuild the account
+# on its own. A zone id is an identifier, not a credential: it does nothing
+# without a token. Override with CF_ZONE_ID when pointing at another zone.
+CF_ZONE_ID="${CF_ZONE_ID:-376fa4ed9deb43f30e73ff15d7ead528}"
+
 # Call the pinned binary directly rather than going through pnpm: package
 # manager shims differ between Git Bash, WSL and CI runners, and the version
 # that matters is the one in apps/site/package.json either way.
@@ -55,22 +61,17 @@ for bucket in "$MEDIA_BUCKET" "$BACKUP_BUCKET"; do
 done
 
 # --- R2 custom domain ----------------------------------------------------
-# Wrangler cannot look a zone id up, so it has to be supplied. Find it on the
-# zone's overview page in the Cloudflare dashboard, right-hand column.
+# ebner-media is reachable only through this domain, never through r2.dev.
 step "R2 custom domain"
-if [ -z "${CF_ZONE_ID:-}" ]; then
-  skip "$MEDIA_DOMAIN — set CF_ZONE_ID to attach it"
+domains="$(wr r2 bucket domain list "$MEDIA_BUCKET" 2>/dev/null || true)"
+if printf '%s' "$domains" | grep -q "$MEDIA_DOMAIN"; then
+  have "$MEDIA_DOMAIN"
 else
-  domains="$(wr r2 bucket domain list "$MEDIA_BUCKET" 2>/dev/null || true)"
-  if printf '%s' "$domains" | grep -q "$MEDIA_DOMAIN"; then
-    have "$MEDIA_DOMAIN"
-  else
-    wr r2 bucket domain add "$MEDIA_BUCKET" \
-      --domain "$MEDIA_DOMAIN" \
-      --zone-id "$CF_ZONE_ID" \
-      --min-tls 1.2 >/dev/null
-    made "$MEDIA_DOMAIN -> $MEDIA_BUCKET"
-  fi
+  wr r2 bucket domain add "$MEDIA_BUCKET" \
+    --domain "$MEDIA_DOMAIN" \
+    --zone-id "$CF_ZONE_ID" \
+    --min-tls 1.2 >/dev/null
+  made "$MEDIA_DOMAIN -> $MEDIA_BUCKET"
 fi
 
 # --- D1 ------------------------------------------------------------------
