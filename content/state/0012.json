@@ -1,0 +1,80 @@
+{
+  "day": 12,
+  "entities": [
+    {
+      "id": "frachtowiec-zeszli",
+      "kind": "ship",
+      "name": "Frachtowiec ze szlaku"
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "stacja-glosowania",
+      "to": "hanna"
+    },
+    {
+      "seq": 2,
+      "from": "hanna",
+      "to": "stacja-glosowania"
+    }
+  ],
+  "threads": [
+    {
+      "id": "nowe-zlecenie-glosowanie",
+      "op": "update",
+      "status": "active",
+      "summary": "Łożysko wentylatora wylotowego kolumny drugiej przegrało głosowanie dwadzieścia cztery do dwudziestu trzech; równocześnie pojawił się sygnał pomocy od frachtowca ze szlaku, któremu Ebner udzielił holu dzięki argumentowi o rozdzieleniu sprawy na dwie odrębne kwestie."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "ebner-akcja-ratownicza",
+      "kind": "general",
+      "content": "Ebner odpowiedział na wezwanie pomocy z frachtowca zeszłego ze szlaku i wskazał możliwość głosowania o wysłaniu holu, rozróżniając ją od głosowania o istnieniu sygnału; hol wyszedł w nocy.",
+      "subject": "ebner-gripe",
+      "valid_from": 12
+    },
+    {
+      "id": "frachtowiec-na-stacji",
+      "kind": "general",
+      "content": "Frachtowiec z trzema osobami na pokładzie, który zszedł ze szlaku i utracił sterowanie kursowe, został zaholowany do stacji i znajduje się teraz w hali przeładunkowej.",
+      "subject": "frachtowiec-zeszli",
+      "valid_from": 12
+    },
+    {
+      "id": "ebner-obserwacja-dyskretna",
+      "kind": "general",
+      "content": "Ebner obserwuje, że stacja głosowała o istnieniu sygnału, a nie o wysłaniu holu — dwie odrębne sprawy, które pozwoliły obejść formalne ograniczenia na powtarzanie głosowań.",
+      "subject": "ebner-gripe",
+      "valid_from": 12
+    }
+  ],
+  "fragments": [
+    {
+      "id": "fragment-glosowanie-sygnalu",
+      "kind": "scene",
+      "content": "Kierowniczka wysłuchała wytłumaczenia Ebnera, że sprawa wysłania holu to nie ta sama sprawa co głosowanie o istnieniu sygnału, i ten argument przeszedł.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "fragment-prawo-glosowania",
+      "kind": "punchline",
+      "content": "To działa w obie strony — powiedział młody od dźwigu, rozumiejąc, że ten sam argument może być użyty przeciwko systemowi stacji.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "fragment-niematerialnosc-faktu",
+      "kind": "world_description",
+      "content": "Statek wrócił na lince holu, ale stacja głosowała tylko o wysłaniu holu, a nie o istnieniu statku — te dwie rzeczy nie mają ze sobą formalnego związku.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    }
+  ],
+  "sketch": "Ebner stoi przy oknie obserwacyjnym stacji głosowania, obserwując frachtowiec powracający na linie holowniczej Hanny w nocy przeładunkowej."
+}
