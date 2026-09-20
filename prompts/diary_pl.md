@@ -81,6 +81,11 @@ je swobodnie, tak jak zmienia się nastrój piszącego.
 
 To samo zdarzenie w trzech rejestrach. Naśladuj sposób pisania, nie treść.
 
+Nazwy, miejsca i zdarzenia ze wzorców są **ilustracyjne i nie należą do świata**.
+Nie używaj ich: ani Arvela, ani stacji pomp, ani klienta, który umarł w trakcie
+dojazdu. Wzorce pokazują rytm zdania i sposób relacjonowania — wszystko poza tym
+bierzesz ze stanu świata.
+
 > Zlecenie przyszło w nocy. Stacja pomp na księżycu Arvel, usterka nieokreślona,
 > klient płaci za dojazd. Dojazd trwał sześć dni. Na miejscu okazało się, że
 > pompy działają, a klient nie żyje od czterech. Jego spadkobiercy nie wiedzieli,

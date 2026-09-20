@@ -26,6 +26,9 @@ Wypisz każde miejsce, w którym:
 - pojawia się **szczegół, który nic nie wnosi**;
 - wpis **powtarza sytuację, rozwiązanie albo pierwsze zdanie** z wcześniejszych
   wpisów;
+- wpis **przejmuje nazwy lub zdarzenia ze wzorców stylu** — Arvel, stacja pomp,
+  klient zmarły w trakcie dojazdu. Wzorce są ilustracją rejestru, nie częścią
+  świata, a model widzi je przy każdej generacji, więc ciąży ku nim;
 - wpis **podaje twardą liczbę** przy czasie podróży, parametrach Hanny albo
   odległości, w miejscu, gdzie nie służy to żartowi — każda taka liczba wiąże
   wszystkie następne wpisy.
