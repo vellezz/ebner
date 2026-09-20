@@ -106,13 +106,21 @@ def wait_for_site(day: int, *, timeout: int = 240) -> bool:
     The push carries nothing, so the service worker reads /api/latest.json to
     decide what to say. Firing before the deploy lands would announce
     yesterday's entry with today's notification.
+
+    Every poll goes around the edge cache. Day 7 deployed in 31 seconds and
+    this function still declared the site behind four minutes later, because
+    Cloudflare kept answering the runner with the copy it already held. The
+    unique query string and the no-cache headers cost nothing and remove a
+    dependency on caching behaviour we neither control nor can observe.
     """
     deadline = time.time() + timeout
     while time.time() < deadline:
         try:
-            with urllib.request.urlopen(
-                "https://ebner.gripe/api/latest.json", timeout=15
-            ) as response:
+            request = urllib.request.Request(
+                f"https://ebner.gripe/api/latest.json?t={int(time.time() * 1000)}",
+                headers={"Cache-Control": "no-cache", "Pragma": "no-cache"},
+            )
+            with urllib.request.urlopen(request, timeout=15) as response:
                 latest = json.loads(response.read().decode("utf-8"))
             if latest and int(latest.get("day", -1)) >= day:
                 return True

@@ -1,0 +1,66 @@
+name: Notify
+
+# Pushing the "new entry" notification by hand.
+#
+# The daily run already does this, and this workflow exists for the case where
+# it did not: day 7 published correctly and its notification was skipped,
+# because the poll that waits for the site kept being answered from cache. The
+# entry was live and nobody was told. Without a way to send it afterwards the
+# only remedy would have been to generate another entry, which is the wrong
+# price for a missed push.
+#
+# Safe to re-run. The push carries no payload — the service worker reads
+# /api/latest.json — so a second push says the same thing as the first.
+on:
+  workflow_dispatch:
+    inputs:
+      expect-day:
+        description: 'Wait until the site publishes this day before pushing. Empty: push now.'
+        required: false
+
+# Not in the ebner-state group: this reads push_subscriptions and writes only
+# to rows whose subscription has expired, so it touches nothing generation or
+# state application cares about, and queueing it behind a six-minute run would
+# defeat the point of a manual catch-up.
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: apps/site/pnpm-lock.yaml
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      # push_subscriptions is read through wrangler, like every other D1
+      # access here, so the site's dependencies are needed even though no site
+      # is being built.
+      - name: Install
+        run: |
+          pnpm --dir apps/site install --frozen-lockfile
+          pip install -e apps/generator
+
+      - name: Notify
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+        run: |
+          if [ -n "${{ inputs.expect-day }}" ]; then
+            python -m ebner notify --expect-day "${{ inputs.expect-day }}"
+          else
+            python -m ebner notify
+          fi
