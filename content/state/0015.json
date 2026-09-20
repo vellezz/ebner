@@ -1,0 +1,83 @@
+{
+  "day": 15,
+  "travel": [
+    {
+      "seq": 1,
+      "from": "stacja-glosowania",
+      "to": "szlak-za-hoonem"
+    }
+  ],
+  "threads": [
+    {
+      "id": "nowe-zlecenie-glosowanie",
+      "op": "update",
+      "status": "active",
+      "summary": "Naprawienie systemu powietrznego w trzecim pierścieniu stacji głosowania poprzez wydanie części filtrującej i założenie pochłaniacza; inteligentny podział sprawy na dwie odrębne sprawy (część magazynowa i założenie) pozwolił obejść formalne ograniczenia na powtarzanie głosowań."
+    },
+    {
+      "id": "nieznane-zbieracz",
+      "op": "open",
+      "type": "short",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Na szlaku pojawił się nieznany obiekt zbierający dryfujące wraki i materiały — matowy, bez spoin, bez sygnału, zdolny do precyzyjnych manewrów; zdjął zapasowy nadajnik z Hanny czysty razem z podstawą."
+    },
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "status": "active",
+      "summary": "Rachunek z Varnu znowu przyszedł wyższy (o trzy jednostki) bez wyjaśnienia; Ebner wpisał go do wydatków obok dochodów ze stacji."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "ebner-nowa-pozycja-cena",
+      "content": "Ebner wystawił fakturę ze czterema pozycjami: wentylator wylotowy, pochłaniacz, roboczyzna i nowa pozycja zatytułowana »rozdzielenie sprawy na dwie odrębne sprawy« za sześćdziesiąt jednostek — kierowniczka ruchu zaaprobowała bez zmian, zaznaczając tylko, że pozycja będzie wymagała głosowania przy zatwierdzeniu kosztów.",
+      "subject": "ebner-gripe",
+      "valid_from": 15
+    },
+    {
+      "id": "czwarta-pasazera-wyjazd",
+      "content": "Czwarta pasażerka opuściła stację głosowania na pokładzie Hanny, nigdy nie pojawając się na liście stacji; jest w ładowni w miejscu po rurze ciśnieniowej.",
+      "subject": "czwarta-pasazera",
+      "valid_from": 15
+    },
+    {
+      "id": "hanna-zapasowy-nadajnik-utrata",
+      "content": "Zapasowy nadajnik Hanny (wiszący na zewnętrznym pokładzie od trzech lat) został zdjęty przez nieznany obiekt; zdjęcie było cziste, bez pozostawienia nawet śrub.",
+      "subject": "hanna",
+      "valid_from": 15
+    },
+    {
+      "id": "ebner-transmisja-szlak-d15",
+      "content": "Ebner nadawał przez cztery godziny w pętli »Jednostka Hanna, kurs Varnu, jednostka Hanna, kurs Varnu« w odpowiedzi na nieznany zbierający obiekt; transmisja była płatna za jedną jednostkę z adnotacją o wysokim stopniu kompresji treści.",
+      "subject": "ebner-gripe",
+      "valid_from": 15
+    }
+  ],
+  "fragments": [
+    {
+      "id": "scena-nieznany-obiekt",
+      "kind": "scene",
+      "content": "Nie nadawało. Zobaczyłem to najpierw jako brak gwiazd, potem jako kształt: dłuższy od hali przeładunkowej, matowy, bez spoin, bez dysz, bez świateł pozycyjnych. Poruszało się skokami — stało, przesuwało się, stało.",
+      "threads": [
+        "nieznane-zbieracz"
+      ]
+    },
+    {
+      "id": "dialog-glosowanie-nadawanie",
+      "kind": "punchline",
+      "content": "Pasażerka zapytała, czy to było niebezpieczne. Powiedziałem, że zależy, czy się mówi.",
+      "threads": [
+        "nieznane-zbieracz"
+      ]
+    },
+    {
+      "id": "obserwacja-boja-kompresja",
+      "kind": "document",
+      "content": "Rachunek z boi przyszedł wieczorem. Jedna jednostka za całość, z adnotacją, że treść nadawała się do kompresji bezstratnej w stopniu wysokim.",
+      "threads": []
+    }
+  ],
+  "sketch": "Matowy, nieregularny kształt obiektu bez świateł pozycyjnych zbierającego dryfujące wraki w przestrzeni obok szlaku, z wyciągniętymi ramionami."
+}
