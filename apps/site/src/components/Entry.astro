@@ -1,5 +1,6 @@
 ---
 import { render, type CollectionEntry } from 'astro:content';
+import { kindLabel } from '../lib/kinds';
 
 interface Props {
   entry: CollectionEntry<'entries'>;
@@ -10,19 +11,6 @@ const { entry, headingLevel = 'h1' } = Astro.props;
 const { Content } = await render(entry);
 const { day, title, location, kind, threads } = entry.data;
 
-// Reader-facing labels are Polish; the stored values stay English.
-const KIND_LABEL: Record<string, string> = {
-  travel: 'podróż',
-  new_job: 'nowe zlecenie',
-  continuation: 'ciąg dalszy',
-  resolution: 'rozstrzygnięcie',
-  adventure: 'przygoda',
-  quiet: 'cisza',
-  note: 'notatka',
-  documents: 'dokumenty',
-  stopover: 'postój',
-};
-
 const Heading = headingLevel;
 const dayLabel = String(day).padStart(3, '0');
 ---
@@ -31,7 +19,7 @@ const dayLabel = String(day).padStart(3, '0');
   <div class="meta">
     <span class="day">{dayLabel}</span>
     <span class="readout facts">
-      {KIND_LABEL[kind] ?? kind} &middot; {location.replace(/-/g, ' ')}
+      {kindLabel(kind)} &middot; {location.replace(/-/g, ' ')}
     </span>
   </div>
 

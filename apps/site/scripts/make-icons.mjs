@@ -1,93 +1,75 @@
-// Generates the app icons.
+// Generates the app icon as SVG, in three layouts.
 //
-// Written by hand rather than with an image library on purpose: sharp is in
-// the dependency tree but pnpm refuses to run its build scripts here, and an
-// icon this simple does not justify fighting that. A PNG is a handful of
-// chunks around a zlib stream, so the encoder below is the whole of it.
+// The mark is a lowercase "e" with a rust full stop — the head of the wordmark
+// the masthead carries, `ebner.gripe`, set in the same face the site sets it
+// in. The ground is the site's paper rather than its ink: a dark panel reads
+// as equipment, and this is a diary.
 //
-// The mark is the gate at Hoonu: three rings, and the third one does not line
-// up with the others because somebody bolted it to zero.
+// Two earlier attempts are worth naming so they are not repeated. A gauge with
+// the needle in the red was apt for the world and read, unmistakably, as a rev
+// counter. Letters cut from stacked rectangles read as an engineering drawing,
+// because that is what they were — the fix was to set type rather than draw it.
+//
+// SVG is the source; `rasterise-icons.mjs` turns it into the committed PNGs in
+// a browser, which is where the web font is available. The SVG is never served
+// on its own for that reason: anywhere without Archivo would fall back to
+// whatever sans it has and draw a different mark.
+//
+// Three layouts, because the purposes want different things:
+//   any         — fills the square; the platform draws it as given.
+//   maskable    — the same mark at 78%, so a circular or squircle mask has
+//                 nothing of the letter to crop.
+//   monochrome  — a white silhouette on transparency, which is the only thing
+//                 Android will accept as a notification badge. Anything with
+//                 colour or a ground comes out a solid white blob.
 
-import { deflateSync } from 'node:zlib';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'icons');
 
-const GROUND = [30, 29, 26]; // --fg
-const BAR = [211, 208, 200]; // --bg
-const ACCENT = [143, 69, 32]; // --ac
+const GROUND = '#d3d0c8'; // --bg, the paper
+const INK = '#1e1d1a'; // --fg
+const ACCENT = '#8f4520'; // --ac, the full stop
 
-const crcTable = Array.from({ length: 256 }, (_, n) => {
-  let c = n;
-  for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
-  return c >>> 0;
-});
+const SIZE = 512;
+// Archivo's lowercase sits low in the em box and `dominant-baseline` centres
+// the em, not the letter, so the baseline is lifted until the "e" itself is
+// centred. The x nudge offsets the full stop, which otherwise drags the pair
+// left of centre.
+const FONT_SIZE = 480;
+const BASELINE = 220;
+const CENTRE = 268;
+// 0.78 keeps the letter inside the safe zone every mask respects.
+const SAFE = 0.78;
+const INSET = (SIZE * (1 - SAFE)) / 2;
 
-const crc32 = (buf) => {
-  let c = 0xffffffff;
-  for (const byte of buf) c = crcTable[(c ^ byte) & 0xff] ^ (c >>> 8);
-  return (c ^ 0xffffffff) >>> 0;
-};
+const letter = (ink, dot) =>
+  `  <text x="${CENTRE}" y="${BASELINE}" text-anchor="middle" dominant-baseline="central"` +
+  ` font-family="Archivo, system-ui, sans-serif" font-weight="700" font-size="${FONT_SIZE}"` +
+  ` fill="${ink}">e<tspan fill="${dot}">.</tspan></text>`;
 
-function chunk(type, data) {
-  const out = Buffer.alloc(data.length + 12);
-  out.writeUInt32BE(data.length, 0);
-  out.write(type, 4, 'ascii');
-  data.copy(out, 8);
-  out.writeUInt32BE(crc32(Buffer.concat([Buffer.from(type, 'ascii'), data])), data.length + 8);
-  return out;
-}
-
-function png(size, pixel) {
-  // One filter byte (0 = none) per scanline, then RGB triples.
-  const raw = Buffer.alloc(size * (size * 3 + 1));
-  let at = 0;
-  for (let y = 0; y < size; y++) {
-    raw[at++] = 0;
-    for (let x = 0; x < size; x++) {
-      const [r, g, b] = pixel(x, y, size);
-      raw[at++] = r;
-      raw[at++] = g;
-      raw[at++] = b;
-    }
-  }
-  const ihdr = Buffer.alloc(13);
-  ihdr.writeUInt32BE(size, 0);
-  ihdr.writeUInt32BE(size, 4);
-  ihdr[8] = 8; // bit depth
-  ihdr[9] = 2; // colour type: truecolour
-  return Buffer.concat([
-    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
-    chunk('IHDR', ihdr),
-    chunk('IDAT', deflateSync(raw, { level: 9 })),
-    chunk('IEND', Buffer.alloc(0)),
-  ]);
-}
-
-/** Three bars; the third sits off the axis the other two share. */
-function mark(x, y, size) {
-  const u = size / 16;
-  const inset = 3 * u;
-  const barHeight = 1.6 * u;
-  const gap = 2.4 * u;
-  const top = size / 2 - gap - barHeight / 2;
-
-  for (let i = 0; i < 3; i++) {
-    const y0 = top + i * gap;
-    if (y < y0 || y >= y0 + barHeight) continue;
-    // The third bar is short and shifted — the ring that will not turn.
-    const left = i === 2 ? inset + 2.6 * u : inset;
-    const right = i === 2 ? size - inset - 2.2 * u : size - inset;
-    if (x >= left && x < right) return i === 2 ? ACCENT : BAR;
-  }
-  return GROUND;
+function svg({ maskable = false, monochrome = false } = {}) {
+  const body = monochrome ? letter('#ffffff', '#ffffff') : letter(INK, ACCENT);
+  const placed =
+    maskable || monochrome
+      ? `  <g transform="translate(${INSET} ${INSET}) scale(${SAFE})">\n  ${body}\n  </g>`
+      : body;
+  const ground = monochrome ? '' : `  <rect width="${SIZE}" height="${SIZE}" fill="${GROUND}" />\n`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${SIZE} ${SIZE}" width="${SIZE}" height="${SIZE}">
+${ground}${placed}
+</svg>
+`;
 }
 
 mkdirSync(OUT, { recursive: true });
-for (const size of [180, 192, 512]) {
-  const file = join(OUT, `icon-${size}.png`);
-  writeFileSync(file, png(size, mark));
-  console.log(`  ${file.split(/[\\/]/).slice(-2).join('/')}  ${size}x${size}`);
+for (const [name, options] of [
+  ['icon.svg', {}],
+  ['icon-maskable.svg', { maskable: true }],
+  ['icon-monochrome.svg', { monochrome: true }],
+]) {
+  const file = join(OUT, name);
+  writeFileSync(file, svg(options), 'utf8');
+  console.log(`  icons/${name}`);
 }

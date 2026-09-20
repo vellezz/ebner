@@ -2,6 +2,7 @@
 import type { GetStaticPaths, Page } from 'astro';
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { kindLabel } from '../../lib/kinds';
 import { count } from '../../lib/plural';
 import { loadWorld } from '../../lib/world';
 
@@ -40,18 +41,6 @@ interface Props {
 const { page, total, places, lastDay } = Astro.props;
 const world = loadWorld();
 
-const KIND_LABEL: Record<string, string> = {
-  travel: 'podróż',
-  new_job: 'nowe zlecenie',
-  continuation: 'ciąg dalszy',
-  resolution: 'rozstrzygnięcie',
-  adventure: 'przygoda',
-  quiet: 'cisza',
-  note: 'notatka',
-  documents: 'dokumenty',
-  stopover: 'postój',
-};
-
 const placeName = (id: string) => world.entities.get(id)?.name ?? id.replace(/-/g, ' ');
 const title = page.currentPage === 1 ? 'Wszystkie dni' : `Wszystkie dni — ${page.currentPage}`;
 ---
@@ -76,7 +65,7 @@ const title = page.currentPage === 1 ? 'Wszystkie dni' : `Wszystkie dni — ${pa
             <span class="body">
               <span class="t">{entry.data.title}</span>
               <span class="meta readout">
-                {KIND_LABEL[entry.data.kind] ?? entry.data.kind} &middot; {placeName(entry.data.location)}
+                {kindLabel(entry.data.kind)} &middot; {placeName(entry.data.location)}
               </span>
             </span>
           </a>

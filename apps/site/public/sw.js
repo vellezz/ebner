@@ -76,7 +76,10 @@ self.addEventListener('push', (event) => {
           const latest = await response.json();
           if (latest?.title) {
             title = latest.title;
-            body = latest.kind ? `Dzień ${latest.day} · ${latest.kind}` : `Dzień ${latest.day}`;
+            // Whatever text is shown arrives finished. Composing it here once
+            // put "Dzień 7 · new_job" on a phone: `kind` is a stored English
+            // identifier, and this end of the wire cannot translate it.
+            body = latest.lead || latest.kind_label || `Dzień ${latest.day}`;
             url = `/dzien/${latest.day}`;
           }
         }
@@ -87,7 +90,8 @@ self.addEventListener('push', (event) => {
       await self.registration.showNotification(title, {
         body,
         icon: '/icons/icon-192.png',
-        badge: '/icons/icon-192.png',
+        badge: '/icons/icon-monochrome-96.png',
+        lang: 'pl',
         tag: 'ebner-entry',
         data: { url },
       });
