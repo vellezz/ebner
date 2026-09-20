@@ -158,6 +158,27 @@ def _strip_fence(text: str) -> str:
     return fenced.group(1).strip() if fenced else text.strip()
 
 
+def normalise_entry(text: str) -> str:
+    """Supply the frontmatter keys the writer has no say over.
+
+    `image` is one of them. It is the R2 key of a sketch, set by the sketch
+    step or left null, and never a judgement the prose makes — but the schema
+    requires the key, so an entry that simply omits it is rejected after being
+    written, checked and edited. The writer was being asked to remember a
+    constant.
+    """
+    match = re.match(r"^﻿?---\r?\n(.*?)\r?\n---\r?\n", text, re.DOTALL)
+    if not match:
+        # No frontmatter at all is a real failure, not a missing default: leave
+        # it for the guard to report against the schema.
+        return text
+
+    block = match.group(1)
+    if re.search(r"^image:", block, re.MULTILINE):
+        return text
+    return text[: match.start(1)] + block + "\nimage: null" + text[match.end(1) :]
+
+
 def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = False) -> dict:
     world = load_world(remote=remote)
     params = plan_entry(rhythm(), world, seed=seed)
@@ -207,11 +228,13 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     # --- 4. edit ---------------------------------------------------------
     # Applies those fixes and passes over the language, so the full text is
     # generated once in the pipeline rather than twice.
-    entry_text = _strip_fence(
-        complete(
-            "edit",
-            fill(prompt("edit_pl.md"), {"wpis": entry_text, "poprawki": fixes_text}),
-            "Zredaguj wpis.",
+    entry_text = normalise_entry(
+        _strip_fence(
+            complete(
+                "edit",
+                fill(prompt("edit_pl.md"), {"wpis": entry_text, "poprawki": fixes_text}),
+                "Zredaguj wpis.",
+            )
         )
     )
 
