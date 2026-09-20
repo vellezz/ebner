@@ -4,11 +4,12 @@ version = "0.1.0"
 description = "Writes one Ebner Gripe diary entry a day and records what it changed."
 requires-python = ">=3.10"
 
-# No runtime dependencies yet. D1 is reached through the wrangler CLI rather
-# than an HTTP client, so that auth works the same from an OAuth session
-# locally and from CLOUDFLARE_API_TOKEN in CI. LiteLLM and PyYAML arrive with
-# the writing pipeline.
-dependencies = []
+# D1 is reached through the wrangler CLI rather than an HTTP client, so auth
+# works the same from an OAuth session locally and from CLOUDFLARE_API_TOKEN in
+# CI — no HTTP client here on purpose. LiteLLM arrives with the writing steps.
+dependencies = [
+  "PyYAML>=6.0",
+]
 
 [tool.setuptools.packages.find]
 include = ["ebner*"]

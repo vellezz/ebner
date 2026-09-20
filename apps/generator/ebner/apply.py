@@ -179,6 +179,18 @@ def _statements(state: dict, entry: dict | None, body: str | None) -> list[str]:
         "SELECT COUNT(*) FROM entries WHERE location = entities.id) + ("
         "SELECT COUNT(*) FROM travel WHERE to_entity = entities.id)"
     )
+    # Being somewhere means being inside everything that contains it. A system
+    # is never an entry's `location` — one is at a dock within it — so without
+    # this a place Ebner lives in reads as never visited. Repeated because the
+    # containment chain is a few levels deep: station, planet, system.
+    for _ in range(4):
+        out.append(
+            "UPDATE entities SET last_entry = ("
+            "SELECT MAX(c.last_entry) FROM entities c WHERE c.parent = entities.id) "
+            "WHERE (SELECT MAX(c.last_entry) FROM entities c WHERE c.parent = entities.id) "
+            "> COALESCE(entities.last_entry, -1)"
+        )
+
     out.append(
         "UPDATE threads SET "
         "last_used_day = (SELECT MAX(entry_day) FROM entry_threads WHERE thread_id = threads.id), "
