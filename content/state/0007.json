@@ -1,0 +1,89 @@
+{
+  "day": 7,
+  "entities": [
+    {
+      "id": "stacja-glosowania",
+      "kind": "place",
+      "name": "Stacja glosowania",
+      "parent": "szlak-za-hoonem",
+      "summary": "Stacja z trzema pierścieniami roboczymi i przeładunkiem, czterdziestu siedmiu ludzi na pokładzie, gdzie decyzje o serwisie podejmowane są głosowaniem."
+    }
+  ],
+  "threads": [
+    {
+      "id": "nowe-zlecenie-glosowanie",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "summary": "Zlecenie naprawy systemu powietrznego na stacji glosowania, gdzie decyzja o wymianie kolumny drugiej będzie zależeć od głosowania załogi, a nie od pomiaru."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-stacja-glosowania-powietrze",
+      "kind": "world_rule",
+      "content": "Na stacji glosowania każda decyzja techniczna, nawet jeśli przeczą jej miary i obserwacja, podlegaje głosowaniu załogi. Większość głosów decyduje o rzeczywistości.",
+      "subject": "stacja-glosowania"
+    },
+    {
+      "id": "f-stacja-glosowania-kolumna",
+      "content": "Kolumna druga systemu powietrznego na stacji glosowania jest zapchana i ma przepalony pochłaniacz. Miernik pokazuje wysoki dwutlenek węgla, szczególnie wysoki w trzecim pierścieniu, gdzie śpią pracownicy.",
+      "subject": "stacja-glosowania"
+    },
+    {
+      "id": "f-stacja-glosowania-historia",
+      "content": "Siedem lat temu Holdmark Serwis przeprowadził na stacji odbiór w dwa dni, pozostawiając zaciśnięte dane pomiarowe za pomocą stałej poprawki wlutowanej w tor pomiarowy, aby czujniki pokazywały wartości z folderu zamiast rzeczywistych odczytów.",
+      "subject": "stacja-glosowania"
+    },
+    {
+      "id": "f-ebner-zlecenie-powietrze",
+      "content": "Ebner przyjął zlecenie naprawy systemu powietrznego na stacji glosowania; dysponuje pochłaniaczem, uszczelkami do kolumny i ma pół dnia roboty, ale nie ma trzech głosów koniecznych do udzielenia mu zgody na wymianę złoża.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-ebner-strategia-wywiad",
+      "content": "Ebner planuje pójść do trzeciego pierścienia do dziewięciu pracowników, którzy głosowali wczoraj na rzecz naprawy, aby szukać wsparcia do dalszych głosowań.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-ebner-nowa-pozycja-faktury",
+      "content": "Ebner dopisał do faktury pozycję, której jeszcze nigdy nie wystawiał, i zostawił przy niej puste miejsce na cenę - dotyczy to zmiany stanowiska wobec systemu glosowania na stacji.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-powietrze-prosimy-serwis",
+      "kind": "document",
+      "content": "POWIETRZE. PROSIMY O SERWIS. POWIETRZE. PROSIMY O SERWIS. (×398)\nKurs w załączniku. Płacimy po przyjęciu.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "frag-przyrzad-swiadek",
+      "kind": "punchline",
+      "content": "Od tamtej pory na tej stacji przyrząd jest świadkiem, a nie sędzią. Świadek może kłamać. Czterdziestu siedmiu ludzi naraz — trudniej.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "frag-glos-a-pomiar",
+      "kind": "scene",
+      "content": "Pokazałem jej miernik. — To jest jeden głos — powiedziała. — To jest pomiar. — Pana miernik ma jeden głos, pan ma jeden głos. Razem dwa.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "frag-trzy-glosy",
+      "kind": "punchline",
+      "content": "Mam na pokładzie pochłaniacz, mam uszczelki do kolumny i mam pół dnia roboty. Nie mam trzech głosów.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    }
+  ],
+  "sketch": "Ebner przebiera się z pomiarnika na stacji pracy; w tle widać skomplikowany system kolumn powietrznych i twarze pracowników głosujących nad jego przyszłością."
+}
