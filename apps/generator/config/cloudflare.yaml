@@ -1,0 +1,21 @@
+# Cloudflare resource identifiers.
+#
+# None of these are credentials. An account or index id does nothing without a
+# token, and Cloudflare configurations carry them in public repositories as a
+# matter of course — the same reasoning as the zone id in infra/bootstrap.sh.
+
+account_id: cdf0bb9403f7772e856565a82d3abe22
+
+# Multilingual on purpose: the fragments are Polish prose, so an English-only
+# embedding model would be a poor fit however well it scores on English.
+embedding_model: "@cf/baai/bge-m3"
+embedding_dimensions: 1024
+
+vectorize_index: ebner-fragments
+
+# Vectorize returns ids and scores; every filtering rule that matters — thread
+# status, reference_policy, cooldown, fact validity — lives in D1. Ask for more
+# than is needed, because filtering removes some.
+retrieval:
+  top_k: 50
+  keep: 6

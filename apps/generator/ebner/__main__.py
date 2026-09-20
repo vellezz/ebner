@@ -55,6 +55,45 @@ def cmd_status(args: list[str]) -> int:
     return 0
 
 
+def cmd_index(args: list[str]) -> int:
+    """Embed fragments and put them in Vectorize.
+
+    Two real uses, so two shapes: one day's fragments after an entry lands,
+    or everything when the index is being rebuilt from scratch. No tracking
+    column — the caller knows which of the two it wants.
+    """
+    from .ai import embed
+    from . import vectorize
+
+    local = "--local" in args
+    days = [a for a in args if not a.startswith("-")]
+
+    if "--all" in args:
+        where = ""
+    elif days:
+        where = f"WHERE entry_day IN ({', '.join(str(int(d)) for d in days)})"
+    else:
+        print("  usage: index --all | index <day> [<day>...]", file=sys.stderr)
+        return 2
+
+    rows = query(f"SELECT id, content FROM fragments {where} ORDER BY id", remote=not local)
+    if not rows:
+        print("  nothing to index")
+        return 0
+
+    total = 0
+    # Batched because a single request carrying every fragment would grow
+    # without bound as the diary does.
+    for start in range(0, len(rows), 50):
+        batch = rows[start : start + 50]
+        vectors = embed([r["content"] for r in batch])
+        total += vectorize.upsert(
+            [(r["id"], v) for r, v in zip(batch, vectors)]
+        )
+        print(f"  indexed {total}/{len(rows)}")
+    return 0
+
+
 def cmd_plan(args: list[str]) -> int:
     local = "--local" in args
     seed = None
@@ -79,10 +118,21 @@ def cmd_plan(args: list[str]) -> int:
     print()
     print("=== DAWNO NIE BYŁ ===")
     print(render_places(world))
+
+    if "--no-recall" not in args:
+        from .retrieval import recall, render
+        print()
+        print("=== Z WCZEŚNIEJSZYCH WPISÓW ===")
+        print(render(recall(world, params, remote=not local)))
     return 0
 
 
-COMMANDS = {"apply": cmd_apply, "status": cmd_status, "plan": cmd_plan}
+COMMANDS = {
+    "apply": cmd_apply,
+    "status": cmd_status,
+    "plan": cmd_plan,
+    "index": cmd_index,
+}
 
 
 def main(argv: list[str]) -> int:
