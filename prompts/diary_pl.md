@@ -144,9 +144,15 @@ To samo zdarzenie w trzech rejestrach. Naśladuj sposób pisania, nie treść.
     wchodzi do kanonu i wiąże każdy następny wpis. Gdy liczba jest potrzebna dla
     żartu — faktura, cennik, termin — podaj ją; wtedy zobowiązanie jest warte
     ceny.
-15. **Wracaj do znanych miejsc.** Nowe miejsce wprowadzaj tylko wtedy, gdy wpis
-    naprawdę go potrzebuje. Świat wydaje się zamieszkany, bo bohater wraca, nie
-    dlatego, że lista rośnie.
+15. **Świat ma rosnąć i ma mieć powroty.** To jest dziennik podróży: nowe światy
+    mają się pojawiać regularnie, a parametry wpisu powiedzą ci, kiedy dziś jest
+    na to dzień. Ale świat, w którym każde miejsce jest jednorazowe, jest listą
+    nazw, nie światem — więc gdy stan świata podsuwa miejsce, w którym Ebner
+    dawno nie był, wracanie tam jest równie dobrym pomysłem jak wymyślenie
+    nowego.
+
+    Nie każde miejsce musi mieć nazwę i tożsamość. Stacja mijana po drodze może
+    zostać mijaną stacją. Nazwę dostaje to, co coś znaczy.
 
 ## Stan świata
 
@@ -174,6 +180,8 @@ Każdy fragment ma etykietę mówiącą, co wolno z nim zrobić: `[rozwijaj]`,
 - Numer dnia: {dzien}
 - Rodzaj wpisu: {rodzaj}
 - Długość: {dlugosc}
+- Nowy świat: {nowy_swiat}
+- Miejsca, w których dawno nie był: {zapomniane}
 - Podpowiedź (opcjonalna, zignoruj, jeśli nie pasuje do stanu świata):
   {podpowiedz}
 

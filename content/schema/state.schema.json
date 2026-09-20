@@ -14,7 +14,7 @@
     },
 
     "entities": {
-      "description": "Entities introduced by this change. Rationed: at most one new place per entry, two for kind: travel.",
+      "description": "Entities introduced by this change. Only places that matter become entities — somewhere Ebner works, stops, or will return to. Scenery passed on the way stays in the prose. A new destination may bring its containment chain with it (system, planet, station are three rows for one place), and that is not proliferation.",
       "type": "array",
       "items": {
         "type": "object",

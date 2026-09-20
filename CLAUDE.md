@@ -239,7 +239,11 @@ Ebner is a traveller, so position is world state, not decoration.
 
 **How he got there.** `travel` rows are the record of movement, not a derivation from consecutive entries: a `kind: travel` entry is precisely about the hops in between, and reading movement off consecutive pairs would lose every one of them. The two representations must agree, which is a guard, not a hope.
 
-**New places are rationed**, the way threads are: at most one new place entity per entry, two for `kind: travel`. Context always carries recently visited places, so the prompt has somewhere to return to. A world feels inhabited because the traveller comes back, not because the list grows.
+**The world keeps growing, and some of it recurs.** This is a travelogue: new worlds must keep arriving, roughly one new destination every four to six entries. The randomiser schedules that rather than leaving it to chance (`new_world` in `rhythm.yaml`), because growth left to emergence either stops or floods.
+
+There is no cap on entity rows. A new destination usually brings its containment chain — system, planet, station are three rows for one place — and counting rows would block the most ordinary entry in the cycle: arriving somewhere new for a job. What is limited instead is what *becomes* an entity at all: places Ebner works at, stops at, or will return to. Scenery passed on the way stays in the prose and needs no id.
+
+The failure this guards against is narrower than it first appears: not many places, but **many places and no returns** — a world that is a list of single-use names where nothing accumulates. So the pressure runs both ways. Context carries recently visited places *and* places not seen for a while, and the writer is pushed to revisit as often as to discover.
 
 **The map is topological, never spatial.** No coordinates — nobody can assign them consistently, and hard astronomy is tonally wrong for a grotesque diary. The site draws a graph from `travel` edges and lays it out client-side. It shows route and sequence and deliberately shows **no durations**: a map that states no times cannot contradict the prose. It is built from `content/`, never from D1 — D1 is a projection of `content/state/`, so the site computes the same projection at build time.
 

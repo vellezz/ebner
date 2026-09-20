@@ -21,6 +21,26 @@ day_step:
   # Longer hops belong to entries that are about being on the move.
   allow_above_3_only_for: [travel, stopover]
 
+# World growth.
+#
+# This is a travelogue, so new destinations must keep arriving. Scheduled here
+# rather than left to emerge, because emergent growth either stalls or floods.
+# The design's own reckoning — 41 places across 220 entries — is about one new
+# destination every five.
+#
+# There is no cap on entity rows: a destination brings its containment chain
+# (system, planet, station) and counting rows would block the most ordinary
+# entry in the cycle, arriving somewhere new for a job.
+world_growth:
+  new_destination_every: [4, 6] # entries; picked within this range
+  revisit_pressure:
+    # A place unvisited for this long becomes a candidate the context surfaces
+    # as "somewhere he has not been in a while". The pressure runs both ways:
+    # a world of single-use names accumulates nothing.
+    stale_after_days: 60
+    # These kinds lean toward a known place rather than a new one.
+    prefer_known_for: [continuation, resolution, quiet, documents]
+
 # Word counts, not paragraph counts — the writer reads these verbatim.
 length:
   - id: note
