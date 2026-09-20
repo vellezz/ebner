@@ -13,6 +13,16 @@ apps/site/.astro/
 .wrangler/
 **/.wrangler/
 
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
 # Local environment
 .env
 .env.local

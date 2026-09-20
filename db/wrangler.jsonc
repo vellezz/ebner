@@ -9,12 +9,16 @@
   "$schema": "../apps/site/node_modules/wrangler/config-schema.json",
   "name": "ebner-db",
   "compatibility_date": "2026-09-20",
-  "migrations_dir": "migrations",
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "ebner",
-      "database_id": "7cbbf32d-d3af-4374-889c-0f15b28283bb"
+      "database_id": "7cbbf32d-d3af-4374-889c-0f15b28283bb",
+      // Belongs to the binding, not the top level. Wrangler warns about it as
+      // an unexpected top-level field and then exits non-zero on --json reads,
+      // while migrations happened to work anyway because the default path
+      // matched.
+      "migrations_dir": "migrations"
     }
   ]
 }
