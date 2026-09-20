@@ -1,0 +1,50 @@
+{
+  "day": 10,
+  "entities": [
+    {
+      "id": "system-stacji",
+      "kind": "person",
+      "name": "System stacji",
+      "summary": "Urządzenie liczące głosy i zarządzające instalacjami na stacji głosowania. Nie oddycha, więc nie ma głosu w sprawach powietrznych."
+    }
+  ],
+  "threads": [
+    {
+      "id": "nowe-zlecenie-glosowanie",
+      "op": "update",
+      "status": "active",
+      "summary": "Oczekiwanie na głosowanie w sprawie łożyska wentylatora wylotowego kolumny drugiej. System ujawnił, że sygnalizował wysokie stężenie dwutlenku węgla przez cztery lata i osiemdziesiąt trzy razy, ale jako urządzenie nie może formalnie złożyć wniosku."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "system-stacji-sygnal",
+      "kind": "general",
+      "content": "System stacji zgłaszał wysokie stężenie dwutlenku węgla w trzecim pierścieniu cztery lata i dwa miesiące — czterysta osiemdziesiąt trzy razy. Jako urządzenie bez oddychania nie może złożyć formalnego wniosku ani oddawać głosu w sprawach powietrznych.",
+      "subject": "system-stacji"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "rozmowa-z-systemem",
+      "kind": "scene",
+      "content": "Zapytałem go wprost, ile jest dwutlenku w trzecim pierścieniu. — W trzecim pierścieniu stężenie dwutlenku węgla przekracza próg alarmowy od czterech lat i dwóch miesięcy. Zgłaszałem to czterysta osiemdziesiąt trzy razy.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "wiarygodnosc-liczenia",
+      "kind": "punchline",
+      "content": "Liczy głosy system stacji, tym samym, który otwiera wrota i pilnuje temperatury. Siedzi w szafie przy sali zmianowej, mówi głosem wyrównanym do środka, bez góry i dołu. — Liczy uczciwie i że nigdy nie policzył źle.",
+      "threads": []
+    },
+    {
+      "id": "system-bez-glosu",
+      "kind": "world_description",
+      "content": "Na stacji głosowania tylko członkowie załogi mogą składać wnioski i oddawać głosy. System liczący — samo urządzenie — zgłasza problemy, ale jego zgłoszenia nie są wnioskami. W drugim roku rozstrzygnięto sześćdziesiąt dwa do zera, że system nie oddycha, więc nie ma interesu w sprawach powietrznych.",
+      "threads": []
+    }
+  ],
+  "sketch": "System stacji siedzi w szafie przy sali zmianowej, wyrównanym głosem opowiada o czterystu osiemdziesiąt trzech zgłoszeniach dotyczących dwutlenku węgla w trzecim pierścieniu, które nigdy nie zostały formalnym wnioskiem."
+}
