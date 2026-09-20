@@ -1,0 +1,103 @@
+{
+  "day": 9,
+  "threads": [
+    {
+      "id": "nowe-zlecenie-glosowanie",
+      "op": "update",
+      "status": "active",
+      "summary": "Naprawę systemu powietrznego blokuje reguła stacji głosowania: nie można głosować nad tą samą sprawą częściej niż raz na dwie doby. Ebner czeka na następne głosowanie. Pojutrze rozstrzygną, czy czyszczenie łożyska wentylatora wylotowego jest decyzją techniczną wymagającą głosu, czy utrzymaniem."
+    },
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "status": "active",
+      "summary": "Przyszedł kolejny rachunek, tym razem o trzy jednostki wyższy bez wyjaśnienia przyczyny."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ebner-wentylator-wylotowy",
+      "kind": "general",
+      "content": "Ebner rozebrał, oczyścił i przesmarował wentylator wylotowy kolumny drugiej. Łożysko było suche, pierścień uszczelniający zjechany, łopatki pokryte grubą warstwą brudu. Po naprawie wentylator ciągnie lepiej i nie piszczy, choć przepustowość ogólna pozostaje ograniczona zapchną kolumną.",
+      "subject": "stacja-glosowania"
+    },
+    {
+      "id": "f-ebner-regulacja-pompy-ciasta",
+      "kind": "general",
+      "content": "Ebner reguluje pompę do ciasta w stołówce stacji za dołożenie zupy. Regulacja zajęła dziesięć minut, nikt nad tym nie głosował, bo dotyczy ciasta, nie powietrza.",
+      "subject": "stacja-glosowania"
+    },
+    {
+      "id": "f-ebner-spostrzezenie-trzeci-pierscien",
+      "kind": "general",
+      "content": "Ebner policzyć pracowników trzeciego pierścienia podczas nocnej zmiany przeładunku. Dziewięcioro pracowników, głównie nocna zmiana i warsztat. Jeden młody obsługujący dźwig mówi o tym, że budzi się z uczuciem, jakby ktoś siedział mu na mostku — przypisuje to dwutlenku węgla, ale po przegranych głosowaniach uznaje to za uczucie, a nie fakt mierzalny.",
+      "subject": "stacja-glosowania"
+    },
+    {
+      "id": "f-ebner-strategia-wywiad-postep",
+      "kind": "general",
+      "content": "Ebner pyta pracowników trzeciego pierścienia, jak śpią, szukając poparcia dla głosowania. Młody obsługujący dźwig pyta go o postępy, ale Ebner musi czekać dwie doby na następne głosowanie.",
+      "subject": "stacja-glosowania"
+    },
+    {
+      "id": "f-ebner-obieg-drugi-kapanie",
+      "kind": "general",
+      "content": "Obieg drugi w Hannie kapie na dwa palce dziennie, mniej niż przed Hoonem, ale reaktor chodzi na jałowym, więc ciśnienie jest prawie zerowe. Uszczelka, którą Ebner założył, trzyma wystarczająco, aby nie wymuszać pełnej wymiany obiegu.",
+      "subject": "hanna"
+    },
+    {
+      "id": "f-ebner-kalkulacja-wydatki",
+      "kind": "general",
+      "content": "W ładowni Hanny: rura ciśnieniowa do sprzedania za czterdzieści dwie, jedno ogniwo grzewcze zapasowe, pochłaniacz opłacony z kieszeni, komplet i pół uszczelki kołnierzowej, pudełko wymieszanych złączy gwintowanych, rozpuszczalnik, dwie tuby smaru łożyskowego. Ebner wie, że wymiana pełnego obiegu drugiego jest konieczna, ale nie stać go na nią, bo stanowisko czternaście jest tańsze.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-ebner-rachunek-varnu-dni9",
+      "kind": "general",
+      "content": "Przyszedł rachunek z Varnu o trzy jednostki wyższy niż poprzednio, bez wyjaśnienia. Ebner odpisał, że zapłaci w przyszłym tygodniu, jak robi od lat.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-ebner-obserwacja-noc",
+      "kind": "general",
+      "content": "Ebner stoi przy oknie obserwacyjnym nad przeładunkiem podczas nocnej zmiany. Obserwuje ruch po szlaku: raz na kilka godzin coś przechodzi bez sygnału, bez skrętu tutaj. W hali rozbijają paletę sypkiego materiału przy otwartych wrotach komory dostawczej. Przepłukują przed otwarciem.",
+      "subject": "stacja-glosowania"
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-zlecenie-powietrze",
+      "valid_to": 9
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f-regulacja-czasu",
+      "kind": "world_description",
+      "content": "W tej samej sprawie wniosek może być poddany pod głosowanie nie częściej niż raz na dwie doby stacyjne, bo załoga głosująca częściej głosuje gorzej. Przyjęto 38 do 4. Wolno natomiast głosować nad tym, kiedy wolno głosować.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "f-uczucie-mostek",
+      "kind": "scene",
+      "content": "Jeden chłopak, młody, obsługa dźwigu, powiedział mi, że budzi się z takim uczuciem, jakby ktoś mu w nocy siedział na mostku. Powiedziałem mu, że to od dwutlenku. Powiedział, że wie, bo głosował, że powietrze jest złe, i przegrał, więc teraz to jest uczucie, a nie dwutlenek.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "f-pompa-ciasta",
+      "kind": "punchline",
+      "content": "Zapytałem kucharkę, dlaczego nad pompą do ciasta nikt nie głosuje. Powiedziała: Bo to jest ciasta, nie powietrze.",
+      "threads": []
+    },
+    {
+      "id": "f-faktura-pozycja-pusta",
+      "kind": "document",
+      "content": "Faktura leży na stole z tą jedną pozycją, przy której wciąż nie wpisałem ceny, bo nie wiem, ile się bierze za coś takiego. Nikt mi nigdy nie podał stawki.",
+      "threads": []
+    }
+  ]
+}
