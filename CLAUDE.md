@@ -74,7 +74,18 @@ Across days it is worse: a cache write costs 1.25× input and lives an hour at m
 
 **Budget: measure it, do not estimate it.** Every run reports what it actually consumed per step, priced from the `prices` block in `models.yaml`, and a failed run reports it too — a run that dies at extraction has already paid for the prose.
 
-The first estimate here was $0.23 an entry, built from assumed context sizes before the prompts existed. Treat it as the order of magnitude and nothing more: the prompt has since grown by a third, and thinking bills as output, so effort on the writing step moves the figure more than anything else in this document.
+The first estimate here was $0.23 an entry, built from assumed context sizes before the prompts existed. A run of seven entries generated back to back measured what it actually is:
+
+| | write in | write out | entry |
+|---|---|---|---|
+| day 10 | 10,921 | 3,442 | $0.13 |
+| day 18 | 15,142 | 9,640 | $0.45 |
+
+**Output is the bill, and most of the output is thinking.** Day 18 is 1,100 words of Polish — roughly 1,800 tokens — against 9,640 output tokens, so about four fifths of what was paid for on the writing step was the model thinking at `effort: high`. Input grew too, by a third, but input is a quarter of the price per token and facts are only a quarter of the input.
+
+Two consequences. Entry length drives cost far more than context does, so the length distribution in `rhythm.yaml` is a budget decision as much as a rhythm one. And `effort` on the writing step is the single largest lever in this project: it is set high deliberately, because that step is the only one a reader sees, but the choice costs roughly half the bill.
+
+Context growth is bounded separately, in `select_facts` — facts accumulate at about four an entry against half a closure, which would otherwise grow the prompt without limit. That is a guard against the future rather than a saving today: at nineteen entries it drops one fact in forty-eight.
 
 ## Repository layout
 

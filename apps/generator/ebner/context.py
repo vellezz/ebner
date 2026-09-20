@@ -68,8 +68,15 @@ def _threads(remote: bool) -> list[dict]:
 
 
 def _facts(remote: bool) -> list[dict]:
+    """Every fact still in force.
+
+    All of them, deliberately: the pipeline needs the complete set of ids to
+    resolve what extraction refers to. Which of them the *prompt* sees is a
+    separate decision, made in `select_facts`.
+    """
     return query(
-        "SELECT f.id, f.kind, f.content, f.subject, e.name AS subject_name "
+        "SELECT f.id, f.kind, f.content, f.subject, f.valid_from, "
+        "e.name AS subject_name, e.reference_count AS subject_refs "
         "FROM facts f LEFT JOIN entities e ON e.id = f.subject "
         "WHERE f.valid_to IS NULL ORDER BY f.kind, f.valid_from",
         remote=remote,
@@ -91,7 +98,7 @@ def _previous(remote: bool) -> list[dict]:
 
 def _entities(remote: bool) -> list[dict]:
     return query(
-        "SELECT id, kind, name, parent FROM entities ORDER BY kind, id",
+        "SELECT id, kind, name, parent, last_entry FROM entities ORDER BY kind, id",
         remote=remote,
     )
 
@@ -149,8 +156,86 @@ def load_world(*, remote: bool = True) -> dict:
 # else; this is the one place the two meet.
 
 
+# How recently a fact must have been opened, or its subject touched, to still
+# belong in front of the writer.
+FACT_WINDOW_DAYS = 12
+# A backstop, not a budget. The window above is what bounds growth; this only
+# stops a pathological world from filling the prompt on its own. Set high
+# enough that it does nothing at the sizes seen so far — the first value tried
+# was 30, which cut the voting rule out from under a thread that was still
+# running, and a fact removed from the prompt is a fact the entry can
+# contradict.
+FACT_LIMIT = 60
+
+
+def select_facts(world: dict) -> tuple[list[dict], int]:
+    """The facts the prompt should carry, and how many were left out.
+
+    Every fact used to go in. That is fine at ten entries and ruinous at a
+    thousand: they accumulate at about four an entry against half a closure,
+    so the prompt grows without bound and the bill with it.
+
+    What survives:
+
+      * **the seed.** Facts from `0000.json` are the world's premise — who
+        Ebner is, what Hanna is, what Holdmark Serwis is, where the debt on
+        Varnu comes from. They are six rows and they never expire, and the
+        first version of this function dropped every one of them, which would
+        have quietly deleted the whole backstory from the writer's view.
+      * facts about where he is, and about everything containing it;
+      * facts about anything the diary has touched recently, by the entity's
+        own `last_entry`;
+      * facts opened recently enough to still be news.
+
+    A fact about a moon he left forty days ago goes, and retrieval brings that
+    moon back when he returns to it. `reference_count` looked like the way to
+    find the standing cast and is not: it counts appearances as an entry's
+    location, so Ebner himself scores zero.
+    """
+    facts = world.get("facts") or []
+    chain = {row["id"] for row in world.get("location") or []}
+    last_day = world.get("last_day") or 0
+    recent_subjects = {
+        entity["id"]
+        for entity in world.get("entities") or []
+        if entity.get("last_entry") is not None
+        and last_day - entity["last_entry"] <= FACT_WINDOW_DAYS
+    }
+
+    def keep(fact: dict) -> bool:
+        # valid_from 0 with no source entry is the seed's signature.
+        if (fact.get("valid_from") or 0) <= 0:
+            return True
+        if fact.get("subject") in chain or fact.get("subject") in recent_subjects:
+            return True
+        return last_day - (fact.get("valid_from") or 0) <= FACT_WINDOW_DAYS
+
+    kept = [fact for fact in facts if keep(fact)]
+    if len(kept) > FACT_LIMIT:
+        # Recency alone is the wrong order to cut in: it drops the rule of the
+        # place he is standing on before it drops last week's invoice. Rank by
+        # what the entry can touch, and only break ties by age.
+        def rank(fact: dict) -> tuple[int, int]:
+            if (fact.get("valid_from") or 0) <= 0:
+                tier = 0  # the premise
+            elif fact.get("subject") in chain:
+                tier = 1  # where he is
+            elif fact.get("subject") in recent_subjects:
+                tier = 2  # who and what is currently in play
+            else:
+                tier = 3
+            return (tier, -(fact.get("valid_from") or 0))
+
+        kept = sorted(kept, key=rank)[:FACT_LIMIT]
+        kept.sort(key=lambda f: (f.get("kind") or "", f.get("valid_from") or 0))
+
+    return kept, len(facts) - len(kept)
+
+
 def render_state(world: dict) -> str:
     lines: list[str] = []
+    selected, omitted = select_facts(world)
+    world = {**world, "facts": selected}
 
     rules = [f for f in world["facts"] if f.get("kind") == "world_rule"]
     if rules:
@@ -171,6 +256,14 @@ def render_state(world: dict) -> str:
             who = fact.get("subject_name") or fact.get("subject")
             lines.append(f"- `{fact['id']}` {'**' + who + '** — ' if who else ''}{fact['content']}")
         lines.append("")
+
+    if omitted:
+        # Said out loud so the writer knows the world is larger than the page,
+        # rather than concluding these places have no history.
+        lines.append(
+            f"_Pominięto {omitted} faktów o miejscach i sprawach, przy których"
+            " Ebnera teraz nie ma. Świat ich nie zapomniał._\n"
+        )
 
     if world["threads"]:
         lines.append("### Sprawy w toku")
