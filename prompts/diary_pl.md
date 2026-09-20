@@ -183,7 +183,7 @@ Każdy fragment ma etykietę mówiącą, co wolno z nim zrobić: `[rozwijaj]`,
 ## Parametry dzisiejszego wpisu
 
 - Numer dnia: {dzien}
-- Rodzaj wpisu: {rodzaj}
+- Rodzaj wpisu: `{rodzaj}` — {rodzaj_opis}
 - Długość: {dlugosc}
 - Nowy świat: {nowy_swiat}
 - Podpowiedź (opcjonalna, zignoruj, jeśli nie pasuje do stanu świata):

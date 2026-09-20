@@ -73,7 +73,11 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
         "zapomniane": render_places(world),
         "rag": render_recall(fragments),
         "dzien": params["day"],
-        "rodzaj": f"{params['kind']} — {params['kind_label']}",
+        # The bare id, because this also lands in the frontmatter, where the
+        # schema wants a value from the enum and not a description of it. The
+        # readable label goes in `rodzaj_opis`.
+        "rodzaj": params["kind"],
+        "rodzaj_opis": params["kind_label"],
         "dlugosc": f"{params['length_label']}, {params['length_words'][0]}–{params['length_words'][1]} słów",
         "podpowiedz": params["hint"] or "brak",
         "nowy_swiat": "tak — dziś wypada sięgnąć gdzieś nowej" if params["new_destination"] else "nie",

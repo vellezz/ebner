@@ -48,8 +48,9 @@ def _client():
 # before anything is kept.
 _STRUCTURAL = {
     "type", "properties", "required", "items", "enum", "const",
-    "description", "additionalProperties", "oneOf", "anyOf", "allOf",
+    "description", "additionalProperties",
 }
+_COMBINATORS = ("oneOf", "anyOf", "allOf")
 
 
 def schema_for_api(schema: dict) -> dict:
@@ -70,6 +71,18 @@ def schema_for_api(schema: dict) -> dict:
         ref = node.get("$ref")
         if isinstance(ref, str) and ref.startswith("#/$defs/"):
             return walk(defs.get(ref.split("/")[-1], {}))
+
+        # Combinators are rejected the same way union types are. Every one in
+        # this schema is `<something> or null`, which is an optional field
+        # said the long way round, so the non-null branch carries all of it.
+        for combinator in _COMBINATORS:
+            if combinator in node:
+                branches = [b for b in node[combinator] if b.get("type") != "null"]
+                chosen = dict(branches[0]) if branches else {"type": "string"}
+                rest = {k: v for k, v in node.items() if k not in _COMBINATORS}
+                rest.pop("$ref", None)
+                chosen.update({k: v for k, v in rest.items() if k not in chosen})
+                return walk(chosen)
 
         out = {}
         for key, value in node.items():
