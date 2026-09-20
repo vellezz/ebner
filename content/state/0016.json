@@ -1,0 +1,91 @@
+{
+  "day": 16,
+  "threads": [
+    {
+      "id": "nieznane-zbieracz",
+      "op": "close",
+      "status": "closed",
+      "closure": "resolved",
+      "reference_policy": "may_return",
+      "summary": "Nieznany obiekt zbierający dryfujące wraki okazał się maszyną sortującą rzeczy według czasu milczenia; Ebner zrozumiał jej logikę i naprał swój nadajnik zapasowy w jej wnętrzu."
+    },
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Ebner znowu odpowiedział, że zapłaci w przyszłym tygodniu, jak robi od lat."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "ebner-nadajnik-zmiana",
+      "kind": "general",
+      "content": "Ebner naprawił swój zapasowy nadajnik w wnętrzu nieznanego obiektu, lutując zimny lut na nóżce dławika; nadajnik teraz nadaje czystą nośną bez treści od tego dnia.",
+      "subject": "ebner-gripe",
+      "valid_from": 16
+    },
+    {
+      "id": "hanna-nadajnik-pracuje",
+      "kind": "general",
+      "content": "Zapasowy nadajnik Hanny, przykręcony z powrotem do podstawy na zewnętrznym pokładzie, nadaje stale bez treści i bez zamiaru wyłączenia.",
+      "subject": "hanna",
+      "valid_from": 16
+    },
+    {
+      "id": "hanna-transmisja-najtansza",
+      "kind": "general",
+      "content": "Hanna opłaca minimalną taryfę za transmisję: jedną dziesiątą jednostki na dobę, z adnotacją »treść zerowa, kompresja pełna, taryfa najniższa«.",
+      "subject": "hanna",
+      "valid_from": 16
+    },
+    {
+      "id": "ebner-rozumienie-zbieracza",
+      "kind": "general",
+      "content": "Ebner rozumie, że nieznany obiekt zbiera nie rzeczy, ale rzeczy które umilkły — wrak, który milczy, jest dla niego materiałem do poddania, a sprzęt wysyłający sygnał jest sprzętem i zostaje dotknięty inaczej.",
+      "subject": "ebner-gripe",
+      "valid_from": 16
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "hanna-zapasowy-nadajnik-utrata",
+      "valid_to": 16
+    }
+  ],
+  "fragments": [
+    {
+      "id": "wnetrze-zbieracza",
+      "kind": "scene",
+      "content": "W środku maszyny było ciepło i sucho, i nie było żadnej maszynerii. Rzędy. Wszystko leżało w rzędach, oddzielone niczym — nic tego nie trzymało, a nie dryfowało. Im głębiej, tym rzeczy były starsze: zewnętrzne miały jeszcze farbę, środkowe miały ślad po farbie, a te najgłębiej były wytarte na gładko jak kamienie z rzeki. Nie ułożone według wielkości ani materiału. Według tego, jak długo milczały.",
+      "threads": [
+        "nieznane-zbieracz"
+      ]
+    },
+    {
+      "id": "test-probierczy",
+      "kind": "punchline",
+      "content": "Wyrzuciłem pudełko z generatorem probierczym na częstotliwości serwisowej. Ramię przyszło, zatrzymało się nad nim dłużej niż nad czymkolwiek innym, potem podeszło, ujęło je i odłożyło dokładnie tam, gdzie je zastało.",
+      "threads": [
+        "nieznane-zbieracz"
+      ]
+    },
+    {
+      "id": "naprawianie-nadajnika",
+      "kind": "scene",
+      "content": "Usiadłem przy nadajniku z lampą w zębach. Zimny lut na nóżce dławika. Jeden. Widać go było gołym okiem, gdy się podświetliło z boku. Trzy lata mówiłem, że szkoda schodzić na zewnętrzny pokład dla trupa, a robota była na dwadzieścia minut.",
+      "threads": [
+        "nieznane-zbieracz"
+      ]
+    },
+    {
+      "id": "odpowiedz-maszyny",
+      "kind": "world_description",
+      "content": "Sprzęt wysyłający sygnał zostaje dotknięty inaczej niż materiał milczący. Maszyna zbieracza rozróżnia między nimi i traktuje je osobno — w ten sposób Ebner stał się dwoma rzeczami w jej oczach i został oddany dwa razy, każdy swoim ramieniem.",
+      "threads": [
+        "nieznane-zbieracz"
+      ]
+    }
+  ],
+  "sketch": "Ebner w skafandrze dryfuje obok rozprutego wraku, który rozładowuje wysoki obiekt bez spoin i bez dysz, manipulując tą samą stroną do góry."
+}
