@@ -1,0 +1,27 @@
+{
+  "day": 1,
+  "facts": [
+    {
+      "id": "f-dziennik-powod",
+      "op": "open",
+      "subject": "ebner-gripe",
+      "valid_from": 1,
+      "content": "Ebner prowadzi dziennik, bo księgowa z Varnu uzależniła od tego płatność. Nie zna jej i nie sprawdzał, czy to prawda."
+    }
+  ],
+  "fragments": [
+    {
+      "id": "s-0001-uszczelka",
+      "kind": "scene",
+      "content": "Wymiana uszczelki w obiegu drugim: ta, która ma trzymać do przyszłego roku i nie trzyma od trzech. Ebner wymienił ją, wiedząc, że powinien wymienić cały obieg, i wiedząc, że tego nie zrobi.",
+      "threads": []
+    },
+    {
+      "id": "p-0001-starczy",
+      "kind": "punchline",
+      "content": "Policzył, ile zostało. Wyszło, że starczy.",
+      "threads": []
+    }
+  ],
+  "sketch": null
+}

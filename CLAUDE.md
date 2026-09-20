@@ -89,7 +89,7 @@ ebner/
 ├── content/
 │   ├── entries/           # one Markdown file per entry, e.g. 0231.md
 │   ├── state/             # 0000.json (seed), 0231.json (per entry), 0231_review.json (thread review)
-│   └── schema/            # entry.schema.json — single source of truth for frontmatter
+│   └── schema/            # entry.schema.json, state.schema.json — the two sources of truth
 ├── prompts/
 │   ├── diary_pl.md        # main writing prompt (Polish)
 │   ├── style_samples/     # approved style samples
@@ -119,7 +119,9 @@ image: null             # R2 object key of the sketch, or null
 
 MDX components available in entries: `<Sketch>` (renders `srcset` from R2 variants) and `<Document>` (in-world documents: invoices, protocols, letters).
 
-The state change for each entry lives next to it in `content/state/NNNN.json`, using the JSON schema from the prompt (`---STATE---` block). It travels in the same pull request as the text, so the two are always reviewable — and amendable — together, on the occasions the owner chooses to look.
+The state change for each entry lives next to it in `content/state/NNNN.json`, validated against `content/schema/state.schema.json` — a file, for the same reason the frontmatter schema is one. The generator emits against it and `apply-state.yml` reads against it; the writing prompt describes the shape but does not define it.
+
+A state file carries only the **delta**: entities introduced, hops travelled, thread operations, facts opened or closed, fragments to index. The entry row itself is derived from the Markdown file and never restated. It travels in the same pull request as the text, so the two are always reviewable — and amendable — together, on the occasions the owner chooses to look.
 
 ## Cold start
 
@@ -284,7 +286,9 @@ Geography adds four more:
 - `location` of an entry must equal `to_entity` of its last hop — the net under keeping `travel` as its own record;
 - `parent` must not form a cycle.
 
-What guards explicitly do **not** cover: travel times, ship parameters and other technicalities. See *Geography, travel and technicalities* for why, and for the three layers that handle them instead.
+Where they live: in the generator, alongside the code that writes the state. One exception is provisional — `apps/site/scripts/check-state.mjs` runs the state guards in CI today because the generator does not exist yet. Delete it when the generator takes them over; two implementations of one invariant is the drift this document exists to prevent.
+
+What guards explicitly do **not** cover: travel times, ship parameters and other technicalities. See *Geography, travel and technicalities* for why, and for the two layers that handle them instead.
 
 ## Media
 

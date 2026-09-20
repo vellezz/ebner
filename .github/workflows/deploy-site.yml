@@ -46,6 +46,12 @@ jobs:
         working-directory: apps/site
         run: pnpm install --frozen-lockfile
 
+      # Guards the world state: both schemas, referential integrity across
+      # files, travel continuity, thread lifecycle and chronology.
+      - name: Check state
+        working-directory: apps/site
+        run: pnpm check:state
+
       # Validates every entry against content/schema/entry.schema.json on the
       # way through. A drifted `kind` fails here, not in production.
       - name: Build

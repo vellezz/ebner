@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "check:state": "node scripts/check-state.mjs"
   },
   "dependencies": {
     "ajv": "^8.17.1",

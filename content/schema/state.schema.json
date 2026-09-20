@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ebner.gripe/schema/state.schema.json",
+  "title": "State change",
+  "description": "Single source of truth for content/state/*.json. The generator emits against this file; apply-state.yml reads against the same one. It describes only the DELTA an entry makes to the world — the entry row itself is derived from the Markdown file, never restated here. Seed (0000.json) and thread reviews (NNNN_review.json) use the same shape with no entry beside them.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["day"],
+  "properties": {
+    "day": {
+      "description": "The day this change belongs to. 0 is the seed, which precedes every entry.",
+      "type": "integer",
+      "minimum": 0
+    },
+
+    "entities": {
+      "description": "Entities introduced by this change. Rationed: at most one new place per entry, two for kind: travel.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "name"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "kind": {
+            "type": "string",
+            "enum": ["person", "place", "organisation", "ship"]
+          },
+          "name": { "type": "string", "minLength": 1, "description": "Polish." },
+          "parent": {
+            "description": "Containment, for places: moon inside planet inside system. Must not form a cycle.",
+            "oneOf": [{ "$ref": "#/$defs/slug" }, { "type": "null" }]
+          },
+          "summary": { "type": "string", "description": "Polish." }
+        }
+      }
+    },
+
+    "travel": {
+      "description": "Hops made on this day, in order. The first hop's `from` must equal the previous entry's location; the last hop's `to` must equal this entry's location.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["seq", "to"],
+        "properties": {
+          "seq": { "type": "integer", "minimum": 1 },
+          "from": {
+            "oneOf": [{ "$ref": "#/$defs/slug" }, { "type": "null" }]
+          },
+          "to": { "$ref": "#/$defs/slug" }
+        }
+      }
+    },
+
+    "threads": {
+      "description": "Thread lifecycle operations. Ceilings are guarded, not declared here: at most 5 active, at most 3 recurring.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "op"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "op": { "type": "string", "enum": ["open", "update", "close"] },
+          "type": {
+            "type": "string",
+            "enum": ["short", "medium", "long", "recurring"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "closed", "dormant"]
+          },
+          "closure": {
+            "type": "string",
+            "enum": ["resolved", "abandoned", "merged"]
+          },
+          "reference_policy": {
+            "type": "string",
+            "enum": ["develop", "mention", "may_return", "do_not_touch"]
+          },
+          "planned_entries": { "type": "integer", "minimum": 1 },
+          "cooldown_days": { "type": "integer", "minimum": 0 },
+          "summary": { "type": "string", "description": "Polish." }
+        }
+      }
+    },
+
+    "facts": {
+      "description": "Facts opened or closed by this change. A fact is never edited: an upgrade or a change of circumstance closes the old one and opens a new one, which is what valid_from/valid_to are for.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "op"],
+        "properties": {
+          "id": {
+            "description": "Stable id so a later entry can close this fact without matching on its prose.",
+            "$ref": "#/$defs/slug"
+          },
+          "op": { "type": "string", "enum": ["open", "close"] },
+          "content": { "type": "string", "description": "Polish." },
+          "subject": {
+            "description": "Entity this fact is about.",
+            "$ref": "#/$defs/slug"
+          },
+          "valid_from": { "type": "integer", "minimum": 0 },
+          "valid_to": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+
+    "fragments": {
+      "description": "Fragments to index in Vectorize. Index sparingly — at most ~5 per entry — to stay inside the free tier.",
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "content"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "kind": {
+            "type": "string",
+            "enum": ["scene", "document", "punchline", "world_description"]
+          },
+          "content": { "type": "string", "minLength": 1, "description": "Polish." },
+          "threads": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/slug" },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+
+    "sketch": {
+      "description": "Prompt for the sketch image, or null when the entry has none. The pipeline generates it; nothing is supplied by hand.",
+      "type": ["string", "null"]
+    }
+  },
+
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    }
+  }
+}

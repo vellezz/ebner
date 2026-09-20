@@ -1,0 +1,117 @@
+{
+  "day": 0,
+  "entities": [
+    {
+      "id": "ebner-gripe",
+      "kind": "person",
+      "name": "Ebner Gripe",
+      "parent": null,
+      "summary": "Fachowiec na swoim, jeździ między układami i naprawia infrastrukturę obcych cywilizacji. Bierze, co jest."
+    },
+    {
+      "id": "hanna",
+      "kind": "ship",
+      "name": "Hanna",
+      "parent": null,
+      "summary": "Jednostka Ebnera i zarazem jego warsztat. Stara, łatana, stuka przy rozruchu."
+    },
+    {
+      "id": "holdmark-serwis",
+      "kind": "organisation",
+      "name": "Holdmark Serwis",
+      "parent": null,
+      "summary": "Konkurencja. Większa, tańsza, z folderem reklamowym. Robota po nich wraca po kwartale."
+    },
+    {
+      "id": "kresy",
+      "kind": "place",
+      "name": "Kresy",
+      "parent": null,
+      "summary": "Układ, w którym Ebner trzyma dok. Peryferyjny na tyle, że nikt się nie napiera, i na tyle, że nikt nie sprząta."
+    },
+    {
+      "id": "dok-macierzysty",
+      "kind": "place",
+      "name": "Dok macierzysty",
+      "parent": "kresy",
+      "summary": "Stanowisko cumownicze numer czternaście, wynajmowane od czegoś, co nazywa siebie zarządem doku."
+    },
+    {
+      "id": "varnu",
+      "kind": "place",
+      "name": "Varnu",
+      "parent": null,
+      "summary": "Gdzieś tam, daleko, i ktoś tam prowadzi księgi, w których Ebner figuruje po niewłaściwej stronie."
+    }
+  ],
+  "facts": [
+    {
+      "id": "f-ebner-zawod",
+      "op": "open",
+      "subject": "ebner-gripe",
+      "valid_from": 0,
+      "content": "Ebner Gripe pracuje na swoim: naprawia infrastrukturę obcych cywilizacji, przemieszczając się między układami. Nie specjalizuje się, bo nie stać go na specjalizację."
+    },
+    {
+      "id": "f-hanna-jednostka",
+      "op": "open",
+      "subject": "hanna",
+      "valid_from": 0,
+      "content": "Hanna jest jednostką Ebnera i jego warsztatem jednocześnie. Mieszka w niej, pracuje w niej i naprawia ją częściami przeznaczonymi dla klientów."
+    },
+    {
+      "id": "f-hanna-obieg",
+      "op": "open",
+      "subject": "hanna",
+      "valid_from": 0,
+      "content": "Obieg drugi w Hannie ma uszczelkę, która nie trzyma. Ebner wymienia ją regularnie, zamiast wymienić cały obieg, bo na cały obieg nie ma."
+    },
+    {
+      "id": "f-holdmark-konkurencja",
+      "op": "open",
+      "subject": "holdmark-serwis",
+      "valid_from": 0,
+      "content": "Holdmark Serwis to konkurencja Ebnera. Wchodzą taniej, wychodzą szybciej i zostawiają po sobie robotę, która wraca po kwartale. Ebner nienawidzi ich zawodowo, nie osobiście."
+    },
+    {
+      "id": "f-dlug-varnu",
+      "op": "open",
+      "subject": "ebner-gripe",
+      "valid_from": 0,
+      "content": "Ebner jest winien pieniądze na Varnu. Nie pamięta dokładnie za co ani od kiedy, ale kwota przychodzi regularnie i rośnie."
+    },
+    {
+      "id": "f-dok-stanowisko",
+      "op": "open",
+      "subject": "dok-macierzysty",
+      "valid_from": 0,
+      "content": "Ebner wynajmuje w doku macierzystym stanowisko numer czternaście. Płaci nieregularnie i nikt go z niego jeszcze nie wyrzucił."
+    }
+  ],
+  "fragments": [
+    {
+      "id": "w-kim-jest-ebner",
+      "kind": "world_description",
+      "content": "Ebner Gripe nie ma firmy, ma Hannę. Nie ma pracowników, ma listę rzeczy do zrobienia, która nigdy się nie kończy, bo dopisuje do niej szybciej, niż odhacza. Jak coś się zepsuje w promieniu kilku układów i nikt inny się tego nie podejmie, to podejmuje się on — najczęściej dlatego, że nikt inny się nie podjął.",
+      "threads": []
+    },
+    {
+      "id": "w-hanna",
+      "kind": "world_description",
+      "content": "Hanna jest stara w sposób, którego nie da się naprawić, tylko odsuwać w czasie. Stuka przy rozruchu. Ma obieg drugi, który przecieka od trzech lat, i uszczelkę, która ma trzymać do przyszłego roku, i nie trzyma. Ebner mówi o niej jak o współpracowniczce, której nie może zwolnić.",
+      "threads": []
+    },
+    {
+      "id": "w-holdmark",
+      "kind": "world_description",
+      "content": "Holdmark Serwis ma folder reklamowy, w którym wszystko jest wyprostowane i czyste. Wchodzą tanio, robią szybko i wychodzą, zanim to zacznie się psuć. Ebner spotyka ich robotę częściej niż ich samych i poznaje ją od razu, bo jest zbyt równa.",
+      "threads": []
+    },
+    {
+      "id": "w-dlug",
+      "kind": "world_description",
+      "content": "Dług z Varnu jest starszy od Hanny i mniej więcej tak samo szczelny. Kwota przychodzi regularnie, rośnie i nigdy nie jest tą samą kwotą. Ebner odpisuje, że zapłaci w przyszłym tygodniu, i odpisywał tak już tyle razy, że jest to raczej forma powitania niż deklaracja.",
+      "threads": []
+    }
+  ]
+}

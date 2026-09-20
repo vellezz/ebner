@@ -1,0 +1,64 @@
+{
+  "day": 3,
+  "entities": [
+    {
+      "id": "hoonu",
+      "kind": "place",
+      "name": "Hoonu",
+      "parent": null,
+      "summary": "Planeta, na której budowę zaczynano co najmniej dwa razy i ani razu nie skończono."
+    },
+    {
+      "id": "orbita-hoonu",
+      "kind": "place",
+      "name": "Orbita Hoonu",
+      "parent": "hoonu",
+      "summary": "Brama cumownicza z trzema pierścieniami, z czego dwa się obracają. Trzeci jest w porządku, po prostu się nie obraca."
+    }
+  ],
+  "travel": [
+    { "seq": 1, "from": "dok-macierzysty", "to": "orbita-hoonu" }
+  ],
+  "threads": [
+    {
+      "id": "dlug-z-varnu",
+      "op": "open",
+      "type": "long",
+      "status": "active",
+      "reference_policy": "mention",
+      "planned_entries": 12,
+      "cooldown_days": 4,
+      "summary": "Dług z Varnu: kwota przychodzi regularnie, rośnie i nigdy nie jest tą samą kwotą. Ebner odpisuje, że zapłaci w przyszłym tygodniu."
+    }
+  ],
+  "facts": [
+    {
+      "id": "f-hoonu-brama",
+      "op": "open",
+      "subject": "orbita-hoonu",
+      "valid_from": 3,
+      "content": "Brama cumownicza na orbicie Hoonu ma trzy pierścienie. Dwa się obracają. Obsługa twierdzi, że trzeci jest w porządku i po prostu się nie obraca."
+    }
+  ],
+  "fragments": [
+    {
+      "id": "w-0003-hoonu",
+      "kind": "world_description",
+      "content": "Hoonu wygląda jak coś, co ktoś zaczął budować i porzucił w połowie, a potem przyszedł ktoś inny i porzucił jeszcze raz, ale wyżej.",
+      "threads": []
+    },
+    {
+      "id": "p-0003-trzeci-pierscien",
+      "kind": "punchline",
+      "content": "Zapytał, co z trzecim pierścieniem. Powiedzieli, że trzeci jest w porządku, po prostu się nie obraca.",
+      "threads": []
+    },
+    {
+      "id": "s-0003-varnu",
+      "kind": "scene",
+      "content": "Wiadomość z Varnu, ta sama co zawsze, z tą samą groźbą, która nigdy się nie spełnia. Ebner odpisał, że płaci w przyszłym tygodniu. Napisał tak poprzednim razem.",
+      "threads": ["dlug-z-varnu"]
+    }
+  ],
+  "sketch": null
+}
