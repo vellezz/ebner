@@ -97,7 +97,9 @@ ebner/
 │   ├── style_samples/     # approved style samples
 │   └── edit_pairs/        # before/after pairs from human edits in PRs
 ├── samples/               # reference sample weeks
-├── db/migrations/         # plain SQL migrations for D1 (applied with wrangler)
+├── db/
+│   ├── migrations/        # plain SQL migrations for D1 (applied with wrangler)
+│   └── wrangler.jsonc     # D1 binding for migrations only — the site never uses it
 ├── infra/
 │   └── bootstrap.sh       # wrangler: R2 buckets, media domain, D1, Vectorize
 └── CLAUDE.md

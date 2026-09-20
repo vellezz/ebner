@@ -1,0 +1,20 @@
+{
+  // Exists only so `wrangler d1 migrations` knows where the migrations are and
+  // which database they belong to. Deliberately separate from
+  // apps/site/wrangler.jsonc: the site never talks to D1, so binding the
+  // database to the site Worker would be wrong.
+  //
+  //   wrangler d1 migrations apply ebner --remote -c db/wrangler.jsonc
+  //
+  "$schema": "../apps/site/node_modules/wrangler/config-schema.json",
+  "name": "ebner-db",
+  "compatibility_date": "2026-09-20",
+  "migrations_dir": "migrations",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ebner",
+      "database_id": "7cbbf32d-d3af-4374-889c-0f15b28283bb"
+    }
+  ]
+}

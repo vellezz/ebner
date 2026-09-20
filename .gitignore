@@ -8,6 +8,11 @@ node_modules/
 apps/site/dist/
 apps/site/.astro/
 
+# Wrangler local cache — holds the account id and name, and is regenerated
+# wherever wrangler is run from, so it turns up outside apps/site too.
+.wrangler/
+**/.wrangler/
+
 # Local environment
 .env
 .env.local
