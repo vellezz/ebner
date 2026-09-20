@@ -94,17 +94,33 @@ _SLUG_FIELDS = {
 }
 
 
+def _nearest(value: object, known: set[str], cutoff: float = 0.78) -> str | None:
+    """The id `value` plainly means, or None if nothing is close enough."""
+    if not isinstance(value, str) or not known:
+        return None
+    if value in known:
+        return value
+    near = difflib.get_close_matches(value, sorted(known), n=1, cutoff=cutoff)
+    return near[0] if near else None
+
+
 def normalise_state(
     state: dict,
     known_threads: set[str] | None = None,
     known_facts: set[str] | None = None,
+    known_entities: set[str] | None = None,
 ) -> dict:
     """Fix mechanically what a prompt would only ask for.
 
-    Five separate failures now came from instructing a model to get a
-    mechanical detail right and then rejecting its answer when it did not.
-    Slugs were the first; fact ids are the fifth. Anything with a single
-    correct answer derivable from the data belongs here, not in prose.
+    Every failure this function handles began as an instruction in a prompt,
+    which the model then got slightly wrong, which cost an entry that was
+    already written, checked, edited and paid for. Slugs were the first. Three
+    more in one run of seven were all the same shape — an id off by a syllable
+    — which is why references are now resolved as a class rather than patched
+    one identifier at a time.
+
+    Anything with a single correct answer derivable from the data belongs
+    here. What is left for the prompt is judgement.
     """
     for section, fields in _SLUG_FIELDS.items():
         for item in state.get(section) or []:
@@ -115,37 +131,105 @@ def normalise_state(
         if isinstance(fragment.get("threads"), list):
             fragment["threads"] = [slugify(t) for t in fragment["threads"] if isinstance(t, str)]
 
-    # A thread the world has never heard of cannot be updated or closed. The
-    # entry plainly introduced it, so it is being opened — whatever the model
-    # called the operation.
+    # --- references ------------------------------------------------------
+    #
+    # Every id in a delta either names something that already exists or
+    # introduces it. A near miss does neither, and three finished entries have
+    # now been destroyed by one: `f-ebner-strategi-a-wywiad-postep` for
+    # `f-ebner-strategia-wywiad`, `hanna-rura-do-sprzedazy` for
+    # `f-hanna-rura-do-sprzedazy`, `nowe-zlecenie-glosowania` for
+    # `nowe-zlecenie-glosowanie`. Each of those ids was listed verbatim in the
+    # context the extractor was given, so asking more clearly is not a fix that
+    # remains available.
+    #
+    # So every reference is resolved to what it plainly means. What cannot be
+    # resolved is dropped where the schema permits a gap, and left alone where
+    # it does not — an unresolvable subject means the entry referred to
+    # something it never introduced, which is a real inconsistency and the
+    # guard's business, not a typo.
+    def _note(kind: str, was: object, now: str) -> None:
+        print(f"  {kind}: `{now}`, which the extractor called `{was}`")
+
+    # An operation on a thread nobody has heard of is either a typo for one we
+    # have or an opening the model mislabelled. Try the typo first: flipping to
+    # `open` when the thread already exists would fork it in two.
     if known_threads is not None:
         for thread in state.get("threads") or []:
-            if thread.get("op") != "open" and thread.get("id") not in known_threads:
+            if thread.get("op") == "open" or thread.get("id") in known_threads:
+                continue
+            match = _nearest(thread.get("id"), known_threads)
+            if match:
+                _note("thread", thread.get("id"), match)
+                thread["id"] = match
+            else:
                 thread["op"] = "open"
                 thread.setdefault("status", "active")
 
-    # A fact can only be closed by the id it was opened under. The context
-    # lists those ids for exactly this purpose and the extractor still mangles
-    # one — `f-ebner-strategi-a-wywiad-postep` for `f-ebner-strategia-wywiad`
-    # cost a written, checked and edited entry. Near misses are resolved to the
-    # fact they plainly mean; a close nothing matches is dropped, because in D1
-    # it would update no rows anyway and failing the run over it throws away
-    # the prose to punish a typo.
+    # Ids introduced by this very delta count as known to the rest of it.
+    thread_ids = set(known_threads or set()) | {
+        t["id"] for t in state.get("threads") or [] if isinstance(t.get("id"), str)
+    }
+    entity_ids = set(known_entities or set()) | {
+        e["id"] for e in state.get("entities") or [] if isinstance(e.get("id"), str)
+    }
+
+    if known_threads is not None:
+        for fragment in state.get("fragments") or []:
+            if not isinstance(fragment.get("threads"), list):
+                continue
+            kept_threads: list[str] = []
+            for ref in fragment["threads"]:
+                match = _nearest(ref, thread_ids)
+                if match:
+                    if match != ref:
+                        _note("fragment thread", ref, match)
+                    kept_threads.append(match)
+                else:
+                    print(f"  dropping fragment reference to unknown thread `{ref}`")
+            fragment["threads"] = kept_threads
+
+    if known_entities is not None:
+        for entity in state.get("entities") or []:
+            parent = entity.get("parent")
+            if parent is None:
+                continue
+            match = _nearest(parent, entity_ids - {entity.get("id")})
+            if match and match != parent:
+                _note("parent", parent, match)
+                entity["parent"] = match
+            elif not match:
+                print(f"  clearing unknown parent `{parent}` of `{entity.get('id')}`")
+                entity["parent"] = None
+
+        for fact in state.get("facts_opened") or []:
+            match = _nearest(fact.get("subject"), entity_ids)
+            if match and match != fact.get("subject"):
+                _note("subject", fact.get("subject"), match)
+                fact["subject"] = match
+
+        for hop in state.get("travel") or []:
+            for end in ("from", "to"):
+                if hop.get(end) is None:
+                    continue
+                match = _nearest(hop.get(end), entity_ids)
+                if match and match != hop.get(end):
+                    _note(f"travel {end}", hop.get(end), match)
+                    hop[end] = match
+
+    # A fact can only be closed by the id it was opened under. A close nothing
+    # matches is dropped rather than fatal: in D1 it updates no rows either
+    # way, so failing the run would destroy the prose to punish a typo.
     if known_facts is not None:
-        candidates = sorted(known_facts)
         kept: list[dict] = []
         for fact in state.get("facts_closed") or []:
-            fact_id = fact.get("id")
-            if fact_id in known_facts:
-                kept.append(fact)
-                continue
-            near = difflib.get_close_matches(str(fact_id), candidates, n=1, cutoff=0.72)
-            if near:
-                print(f"  closing `{near[0]}`, which the extractor called `{fact_id}`")
-                fact["id"] = near[0]
+            match = _nearest(fact.get("id"), known_facts, cutoff=0.72)
+            if match:
+                if match != fact.get("id"):
+                    _note("closing", fact.get("id"), match)
+                fact["id"] = match
                 kept.append(fact)
             else:
-                print(f"  dropping close of `{fact_id}`: no open fact by that name")
+                print(f"  dropping close of `{fact.get('id')}`: no open fact by that name")
         if "facts_closed" in state:
             state["facts_closed"] = kept
 
@@ -263,6 +347,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
             json.loads(_strip_fence(state_text)),
             {t["id"] for t in world["threads"]},
             {f["id"] for f in world["facts"]},
+            {e["id"] for e in world["entities"]},
         )
     except Exception as error:
         raise PipelineError(
@@ -325,6 +410,7 @@ def extract_for(day: int, *, remote: bool = True) -> dict:
         json.loads(_strip_fence(state_text)),
         {t["id"] for t in world["threads"]},
         {f["id"] for f in world["facts"]},
+        {e["id"] for e in world["entities"]},
     )
     state["day"] = day
 
