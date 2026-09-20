@@ -201,11 +201,31 @@ def normalise_state(
                 print(f"  clearing unknown parent `{parent}` of `{entity.get('id')}`")
                 entity["parent"] = None
 
+        # A fact about something the delta never introduced is dropped, not
+        # fatal. This was left to the guard on the grounds that it is a real
+        # inconsistency rather than a typo — and then it destroyed a fourth
+        # entry, for two facts about a freighter the extractor described at
+        # length and forgot to list as an entity.
+        #
+        # Inventing the entity is the worse repair: `kind` comes from an enum
+        # and a wrong guess would put a ship in the geography. Dropping costs a
+        # recorded detail, and `extract` can re-derive a day's state later,
+        # which is not true of prose that was never published.
+        kept_facts: list[dict] = []
         for fact in state.get("facts_opened") or []:
             match = _nearest(fact.get("subject"), entity_ids)
-            if match and match != fact.get("subject"):
-                _note("subject", fact.get("subject"), match)
+            if match:
+                if match != fact.get("subject"):
+                    _note("subject", fact.get("subject"), match)
                 fact["subject"] = match
+                kept_facts.append(fact)
+            else:
+                print(
+                    f"  dropping fact `{fact.get('id')}`:"
+                    f" subject `{fact.get('subject')}` was never introduced"
+                )
+        if "facts_opened" in state:
+            state["facts_opened"] = kept_facts
 
         for hop in state.get("travel") or []:
             for end in ("from", "to"):
