@@ -91,3 +91,15 @@ jobs:
         run: |
           gh workflow run apply-state.yml --repo "${{ github.repository }}"
           gh workflow run deploy-site.yml --repo "${{ github.repository }}"
+
+      # Waits for the deploy to land before pushing. The notification carries
+      # no payload — the service worker reads the published JSON to decide what
+      # to say — so firing early would announce yesterday.
+      - name: Notify
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+        run: |
+          day=$(ls content/entries | sort | tail -1 | sed 's/\.md$//' | sed 's/^0*//')
+          python -m ebner notify --expect-day "$day"

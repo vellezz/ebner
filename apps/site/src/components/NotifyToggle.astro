@@ -1,0 +1,147 @@
+---
+// Subscribing to notifications about a new entry.
+//
+// Deliberately not asked for on arrival: a permission prompt nobody invited is
+// the fastest way to be denied permanently, and a browser that has been denied
+// once will not ask again.
+const VAPID_PUBLIC_KEY =
+  'BGdFMJ2qV3Y83WprKM9IpH8UDvYG6yN9b8xUEUvrGo-Ltv5O_JtZ4fp41OU8rnOJZXi18cACeOciFFnEM8vhcfs';
+---
+
+<div class="notify" data-vapid={VAPID_PUBLIC_KEY}>
+  <button type="button" class="readout" data-notify hidden>powiadom o nowym wpisie</button>
+  <p class="note readout" data-notify-note hidden></p>
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('.notify');
+    if (!root) return;
+    const button = root.querySelector('[data-notify]');
+    const note = root.querySelector('[data-notify-note]');
+
+    const say = (text) => {
+      note.textContent = text;
+      note.hidden = !text;
+    };
+
+    const supported =
+      'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+
+    // iOS only exposes push to a PWA that has been added to the Home Screen,
+    // so on Safari the honest answer is an instruction, not a button.
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    if (!supported) {
+      say('ta przeglądarka nie obsługuje powiadomień');
+      return;
+    }
+    if (iOS && !standalone) {
+      say('na iPhonie: dodaj do ekranu głównego, wtedy pojawi się zgoda na powiadomienia');
+      return;
+    }
+    if (Notification.permission === 'denied') {
+      say('powiadomienia zablokowane w ustawieniach przeglądarki');
+      return;
+    }
+
+    const b64ToBytes = (base64) => {
+      const padded = (base64 + '='.repeat((4 - (base64.length % 4)) % 4))
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+      const raw = atob(padded);
+      return Uint8Array.from(raw, (c) => c.charCodeAt(0));
+    };
+
+    const refresh = async () => {
+      const registration = await navigator.serviceWorker.ready;
+      const existing = await registration.pushManager.getSubscription();
+      button.textContent = existing ? 'wyłącz powiadomienia' : 'powiadom o nowym wpisie';
+      button.dataset.on = existing ? 'yes' : 'no';
+      button.hidden = false;
+    };
+
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      try {
+        const registration = await navigator.serviceWorker.ready;
+        const existing = await registration.pushManager.getSubscription();
+
+        if (existing) {
+          await fetch('/api/unsubscribe', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ endpoint: existing.endpoint }),
+          }).catch(() => {});
+          await existing.unsubscribe();
+          say('wyłączone');
+        } else {
+          const permission = await Notification.requestPermission();
+          if (permission !== 'granted') {
+            say('bez zgody nie ma powiadomień');
+            return;
+          }
+          const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: b64ToBytes(root.dataset.vapid),
+          });
+          const response = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(subscription.toJSON()),
+          });
+          say(response.ok ? 'włączone — jeden wpis dziennie' : 'nie udało się zapisać');
+        }
+        await refresh();
+      } catch (error) {
+        say('nie udało się: ' + (error?.message || error));
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    refresh().catch(() => {});
+  })();
+</script>
+
+<style>
+  .notify {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .notify button {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid var(--wl);
+    background: var(--pl);
+    color: var(--f2);
+    cursor: pointer;
+  }
+
+  .notify button[data-on='yes'] {
+    background: var(--ts);
+    color: var(--tf);
+    border-color: var(--ts);
+  }
+
+  .notify button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .note {
+    margin: 0;
+    color: var(--ls);
+    max-width: 44ch;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+</style>

@@ -27,3 +27,6 @@ venv/
 .env
 .env.local
 .env.*.local
+
+# VAPID private key, generated locally and moved to a repository secret
+.vapid-private.key

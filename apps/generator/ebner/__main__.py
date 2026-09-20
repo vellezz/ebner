@@ -180,8 +180,34 @@ def cmd_extract(args: list[str]) -> int:
     return 0
 
 
+def cmd_notify(args: list[str]) -> int:
+    from .push import PushError, notify, wait_for_site
+
+    local = "--local" in args
+    expect = int(args[args.index("--expect-day") + 1]) if "--expect-day" in args else None
+
+    if expect is not None and not wait_for_site(expect):
+        # Not an error: the entry is published and the site will catch up. A
+        # notification announcing the wrong day would be worse than none.
+        print(f"  site has not published day {expect} yet; skipping notification")
+        return 0
+
+    try:
+        result = notify(remote=not local)
+    except PushError as error:
+        print(f"  {error}", file=sys.stderr)
+        return 1
+
+    print(
+        f"  wysłano {result['sent']}/{result['total']}"
+        f" (wygasłe: {result['gone']}, błędy: {result['failed']})"
+    )
+    return 0
+
+
 COMMANDS = {
     "apply": cmd_apply,
+    "notify": cmd_notify,
     "extract": cmd_extract,
     "status": cmd_status,
     "plan": cmd_plan,

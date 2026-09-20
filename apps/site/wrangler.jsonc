@@ -1,13 +1,29 @@
 {
   // Cloudflare Pages is now part of Cloudflare Workers: `wrangler pages project
-  // create` delegates to this shape and fails without it. This is a static
-  // assets-only Worker — no `main`, no server code, just the Astro output.
+  // create` delegates to this shape and fails without it.
+  //
+  // This was an assets-only Worker until notifications needed somewhere to put
+  // a subscription. It still serves nothing dynamic a reader can see — every
+  // page, and the newest-entry JSON the service worker reads, is a static file
+  // built from content/. The handler exists for /api/subscribe alone, and
+  // falls through to ASSETS for everything else.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ebner",
   "compatibility_date": "2026-09-20",
+  "main": "worker/index.js",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "binding": "ASSETS"
   },
+  // The one table the site touches, and the only one that is not a projection
+  // of content/state/ — browser-issued endpoints no replay can reconstruct.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ebner",
+      "database_id": "7cbbf32d-d3af-4374-889c-0f15b28283bb"
+    }
+  ],
   // The custom domain is declared here rather than clicked in the dashboard.
   // Attaching it also creates the zone's DNS record for ebner.gripe. Wrangler
   // is the only thing that provisions in this project — see CLAUDE.md,

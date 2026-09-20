@@ -14,6 +14,9 @@ dependencies = [
   # dependency and buys nothing. Needs a version that knows output_config,
   # which carries both `effort` and structured outputs.
   "anthropic>=1.0",
+  # Signs the VAPID assertion for Web Push. The only cryptography here:
+  # pushes carry no payload, so there is nothing to encrypt per subscription.
+  "cryptography>=42.0",
 ]
 
 [tool.setuptools.packages.find]

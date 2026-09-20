@@ -71,7 +71,7 @@ self.addEventListener('push', (event) => {
       let url = '/';
 
       try {
-        const response = await fetch('/api/latest', { cache: 'no-store' });
+        const response = await fetch('/api/latest.json', { cache: 'no-store' });
         if (response.ok) {
           const latest = await response.json();
           if (latest?.title) {

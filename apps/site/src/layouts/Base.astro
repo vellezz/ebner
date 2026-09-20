@@ -1,4 +1,5 @@
 ---
+import NotifyToggle from '../components/NotifyToggle.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import '../styles/tokens.css';
 
@@ -55,7 +56,10 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
         <slot />
       </main>
 
-      <footer class="footer readout">Dziennik roboczy</footer>
+      <footer class="footer">
+        <span class="readout">Dziennik roboczy</span>
+        <NotifyToggle />
+      </footer>
     </div>
 
     <script is:inline>
@@ -126,5 +130,10 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
     border-top: 1px solid var(--sp);
     padding: 20px 0 32px;
     color: var(--ls);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
   }
 </style>
