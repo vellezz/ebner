@@ -20,7 +20,13 @@ from pathlib import Path
 
 from .apply import ENTRIES_DIR, STATE_DIR, parse_entry
 from .config import PROMPTS_DIR, prompt, rhythm
-from .context import load_world, render_location, render_places, render_state
+from .context import (
+    load_world,
+    render_entities,
+    render_location,
+    render_places,
+    render_state,
+)
 from .d1 import REPO
 from .llm import complete
 from .retrieval import recall
@@ -157,7 +163,12 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
             "state",
             fill(
                 prompt("state_pl.md"),
-                {"stan": common["stan"], "wpis": entry_text, "schema": json.dumps(schema, ensure_ascii=False, indent=2)},
+                {
+                    "stan": common["stan"],
+                    "byty": render_entities(world),
+                    "wpis": entry_text,
+                    "schema": json.dumps(schema, ensure_ascii=False, indent=2),
+                },
             ),
             "Wyciągnij stan.",
             output_schema=schema,
@@ -194,6 +205,7 @@ def extract_for(day: int, *, remote: bool = True) -> dict:
             prompt("state_pl.md"),
             {
                 "stan": render_state(world),
+                "byty": render_entities(world),
                 "wpis": entry_text,
                 "schema": json.dumps(schema, ensure_ascii=False, indent=2),
             },

@@ -76,6 +76,13 @@ def _facts(remote: bool) -> list[dict]:
     )
 
 
+def _entities(remote: bool) -> list[dict]:
+    return query(
+        "SELECT id, kind, name, parent FROM entities ORDER BY kind, id",
+        remote=remote,
+    )
+
+
 def _places(remote: bool, last_day: int) -> dict[str, list[dict]]:
     rows = query(
         "SELECT id, name, summary, last_entry, reference_count FROM entities "
@@ -117,6 +124,7 @@ def load_world(*, remote: bool = True) -> dict:
         "threads": threads,
         "threads_due_for_closure": [t for t in threads if t["due_for_closure"]],
         "facts": _facts(remote),
+        "entities": _entities(remote),
         "location": _location(remote),
         "places": _places(remote, last_day),
     }
@@ -165,6 +173,37 @@ def render_state(world: dict) -> str:
     else:
         lines.append("### Sprawy w toku\n\nŻadna. Jest miejsce, żeby coś zacząć.\n")
 
+    return "\n".join(lines).strip()
+
+
+KIND_LABEL = {
+    "person": "Postacie",
+    "place": "Miejsca",
+    "organisation": "Organizacje",
+    "ship": "Statki",
+}
+
+
+def render_entities(world: dict) -> str:
+    """Everything that already has an identity.
+
+    Extraction needs this or it cannot obey its own instruction not to
+    re-introduce an entity: it would have to guess which ids exist, and
+    guessing wrong reads as a brand new place that happens to share a name.
+    """
+    entities = world.get("entities") or []
+    if not entities:
+        return "Brak — świat jest pusty."
+    lines: list[str] = []
+    for kind in ("person", "ship", "organisation", "place"):
+        group = [e for e in entities if e["kind"] == kind]
+        if not group:
+            continue
+        lines.append(f"**{KIND_LABEL[kind]}**")
+        for entity in group:
+            inside = f" (w `{entity['parent']}`)" if entity.get("parent") else ""
+            lines.append(f"- `{entity['id']}` {entity['name']}{inside}")
+        lines.append("")
     return "\n".join(lines).strip()
 
 

@@ -71,6 +71,13 @@ albo `null`. Nie każdy wpis go potrzebuje.
   wskazane, przy technice nie.
 - Nie zamykasz wątku, który we wpisie tylko przycichł.
 
+## Byty, które już istnieją
+
+Nie wprowadzaj ich ponownie w `entities`. Odwołuj się do nich tym
+identyfikatorem — także w `parent`, `subject`, `travel` i `threads` fragmentów.
+
+{byty}
+
 ## Stan świata przed tym wpisem
 
 {stan}
