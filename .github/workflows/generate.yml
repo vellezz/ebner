@@ -1,0 +1,78 @@
+name: Generate entry
+
+# One entry per real day, unattended. The guards run inside the generator —
+# a rejected entry is deleted before anything is committed — so there is no
+# pull request and no merge gate. A failed run is the whole alerting story:
+# no entry means something is wrong, and the run says what.
+on:
+  schedule:
+    # 05:17 UTC. Off the hour on purpose: every scheduler on the planet fires
+    # at :00, and GitHub delays the queue accordingly.
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: 'Seed, for a reproducible draw of the parameters'
+        required: false
+
+# Shared with apply-state.yml so world state is never read and written at once.
+# Not cancel-in-progress: a half-applied state is worse than a late one.
+concurrency:
+  group: ebner-state
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: apps/site/pnpm-lock.yaml
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      # The generator reaches D1 and Vectorize through wrangler, and runs the
+      # state guard with node, so the site's dependencies are needed here too.
+      - name: Install
+        run: |
+          pnpm --dir apps/site install --frozen-lockfile
+          pip install -e apps/generator
+
+      - name: Generate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "${{ inputs.seed }}" ]; then
+            python -m ebner generate --seed "${{ inputs.seed }}"
+          else
+            python -m ebner generate
+          fi
+
+      - name: Commit
+        run: |
+          if [ -z "$(git status --porcelain content/)" ]; then
+            echo "nothing generated"
+            exit 1
+          fi
+          day=$(ls content/entries | sort | tail -1 | sed 's/\.md$//')
+          title=$(sed -n 's/^title: "\(.*\)"$/\1/p' "content/entries/${day}.md" | head -1)
+          git config user.name  'ebner-bot'
+          git config user.email 'bot@ebner.gripe'
+          git add content/
+          git commit -m "${title}"
+          git push

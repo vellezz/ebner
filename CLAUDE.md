@@ -146,7 +146,7 @@ Because the seed is a state file and every entry has a state file, **D1 is fully
 
 `concurrency: group: ebner-state` shared with `apply-state.yml`, so state is never read and written by two runs at once.
 
-**One entry in flight at a time.** Before anything else, the run checks for an open bot PR. In normal operation there never is one — PRs merge automatically. If one *is* open, a guard blocked it, and the run exits cleanly without generating: stacking a second entry on unresolved state would compound the problem. A clean exit, not a failure.
+**One entry in flight at a time**, enforced by the shared concurrency group rather than by looking for open work. `apply-state.yml` queues behind this run instead of cancelling it: a half-applied state is worse than a late one.
 
 **Publication is daily and unattended. Chronology is not.** Exactly one entry file is published per real day, automatically, with no human in the loop. What varies is the *in-world* date: `day` is strictly increasing but **not consecutive**.
 
@@ -164,13 +164,15 @@ Because no unmerged entry can exist when a run starts, the previous entry is alw
 6. **Sketch** (optional): if the state defines `sketch`, generate the image, create WebP/AVIF variants in several widths, upload to `ebner-media` with content-hash names, set `image` in frontmatter.
 7. **Open a pull request** as a bot with the entry and its state file. Nothing is written to D1 or Vectorize at this point.
 
-**The PR is a checkpoint, not a gate.** It opens, its checks run, and it merges automatically after a short configurable delay. The owner is not expected to look. The pull request earns its place for three reasons that have nothing to do with review: it keeps the entry and its state file in one atomic unit, it is where the guards run as merge checks, and it leaves a diff the owner *may* inspect or amend if they ever want to — without the pipeline ever waiting on them.
+**No pull request.** The guards run inside the generator — `save` writes both files, runs the state guard across the whole corpus, and deletes both again if it refuses — so by the time anything could be proposed for merge it has already passed. A pull request would add a gate with nothing left to gate.
 
-A failing guard therefore does not merge. The PR stays open, no entry is published that day, and that open PR is the record of what went wrong.
+Worse, it would add a gate that only looked like one. A PR opened with `GITHUB_TOKEN` does not trigger other workflows, by GitHub's own design against recursion, so its checks would never run and auto-merge would merge it unexamined. A bogus gate is more dangerous than none, because it reads as protection.
 
-**What a missing entry means.** A missing entry means something is wrong — the run failed, or a guard blocked the merge, and the open PR says which. There is no longer any innocent explanation for a missing entry, which makes the signal *sharper* than when a human was in the loop: nothing is ever waiting on a person.
+The bot therefore commits straight to `main`, which triggers the deploy and `apply-state.yml` exactly as any other push does.
 
-If the owner does amend an entry before it merges, the difference is saved to `prompts/edit_pairs/`. In an unattended pipeline this is an occasional path, not a routine one, and `edit_pairs/` may stay empty for long stretches.
+**What a missing entry means.** Something is wrong — the run failed, the model declined, or the guards rejected the entry — and the workflow run says which. There is no innocent explanation for a missing entry, which makes the signal sharp: nothing is ever waiting on a person.
+
+`prompts/edit_pairs/` was meant to collect the differences between generated and merged text, to feed later prompts with examples of the owner's corrections. With no review step there are no such differences, so it stays empty until someone edits an entry by hand after the fact.
 
 ### `apply-state.yml` (on push to `main` touching `content/state/`)
 
