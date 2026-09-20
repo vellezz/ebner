@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import re
 import subprocess
+import unicodedata
 from pathlib import Path
 
 from .apply import ENTRIES_DIR, STATE_DIR, parse_entry
@@ -54,6 +55,46 @@ def _style_samples() -> str:
     if not samples:
         return ""
     return "\n\n".join(s.read_text(encoding="utf-8").strip() for s in samples)
+
+
+def slugify(value: str) -> str:
+    """Force a string into the slug shape the schemas require.
+
+    `pattern` is stripped from the schema sent to the API, so nothing stops a
+    model from returning `Pierścień_3` where `pierscien-3` is wanted. The guard
+    catches it, but catching costs a run; normalising costs nothing and is
+    deterministic. Polish diacritics fold to ASCII because the ids are
+    identifiers, not prose — the prose beside them keeps its accents.
+    """
+    folded = value.replace("ł", "l").replace("Ł", "L")
+    folded = unicodedata.normalize("NFKD", folded)
+    folded = "".join(c for c in folded if not unicodedata.combining(c))
+    folded = re.sub(r"[^a-zA-Z0-9]+", "-", folded).strip("-").lower()
+    return folded or "x"
+
+
+# Every field the schemas type as a slug. Normalising them together keeps
+# references intact: an id and the places that point at it fold the same way.
+_SLUG_FIELDS = {
+    "entities": ("id", "parent"),
+    "travel": ("from", "to"),
+    "threads": ("id",),
+    "facts_opened": ("id", "subject"),
+    "facts_closed": ("id",),
+    "fragments": ("id",),
+}
+
+
+def normalise_slugs(state: dict) -> dict:
+    for section, fields in _SLUG_FIELDS.items():
+        for item in state.get(section) or []:
+            for field in fields:
+                if isinstance(item.get(field), str):
+                    item[field] = slugify(item[field])
+    for fragment in state.get("fragments") or []:
+        if isinstance(fragment.get("threads"), list):
+            fragment["threads"] = [slugify(t) for t in fragment["threads"] if isinstance(t, str)]
+    return state
 
 
 def _strip_fence(text: str) -> str:
@@ -121,7 +162,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
             "Wyciągnij stan.",
             output_schema=schema,
         )
-        state = json.loads(_strip_fence(state_text))
+        state = normalise_slugs(json.loads(_strip_fence(state_text)))
     except Exception as error:
         raise PipelineError(
             f"state extraction failed: {error}\n\n"
@@ -160,7 +201,7 @@ def extract_for(day: int, *, remote: bool = True) -> dict:
         "Wyciągnij stan.",
         output_schema=schema,
     )
-    state = json.loads(_strip_fence(state_text))
+    state = normalise_slugs(json.loads(_strip_fence(state_text)))
     state["day"] = day
 
     state_path = STATE_DIR / f"{day:04d}.json"
