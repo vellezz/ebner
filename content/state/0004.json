@@ -1,60 +1,19 @@
 {
   "day": 4,
-  "entities": [
-    {
-      "id": "komisja-hoonu",
-      "kind": "organisation",
-      "name": "Komisja ds. Bramie Cumowniczej Hoonu",
-      "summary": "Komisja, która zdecydowała o utrzymaniu trzeciego pierścienia w spoczynku."
-    }
-  ],
-  "fragments": [
-    {
-      "id": "protokol-holdmark",
-      "kind": "punchline",
-      "content": "Holdmark miał wymienić sterownik synchronizacji. Wymienił. Tylko że synchronizacja trzech obracających się pierścieni jest robotą na tydzień, a synchronizacja dwóch obracających się z jednym stojącym jest robotą na popołudnie, bo zero jest bardzo stabilną prędkością.",
-      "threads": [
-        "dlug-z-varnu"
-      ]
-    },
-    {
-      "id": "papier-vs-mostek",
-      "kind": "punchline",
-      "content": "Papier ma to do siebie, że można go zmienić w cztery minuty, a przelutowany mostek trzeba najpierw znaleźć."
-    },
-    {
-      "id": "scena-komisji",
-      "kind": "scene",
-      "content": "Przy stole siedzi komisja, Ebner odpowiada na pytania. Ktoś zapytał, czy pierścień musi się obracać. Ebner powiedział, że nie musi, ale wtedy nie jest pierścieniem cumowniczym, tylko półką. Wszyscy zaczęli zapisywać.",
-      "threads": [
-        "dlug-z-varnu"
-      ]
-    },
-    {
-      "id": "opad-bechny-mech",
-      "kind": "world_description",
-      "content": "Przez pół roku ktoś dospawał do wewnętrznego kołnierza trójki dwie chłodnie, magazyn paliwa w beczkach, biuro celne Hoonu i siedem skrzynek z mchem pod lampą. Wszystko to stoi tam, bo nie wiruje. Beczek nie da się trzymać na pierścieniu, który się obraca, bo się układają. Mchu też."
-    }
-  ],
-  "sketch": "Ebner wspina się drabiną wewnątrz trzeciego pierścienia bramy cumowniczej Hoonu, mijając mech w doniczkach i beczki z paliwem zaparkowane pod jego nogami.",
   "facts_opened": [
     {
-      "id": "pierscien-3-sprawny",
+      "id": "f-brama-trzeci-pierscien",
+      "kind": "general",
+      "content": "Trzeci pierścień bramy cumowniczej na orbicie Hoonu jest teraz naprawiany i pozostanie wyłączony z obrotu na stałe, zgodnie z decyzją komisji — stan utrzymania pierścienia w spoczynku jest teraz oficjalizowany jako usługa jednorazowa.",
       "subject": "orbita-hoonu",
-      "valid_from": 4,
-      "valid_to": 4294967295
+      "valid_from": 4
     },
     {
-      "id": "dlug-z-varnu-d4",
+      "id": "f-ebner-platnosc-brama",
+      "kind": "general",
+      "content": "Ebner otrzymał zapłatę od kierownika ruchu za naprawę bramy cumowniczej na orbicie Hoonu i wystawienie faktury ze trzema pozycjami: naprawę pierścienia, napęd i dojazd.",
       "subject": "ebner-gripe",
-      "valid_from": 4,
-      "valid_to": 4294967295
-    },
-    {
-      "id": "zarobek-brama-hoonu",
-      "subject": "ebner-gripe",
-      "valid_from": 4,
-      "valid_to": 4294967295
+      "valid_from": 4
     }
   ],
   "facts_closed": [
@@ -62,5 +21,28 @@
       "id": "f-hoonu-brama",
       "valid_to": 4
     }
-  ]
+  ],
+  "fragments": [
+    {
+      "id": "frag-holdmark-protokol",
+      "kind": "document",
+      "content": "Protokół Holdmark Serwis z pół roku temu klasyfikował trzeci pierścień jako \"tryb referencyjny, trwały\" — prawda matematyczna maskująca oszustwo: synchronizacja zera jest idealna sama ze sobą.",
+      "threads": []
+    },
+    {
+      "id": "frag-przelutowany-mostek",
+      "kind": "scene",
+      "content": "W sterowniku trzeciego pierścienia siedziała blokada, nie flagą, tylko fizycznie — przelutowanym mostkiem. Żeby nikt przez przypadek nie naprawił.",
+      "threads": []
+    },
+    {
+      "id": "frag-norma-na-polke",
+      "kind": "punchline",
+      "content": "Pierścień musi się obracać, żeby być pierścieniem cumowniczym. Bez obrotu jest półką. A na półki normy nie ma.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    }
+  ],
+  "sketch": "Ebner na drabinie wewnątrz bramy cumowniczej na orbicie Hoonu, mijając po drodze mech rosnący pod lampą w skrzynkach na nieruchomym trzecim pierścieniu."
 }
