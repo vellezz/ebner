@@ -28,16 +28,37 @@ def _weighted(rng: random.Random, options: list[dict], weights: dict[str, float]
     return rng.choices(options, weights=scaled, k=1)[0]
 
 
+# A thread can only be continued or resolved if its policy allows developing
+# it. `mention` and `do_not_touch` threads are not material for a continuation.
+DEVELOPABLE = {"develop", "may_return"}
+
+# Kinds that need something developable to exist.
+NEEDS_THREAD = {"continuation", "resolution"}
+
+
 def pick_kind(cfg: dict, world: dict, rng: random.Random) -> dict:
-    """Lean into what is already running rather than starting again."""
+    """Lean into what is already running — but only what may actually be run.
+
+    Drawing `continuation` when every open thread is `mention` sets the writer
+    an impossible task: develop this, but you may not develop it. It obeys the
+    kind, the consistency check blocks the result, and the day costs the price
+    of the prose for nothing. That happened before this existed.
+    """
+    developable = [
+        t for t in world.get("threads", []) if t.get("reference_policy") in DEVELOPABLE
+    ]
+    options = cfg["kind"]
+    if not developable:
+        options = [k for k in options if k["id"] not in NEEDS_THREAD]
+
     bias = cfg.get("kind_bias", {})
-    if world.get("threads_due_for_closure"):
+    if developable and world.get("threads_due_for_closure"):
         weights = bias.get("when_open_thread_due")
     elif not world.get("threads_active"):
         weights = bias.get("when_no_open_threads")
     else:
         weights = None
-    return _weighted(rng, cfg["kind"], weights)
+    return _weighted(rng, options, weights)
 
 
 def pick_day_step(cfg: dict, kind_id: str, rng: random.Random) -> int:
