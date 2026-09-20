@@ -1,0 +1,69 @@
+{
+  "day": 4,
+  "entities": [
+    {
+      "id": "komisja-hoonu",
+      "kind": "organisation",
+      "name": "Komisja ds. Bramie Cumowniczej Hoonu",
+      "summary": "Komisja, która zdecydowała o utrzymaniu trzeciego pierścienia w spoczynku."
+    }
+  ],
+  "facts": [
+    {
+      "id": "pierscien-3-blokada",
+      "op": "close",
+      "subject": "orbita-hoonu",
+      "valid_to": 4
+    },
+    {
+      "id": "pierscien-3-sprawny",
+      "op": "open",
+      "subject": "orbita-hoonu",
+      "valid_from": 4,
+      "valid_to": 4294967295
+    },
+    {
+      "id": "dlug-z-varnu-d4",
+      "op": "open",
+      "subject": "ebner-gripe",
+      "valid_from": 4,
+      "valid_to": 4294967295
+    },
+    {
+      "id": "zarobek-brama-hoonu",
+      "op": "open",
+      "subject": "ebner-gripe",
+      "valid_from": 4,
+      "valid_to": 4294967295
+    }
+  ],
+  "fragments": [
+    {
+      "id": "protokol-holdmark",
+      "kind": "punchline",
+      "content": "Holdmark miał wymienić sterownik synchronizacji. Wymienił. Tylko że synchronizacja trzech obracających się pierścieni jest robotą na tydzień, a synchronizacja dwóch obracających się z jednym stojącym jest robotą na popołudnie, bo zero jest bardzo stabilną prędkością.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "papier-vs-mostek",
+      "kind": "punchline",
+      "content": "Papier ma to do siebie, że można go zmienić w cztery minuty, a przelutowany mostek trzeba najpierw znaleźć."
+    },
+    {
+      "id": "scena-komisji",
+      "kind": "scene",
+      "content": "Przy stole siedzi komisja, Ebner odpowiada na pytania. Ktoś zapytał, czy pierścień musi się obracać. Ebner powiedział, że nie musi, ale wtedy nie jest pierścieniem cumowniczym, tylko półką. Wszyscy zaczęli zapisywać.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "opad-bechny-mech",
+      "kind": "world_description",
+      "content": "Przez pół roku ktoś dospawał do wewnętrznego kołnierza trójki dwie chłodnie, magazyn paliwa w beczkach, biuro celne Hoonu i siedem skrzynek z mchem pod lampą. Wszystko to stoi tam, bo nie wiruje. Beczek nie da się trzymać na pierścieniu, który się obraca, bo się układają. Mchu też."
+    }
+  ],
+  "sketch": "Ebner wspina się drabiną wewnątrz trzeciego pierścienia bramy cumowniczej Hoonu, mijając mech w doniczkach i beczki z paliwem zaparkowane pod jego nogami."
+}
