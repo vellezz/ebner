@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Entry from '../components/Entry.astro';
+
+// The home page is the most recent day in full. `day` is monotonic but not
+// consecutive, so "most recent" is the highest day, never a count.
+const entries = await getCollection('entries');
+const latest = entries.sort((a, b) => b.data.day - a.data.day)[0];
+const older = entries.sort((a, b) => b.data.day - a.data.day).slice(1, 9);
+---
+
+<Base title={latest ? latest.data.title : 'ebner.gripe'}>
+  {latest ? <Entry entry={latest} /> : <p>Brak wpisów.</p>}
+
+  {
+    older.length > 0 && (
+      <nav class="earlier">
+        <h2 class="readout">Wcześniej</h2>
+        <ul>
+          {older.map((entry) => (
+            <li>
+              <a href={`/dzien/${entry.data.day}`}>
+                <span class="n">{String(entry.data.day).padStart(3, '0')}</span>
+                <span class="t">{entry.data.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
+</Base>
+
+<style>
+  .earlier {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--ln);
+    max-width: var(--measure);
+  }
+
+  .earlier h2 {
+    margin: 0 0 12px;
+    color: var(--ls);
+  }
+
+  .earlier ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .earlier li + li {
+    border-top: 1px solid var(--sp);
+  }
+
+  .earlier a {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 10px 0;
+  }
+
+  .n {
+    font-family: var(--font-mono);
+    color: var(--wt);
+    font-size: 14px;
+  }
+
+  .t {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+  }
+</style>

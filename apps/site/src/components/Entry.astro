@@ -1,0 +1,125 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'entries'>;
+  headingLevel?: 'h1' | 'h2';
+}
+
+const { entry, headingLevel = 'h1' } = Astro.props;
+const { Content } = await render(entry);
+const { day, title, location, kind, threads } = entry.data;
+
+// Reader-facing labels are Polish; the stored values stay English.
+const KIND_LABEL: Record<string, string> = {
+  travel: 'podróż',
+  new_job: 'nowe zlecenie',
+  continuation: 'ciąg dalszy',
+  resolution: 'rozstrzygnięcie',
+  adventure: 'przygoda',
+  quiet: 'cisza',
+  note: 'notatka',
+  documents: 'dokumenty',
+  stopover: 'postój',
+};
+
+const Heading = headingLevel;
+const dayLabel = String(day).padStart(3, '0');
+---
+
+<article class="entry">
+  <div class="meta">
+    <span class="day">{dayLabel}</span>
+    <span class="readout facts">
+      {KIND_LABEL[kind] ?? kind} &middot; {location.replace(/-/g, ' ')}
+    </span>
+  </div>
+
+  <Heading class="title">
+    <a href={`/dzien/${day}`}>{title}</a>
+  </Heading>
+
+  {
+    threads.length > 0 && (
+      <ul class="threads readout">
+        {threads.map((t) => (
+          <li>{t.replace(/-/g, ' ')}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  <div class="body">
+    <Content />
+  </div>
+</article>
+
+<style>
+  .entry {
+    max-width: var(--measure);
+  }
+
+  .meta {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+
+  /* Recessed counter reading — the design's dominant device. */
+  .day {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 1;
+    color: var(--wt);
+    background: var(--wb);
+    border: 1px solid var(--wl);
+    border-radius: 2px;
+    padding: 6px 12px;
+  }
+
+  .facts {
+    color: var(--ls);
+  }
+
+  .title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 5vw, 40px);
+    line-height: 1.12;
+    letter-spacing: 0.01em;
+    margin: 14px 0 0;
+  }
+
+  .threads {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 16px 0 0;
+    padding: 0;
+  }
+
+  .threads li {
+    border: 1px solid var(--wl);
+    background: var(--pl);
+    color: var(--f2);
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+
+  .body {
+    margin-top: 28px;
+  }
+
+  .body :global(p) {
+    margin: 0 0 1.1em;
+  }
+
+  .body :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--sp);
+    margin: 2em 0;
+  }
+</style>

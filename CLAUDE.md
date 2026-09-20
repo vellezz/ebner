@@ -8,7 +8,7 @@ This is not a production system. The owner reads every entry; a missing entry is
 
 **Fully autonomous.** Nothing in the daily loop waits on a person. Entries publish without review, and no asset — sketch, document or anything else — is ever supplied by hand. A step that needs a human is the wrong step.
 
-The whole stack is **serverless and free-tier**: GitHub (repo, Actions) + Cloudflare (Pages, D1, Vectorize, Workers AI, R2). The only paid items are LLM API usage and the domain.
+The whole stack is **serverless and free-tier**: GitHub (repo, Actions) + Cloudflare (Workers, D1, Vectorize, Workers AI, R2). The only paid items are LLM API usage and the domain.
 
 ## Language rules (strict)
 
@@ -31,7 +31,7 @@ Do not add any of these unless explicitly asked:
 |---|---|
 | Source of truth for content and code | Public GitHub monorepo |
 | Scheduler and pipeline runtime | GitHub Actions (Python) |
-| Site | Astro + MDX on Cloudflare Pages at `ebner.gripe` |
+| Site | Astro + MDX, deployed as a static assets-only Cloudflare Worker at `ebner.gripe` |
 | Search | Pagefind index generated at build time, runs in the browser |
 | World state | Cloudflare D1 (managed SQLite), accessed via Cloudflare API. A **projection** of `content/state/`, never a source of truth |
 | Vector search | Cloudflare Vectorize, index `ebner-fragments`, 1024 dims, cosine |
@@ -39,10 +39,21 @@ Do not add any of these unless explicitly asked:
 | Media | R2 bucket `ebner-media`, native custom domain `media.ebner.gripe` |
 | Backups | R2 bucket `ebner-backups` (private): weekly D1 exports. Convenience only — the real backup is git |
 | Domain and DNS | `ebner.gripe`, Cloudflare Registrar, DNS in Cloudflare |
-| IaC | OpenTofu with the Cloudflare provider; `infra/bootstrap.sh` (wrangler) only for resources the provider does not support |
+| IaC | OpenTofu with the Cloudflare provider; `infra/bootstrap.sh` (wrangler) only for resources the provider does not support. Ownership boundary below |
 | LLM gateway | LiteLLM used as a Python library (no proxy server); per-step model routing from one config file |
 | Secrets | GitHub Actions secrets (Cloudflare API token scoped to this account's resources, Anthropic key, OpenRouter key) |
 | Logs | GitHub Actions run logs |
+
+## Infrastructure ownership
+
+Two tools can change Cloudflare state, so the boundary is fixed here rather than discovered later:
+
+- **`apps/site/wrangler.jsonc` owns the site Worker** — its assets, its routes, and the `ebner.gripe` custom domain. Attaching that domain also creates the zone's DNS record for it.
+- **OpenTofu (`infra/tofu/`) owns everything else** — R2 buckets and the media custom domain, D1, and any DNS record the Worker binding does not create.
+
+OpenTofu must not manage the `ebner.gripe` record. The Worker binding creates it, and two owners of one record is exactly the drift this document spends the rest of its length avoiding.
+
+OpenTofu authenticates with an **API token**, not with wrangler's OAuth session, so `infra/tofu/` needs its own credential in a gitignored `*.auto.tfvars`. Anything created imperatively before the tofu configuration exists — as the site Worker and its domain were — is brought under management with `tofu import`, never by deleting and recreating it.
 
 ## Model routing (`apps/generator/config/models.yaml`)
 
@@ -86,14 +97,14 @@ ebner/
 ├── samples/               # reference sample weeks
 ├── db/migrations/         # plain SQL migrations for D1 (applied with wrangler)
 ├── infra/
-│   ├── tofu/              # Cloudflare: DNS, R2, R2 custom domain, D1, Pages
+│   ├── tofu/              # Cloudflare: R2, R2 custom domain, D1 — not the site Worker
 │   └── bootstrap.sh       # wrangler: Vectorize index and anything tofu can't manage
 └── CLAUDE.md
 ```
 
 ## Entry format
 
-Each entry is a Markdown file with frontmatter (English keys). The schema lives in exactly one place — `content/schema/entry.schema.json`. The generator validates against it as a guard *before opening the PR*, and the Astro content collection builds its schema from the same file. Neither side hand-maintains a second copy of the `kind` enum: a drifted enum would otherwise pass review, land in `main`, and only then break the Pages build, with the entry already in the canon.
+Each entry is a Markdown file with frontmatter (English keys). The schema lives in exactly one place — `content/schema/entry.schema.json`. The generator validates against it as a guard *before opening the PR*, and the Astro content collection builds its schema from the same file. Neither side hand-maintains a second copy of the `kind` enum: a drifted enum would otherwise pass unnoticed, land in `main`, and only then break the site build, with the entry already in the canon.
 
 ```yaml
 ---
@@ -162,9 +173,13 @@ Same concurrency group. Applies the merged state file to D1 in one transaction, 
 
 A state file with no matching entry is a supported case, not an error — `0000.json` (the seed) and `NNNN_review.json` (thread reviews) both take this path. Only fragment-splitting is skipped; everything else applies unchanged.
 
-### Cloudflare Pages
+### Site deploy (`wrangler deploy` from Actions)
 
-Builds the Astro site on every push to `main` (Git integration) and generates the Pagefind index during the build. The site never talks to D1 or Vectorize.
+Cloudflare Pages was absorbed into Cloudflare Workers, and the Git integration went with it — `wrangler pages project create` now delegates to the Workers implementation. The site is therefore a **static assets-only Worker**: no `main`, no server code, just the Astro output from `apps/site/dist`.
+
+Configuration lives in `apps/site/wrangler.jsonc`, including the `ebner.gripe` custom domain binding. GitHub Actions builds the site and runs `wrangler deploy`, so the Node version, pnpm, the Pagefind index and the map build all stay under our control instead of Cloudflare's build image. Requires Node 22 or newer (`.node-version`), which is what wrangler 4 demands.
+
+The site never talks to D1 or Vectorize: it builds everything it needs from `content/`.
 
 ### `review-threads.yml` (weekly)
 
@@ -188,7 +203,7 @@ Publication is automatic and unattended, so the ability to take something down a
 
 To remove entry `NNNN`:
 
-1. Delete `content/entries/NNNN.md` and `content/state/NNNN.json` on `main`. Pages rebuilds and the entry leaves the site immediately.
+1. Delete `content/entries/NNNN.md` and `content/state/NNNN.json` on `main`. The next deploy rebuilds without it and the entry leaves the site.
 2. Run `rebuild-state.yml`. D1 and Vectorize are rebuilt from what remains, so world state no longer holds anything that entry introduced — threads it opened, facts it recorded, places it named.
 
 **The rebuild is self-checking.** If a later entry depends on what was removed — it continues a thread that no longer opens, or departs from a place that no longer exists — replay fails that entry's guards and names it. A silent half-removal is not possible, which is the property that makes this trustworthy enough to rely on.
@@ -280,9 +295,9 @@ What guards explicitly do **not** cover: travel times, ship parameters and other
 ## Build order
 
 0. World canon: `content/state/0000.json` (seed entities, facts and world fragments) and `prompts/diary_pl.md`.
-1. Repository skeleton, OpenTofu (DNS, R2, D1, Pages), `bootstrap.sh` (Vectorize), D1 migrations.
+1. Repository skeleton, OpenTofu (R2, D1), `bootstrap.sh` (Vectorize), D1 migrations.
 2. Generator runs locally and writes an entry + state file.
-3. `generate.yml` with bot PRs; Astro site on Pages.
+3. `generate.yml` with bot PRs; Astro site deployed as a Worker from Actions.
 4. `apply-state.yml`: state into D1, fragments into Vectorize; retrieval, thread discipline, geography and travel continuity. `rebuild-state.yml` is the same machinery run across every state file, so it arrives with it.
 5. Pagefind search on the site.
 6. Travel map on the site: a graph of `travel` edges laid out client-side, with no durations.

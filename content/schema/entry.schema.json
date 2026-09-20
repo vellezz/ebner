@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ebner.gripe/schema/entry.schema.json",
+  "title": "Diary entry frontmatter",
+  "description": "Single source of truth for entry frontmatter. The generator validates against this file as a guard before opening a PR; the Astro content collection validates against the same file at build time. Neither side keeps a second copy of these rules.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["day", "title", "location", "kind", "threads", "image"],
+  "properties": {
+    "day": {
+      "description": "Ebner's in-world day count. Strictly increasing across entries, but not consecutive: gaps are normal.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "title": {
+      "description": "Polish. Conventionally \"Dzien N. Miejsce\".",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "location": {
+      "description": "Entity id of the place where the entry ends. References entities.id.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "kind": {
+      "description": "Entry kind. Picked by the randomiser; quiet covers days when nothing happened.",
+      "type": "string",
+      "enum": [
+        "travel",
+        "new_job",
+        "continuation",
+        "resolution",
+        "adventure",
+        "quiet",
+        "note",
+        "documents",
+        "stopover"
+      ]
+    },
+    "threads": {
+      "description": "Thread ids this entry touches. Shown to the reader as \"sprawy\".",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "uniqueItems": true
+    },
+    "image": {
+      "description": "R2 object key of the sketch, or null when the entry has none.",
+      "type": ["string", "null"]
+    }
+  }
+}

@@ -1,0 +1,88 @@
+---
+import '../styles/tokens.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;1,400&family=Archivo+Narrow:wght@500;600;700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="masthead">
+        <a href="/" class="mark">ebner.gripe</a>
+        <span class="readout stamp">Ebner Gripe &middot; usługi ogólne &middot; jedn. Hanna</span>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="footer readout">Dziennik roboczy</footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  .shell {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 28px 0 20px;
+    border-bottom: 1px solid var(--ln);
+  }
+
+  .mark {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+  }
+
+  /* Label tape, not a stamp — the design's own device for identity marks. */
+  .stamp {
+    background: var(--ts);
+    color: var(--tf);
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  main {
+    flex: 1;
+    padding: 40px 0 72px;
+  }
+
+  .footer {
+    border-top: 1px solid var(--sp);
+    padding: 20px 0 32px;
+    color: var(--ls);
+  }
+</style>

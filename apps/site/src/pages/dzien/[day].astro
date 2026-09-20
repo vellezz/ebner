@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Entry from '../../components/Entry.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('entries');
+  const byDay = [...entries].sort((a, b) => a.data.day - b.data.day);
+
+  // Neighbours are the adjacent *entries*, not day ± 1 — days are not
+  // consecutive, so arithmetic on the day number would point at nothing.
+  return byDay.map((entry, i) => ({
+    params: { day: String(entry.data.day) },
+    props: {
+      entry,
+      previous: byDay[i - 1] ?? null,
+      next: byDay[i + 1] ?? null,
+    },
+  }));
+}
+
+const { entry, previous, next } = Astro.props;
+---
+
+<Base title={entry.data.title}>
+  <Entry entry={entry} />
+
+  <nav class="neighbours readout">
+    {previous ? <a href={`/dzien/${previous.data.day}`}>&larr; {previous.data.title}</a> : <span />}
+    {next ? <a href={`/dzien/${next.data.day}`}>{next.data.title} &rarr;</a> : <span />}
+  </nav>
+</Base>
+
+<style>
+  .neighbours {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--ln);
+    max-width: var(--measure);
+    color: var(--f2);
+  }
+</style>

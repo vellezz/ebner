@@ -1,0 +1,85 @@
+/*
+ * Design tokens.
+ *
+ * Token names and day values are taken verbatim from the design project
+ * "Trzy kierunki wpisu Ebner" (Ebner - projekt.dc.html), so the code and the
+ * design share one vocabulary. Their semantics are inferred from usage — the
+ * design carries no legend.
+ *
+ * The night palette is applied at runtime by the design's own Tweaks panel and
+ * is not literal in that file, so the dark block below is deliberately left
+ * unfilled rather than invented. Fill it from the design before enabling.
+ */
+
+:root {
+  color-scheme: light;
+
+  --bg: #d3d0c8; /* page ground */
+  --fg: #1e1d1a; /* primary text */
+  --f2: #4b4944; /* secondary text — the most used token in the design */
+  --ln: #6f6d66; /* rules and gauge lines */
+  --ls: #9c998f; /* muted labels */
+  --sp: #c8c5bc; /* separators */
+  --wb: #e6e4dd; /* recessed well background */
+  --wl: #bbb8af; /* well edge */
+  --wt: #8e8b83; /* well text */
+  --pl: #dedbd4; /* plate light */
+  --pf: #d3d0c8; /* plate fill */
+  --p2: #9a978f; /* plate secondary */
+  --ts: #3a3935; /* label tape ground */
+  --tf: #edebe5; /* label tape text */
+  --ac: #8f4520; /* rust accent — the only warm colour in the system */
+
+  --font-body: 'Archivo', system-ui, -apple-system, sans-serif;
+  --font-display: 'Archivo Narrow', 'Archivo', system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  --measure: 66ch;
+  --gutter: clamp(20px, 5vw, 56px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 19px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Small uppercase monospace label — the design's recurring "readout" device. */
+.readout {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--f2);
+}

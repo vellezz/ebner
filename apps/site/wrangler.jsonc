@@ -1,0 +1,16 @@
+{
+  // Cloudflare Pages is now part of Cloudflare Workers: `wrangler pages project
+  // create` delegates to this shape and fails without it. This is a static
+  // assets-only Worker — no `main`, no server code, just the Astro output.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ebner",
+  "compatibility_date": "2026-09-20",
+  "assets": {
+    "directory": "./dist"
+  },
+  // The custom domain is declared here rather than clicked in the dashboard.
+  // Attaching it also creates the zone's DNS record for ebner.gripe, so
+  // OpenTofu must not manage that record — see CLAUDE.md, "Infrastructure
+  // ownership", for where the boundary runs.
+  "routes": [{ "pattern": "ebner.gripe", "custom_domain": true }]
+}
