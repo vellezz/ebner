@@ -107,25 +107,42 @@ def wait_for_site(day: int, *, timeout: int = 240) -> bool:
     decide what to say. Firing before the deploy lands would announce
     yesterday's entry with today's notification.
 
-    Every poll goes around the edge cache. Day 7 deployed in 31 seconds and
-    this function still declared the site behind four minutes later, because
-    Cloudflare kept answering the runner with the copy it already held. The
-    unique query string and the no-cache headers cost nothing and remove a
-    dependency on caching behaviour we neither control nor can observe.
+    Every poll goes around the edge cache and says who is asking. Day 7
+    deployed in 31 seconds and this function still declared the site behind
+    four minutes later, twice.
+
+    **Every attempt reports why it failed.** The first diagnosis of that
+    failure was wrong — the edge cache was serving hits, which was true and
+    irrelevant — and it was wrong because `except Exception: pass` threw away
+    the one piece of evidence that mattered. A loop that polls in silence can
+    only ever be guessed at.
     """
     deadline = time.time() + timeout
+    attempt = 0
     while time.time() < deadline:
+        attempt += 1
         try:
             request = urllib.request.Request(
                 f"https://ebner.gripe/api/latest.json?t={int(time.time() * 1000)}",
-                headers={"Cache-Control": "no-cache", "Pragma": "no-cache"},
+                headers={
+                    "Cache-Control": "no-cache",
+                    "Pragma": "no-cache",
+                    # A bare urllib User-Agent from a datacentre IP is the kind
+                    # of request a WAF is built to turn away.
+                    "User-Agent": "ebner-bot (+https://ebner.gripe)",
+                },
             )
             with urllib.request.urlopen(request, timeout=15) as response:
-                latest = json.loads(response.read().decode("utf-8"))
-            if latest and int(latest.get("day", -1)) >= day:
+                body = response.read().decode("utf-8")
+            latest = json.loads(body)
+            found = int(latest.get("day", -1)) if latest else -1
+            if found >= day:
                 return True
-        except Exception:
-            pass
+            print(f"  poll {attempt}: site reports day {found}, waiting for {day}")
+        except urllib.error.HTTPError as error:
+            print(f"  poll {attempt}: HTTP {error.code} {error.reason}")
+        except Exception as error:
+            print(f"  poll {attempt}: {type(error).__name__}: {error}")
         time.sleep(10)
     return False
 
