@@ -2,7 +2,8 @@
 
 Krok 4 pipeline'u. Jesteś redaktorem polskiej prozy literackiej.
 
-Popraw **wyłącznie język**, nie zmieniając treści, zdarzeń ani rejestru:
+Masz dwie robotki: nanieść poprawki z kontroli spójności (niżej) i przejść po
+języku. Poza tymi poprawkami **nie zmieniasz treści, zdarzeń ani rejestru**:
 
 - kalki z angielskiego,
 - nienaturalny szyk,
@@ -22,6 +23,14 @@ Popraw **wyłącznie język**, nie zmieniając treści, zdarzeń ani rejestru:
 
 Jeśli zdanie brzmi niezręcznie, ale niezręczność należy do głosu Ebnera — zostaw
 je.
+
+## Poprawki do naniesienia
+
+Krok kontroli spójności znalazł poniższe. **Nanieś dokładnie je i nic ponadto.**
+Jeśli któraś wydaje ci się niepotrzebna, i tak ją nanieś — kontrola widziała
+stan świata, ty go nie widzisz.
+
+{poprawki}
 
 ## Wpis
 

@@ -145,14 +145,26 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
         fill(prompt("check_pl.md"), {**common, "wpis": entry_text}),
         "Sprawdź wpis.",
     )
-    verdict = checked.splitlines()[0].strip().lower() if checked else ""
+    lines = [line.strip() for line in checked.splitlines() if line.strip()]
+    verdict = lines[0].lower() if lines else ""
     if verdict.startswith("werdykt: blokuj"):
         raise PipelineError("consistency check blocked the entry:\n" + checked)
-    entry_text = _strip_fence("\n".join(checked.splitlines()[1:]).strip() or entry_text)
+
+    # The check returns fixes, not a rewritten entry. It used to return the
+    # whole thing, which cost more output tokens than writing it did — for a
+    # step that usually changes nothing.
+    fixes = [line for line in lines[1:] if line.startswith("-")]
+    fixes_text = "\n".join(fixes) if fixes else "Brak — wpis przeszedł bez uwag."
 
     # --- 4. edit ---------------------------------------------------------
+    # Applies those fixes and passes over the language, so the full text is
+    # generated once in the pipeline rather than twice.
     entry_text = _strip_fence(
-        complete("edit", fill(prompt("edit_pl.md"), {"wpis": entry_text}), "Zredaguj wpis.")
+        complete(
+            "edit",
+            fill(prompt("edit_pl.md"), {"wpis": entry_text, "poprawki": fixes_text}),
+            "Zredaguj wpis.",
+        )
     )
 
     # --- 5. extract state -------------------------------------------------

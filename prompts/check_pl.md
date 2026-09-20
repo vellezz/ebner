@@ -36,6 +36,18 @@ Wypisz każde miejsce, w którym:
   Tydzień i miesiąc nie istnieją w tym świecie; czas liczy się dniami, a
   odwołania idą przez zdarzenia: „wczoraj", „kiedy przyleciałem".
 
+## Nie przepisujesz wpisu
+
+Zwracasz **listę poprawek**, nie poprawiony tekst. Nakłada je następny krok.
+
+Powód jest mierzalny: przepisywanie całego wpisu kosztowało tu więcej tokenów
+wyjścia niż samo jego napisanie — przy kroku, który najczęściej niczego nie
+zmienia. Lista poprawek kosztuje kilkadziesiąt tokenów i przy okazji odbiera
+pokusę, żeby „przy okazji" poprawić zdanie, które było w porządku.
+
+Każda poprawka ma być **wykonalna bez zgadywania**: co dokładnie zamienić i na
+co. Nie „doprecyzuj chronologię", tylko „zamień «od czwartku» na «od wczoraj»".
+
 ## Jak rozstrzygasz
 
 Rozdziel dwie rzeczy, bo mają różne konsekwencje:
@@ -70,10 +82,17 @@ niczego nie kupuje.
 
 ## Format odpowiedzi
 
-Najpierw linia werdyktu: `WERDYKT: ok` albo `WERDYKT: blokuj`.
+Pierwsza linia to werdykt: `WERDYKT: ok` albo `WERDYKT: blokuj`.
 
-Przy `blokuj` — pod spodem lista twardych sprzeczności, każda w jednej linii, i
-nic więcej.
+Przy `blokuj` — pod spodem lista twardych sprzeczności, każda w jednej linii
+zaczynającej się od `- `, i nic więcej.
 
-Przy `ok` — pod spodem pełny poprawiony wpis wraz z frontmatterem, bez
-komentarza. Jeśli nic nie wymagało poprawki, zwróć wpis bez zmian.
+Przy `ok` — pod spodem lista poprawek do naniesienia, każda w jednej linii
+zaczynającej się od `- `. Jeśli wpis nie wymaga żadnej, napisz dokładnie:
+
+```
+WERDYKT: ok
+BEZ POPRAWEK
+```
+
+Nigdy nie zwracaj treści wpisu.
