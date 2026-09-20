@@ -1,0 +1,96 @@
+{
+  "day": 18,
+  "threads": [
+    {
+      "id": "nowe-zlecenie-glosowanie",
+      "op": "update",
+      "status": "active",
+      "summary": "Naprawienie systemu powietrznego w trzecim pierścieniu stacji głosowania poprzez rozdzielenie sprawy na odrębne sprawy techniczne i finansowe; Ebner przeprowadził procedurę głosowania na trzy sprawy (pomiar, weryfikacja lotu, zatwierdzenie kosztów), a system stacji oddał głos w każdej, przechodzą zwagą jednego głosu."
+    },
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "status": "active",
+      "summary": "Przyszedł rachunek z Varnu, znowu wyższy niż poprzednio, bez wyjaśnienia; Ebner odpisał, że zapłaci w przyszłym tygodniu, jak robi od lat."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "ebner-komunikat-systemu",
+      "kind": "general",
+      "content": "System stacji wysłał do Ebnera czterysta osiemdziesiąt trzy komunikaty o przekroczeniu stężenia dwutlenku węgla w pierścieniu trzecim z czterech lat i dwóch miesięcy, wszystkie przyjęte do wiadomości ale żadne nie potwierdzone, oraz pytanie o linię podziału sprawy.",
+      "subject": "ebner-gripe",
+      "valid_from": 18
+    },
+    {
+      "id": "ebner-odpowiedz-procedura",
+      "kind": "general",
+      "content": "Ebner wysłał odpowiedź do systemu stacji w formie ramy procedury, rozdzielając siedem aspektów usterki na sprawy mechaniczne, elektryczne i lutownicze, oraz dodatkowe zdanie że wniosek dotyczy drożności rury, nie ludzkiego oddechu.",
+      "subject": "ebner-gripe",
+      "valid_from": 18
+    },
+    {
+      "id": "system-wnioski-rozdzielone",
+      "kind": "general",
+      "content": "System stacji wniósł trzy odrębne sprawy: pomiar ciśnienia różnicowego na kolumnie drugiej (sprawa mechaniczna), weryfikacja połączeń lutowanych w torze pomiarowym (sprawa lutownicza), zatwierdzenie kosztów faktury (sprawa finansowa), i oddał swój głos we wszystkich trzech.",
+      "subject": "system-stacji",
+      "valid_from": 18
+    },
+    {
+      "id": "ebner-pozycja-czwarta-zatwierdzona",
+      "kind": "general",
+      "content": "Pozycja czwarta faktury za sześćdziesiąt jednostek »rozdzielenie sprawy na dwie odrębne sprawy« przeszła głosowaniem przewagą jednego głosu, tym głosem było głosowanie systemu stacji.",
+      "subject": "ebner-gripe",
+      "valid_from": 18
+    },
+    {
+      "id": "ebner-potwierdzenia-odbioru",
+      "kind": "general",
+      "content": "Ebner wysłał czterysta osiemdziesiąt trzy potwierdzenia odbioru, po jednym na każde zgłoszenie systemu stacji z czterech lat i dwóch miesięcy; boja policzyła to jako jedną transmisję o bardzo wysokim stopniu kompresji.",
+      "subject": "ebner-gripe",
+      "valid_from": 18
+    },
+    {
+      "id": "hanna-obieg-drugi-stabilny",
+      "kind": "general",
+      "content": "Po podnieseniu reaktora do pełnej mocy dla transmisji obieg drugi kapie, ale kapanie stabilizuje się na poziomie, który pozwala pracować bez pełnej wymiany; reaktor powrócił na jałowy po transmisji.",
+      "subject": "hanna",
+      "valid_from": 18
+    }
+  ],
+  "fragments": [
+    {
+      "id": "komunikat-systemu-cztery-lata",
+      "kind": "document",
+      "content": "Czterysta osiemdziesiąt trzy razy to samo: »STĘŻENIE DWUTLENKU WĘGLA W PIERŚCIENIU TRZECIM PRZEKRACZA WARTOŚĆ DOPUSZCZALNĄ. ZGŁOSZENIE.« Potem: »WSZYSTKIE ZOSTAŁY PRZYJĘTE DO WIADOMOŚCI. ŻADNE NIE ZOSTAŁO POTWIERDZONE. PYTANIE: GDZIE PRZEBIEGA LINIA PODZIAŁU SPRAWY.«",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "ebner-rama-procedury",
+      "kind": "document",
+      "content": "»SPRAWA X NIE JEST SPRAWĄ POWIETRZNĄ. SPRAWA X JEST SPRAWĄ MECHANICZNĄ.« — siedem razy, za X wstawiając po kolei: drożność kolumny, opór na wentylatorze wylotowym, ciśnienie różnicowe na wkładzie, stan łożyska, stan pierścienia uszczelniającego, przepalenie pochłaniacza, lut w torze pomiarowym.",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "sprawa-toru-pomiarowego",
+      "kind": "punchline",
+      "content": "»SPRAWA TORU POMIAROWEGO NIE JEST SPRAWĄ POMIARU. SPRAWA TORU POMIAROWEGO JEST SPRAWĄ LUTU. LUT NIE ODDYCHA. TY TEŻ NIE. JESTEŚCIE W TEJ SPRAWIE RÓWNI.«",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    },
+    {
+      "id": "ebner-uczenie-procedury",
+      "kind": "scene",
+      "content": "Pasażerka: »Uczysz maszynę kombinować.« Ebner: »Uczę maszynę procedury. Kombinuje ten, kto omija. Ona idzie prosto, tylko przez drzwi, których nikt nie oznaczył.« Pasażerka: »A różnica?« Ebner: »W tym, że moje drzwi są w ścianie nośnej i nikt ich nie zamuruje, bo się boją, że zawali się razem z nimi cała reszta.«",
+      "threads": [
+        "nowe-zlecenie-glosowanie"
+      ]
+    }
+  ],
+  "sketch": "Ebner przy otwartym reaktorze Hanny, z miską pod kołnierzem obiegu drugiego, obserwuje krople, które udowalniają się w miarę podwyższania ciśnienia."
+}
