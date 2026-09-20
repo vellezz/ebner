@@ -127,7 +127,7 @@ Each entry is a Markdown file with frontmatter (English keys). The schema lives 
 ```yaml
 ---
 day: 231
-title: "Dzień 231. Orbita Hoonu"
+title: "Dzień 231. Sprawa holu"   # names the day, not the coordinates
 location: orbita-hoonu   # entity id, not free text
 kind: travel            # travel | new_job | continuation | resolution | adventure | quiet | note | documents | stopover
 threads: [vell-archive, flower]
@@ -344,7 +344,8 @@ The look lives in the `claude.ai/design` project *Trzy kierunki wpisu Ebner* —
 
 ## Creative direction (summary; the prompt is authoritative)
 
-- Form: Ebner's personal work diary, first person, dated headers ("Dzień N. Miejsce").
+- Form: Ebner's personal work diary, first person, dated headers ("Dzień N. <what the day was>").
+- **The title names the day, not the place.** The place alone earns a title only when arriving is the event, which is usually its first entry. Ebner sits on one station for a week, and the first run of seven produced five entries called "Dzień N. Stacja głosowania" — on the index that reads as a bug rather than as a stay.
 - Science fiction first: space travel, adventure and concrete alien worlds are central.
 - **Most entries should be funny.** Grotesque and absurd is the foundation of the cycle, not a seasoning on top of it.
 - **Absurd must have logic**: a rule, custom or trait taken literally and followed to its end — never random oddity. Be bold with scale, and collide the cosmic with the clerical: courts, invoices, stamps, queues, instalments. It works best in dialogue, where someone answers something preposterous entirely seriously. Recurring absurdities should be allowed to grow.

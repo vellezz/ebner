@@ -27,6 +27,13 @@ POLICY_LABEL = {
 # rhythm.yaml world_growth.revisit_pressure.stale_after_days.
 STALE_AFTER_DAYS = 60
 
+# After this many in-world days untouched, a thread is due for closure whatever
+# else is recorded about it. Without this a thread with no planned length and
+# no cooldown can never come due — both terms of the test need a number to work
+# with, and the extractor supplies neither for most threads. One sat active and
+# untouched for twelve days with nothing ever raising it.
+IDLE_CEILING_DAYS = 20
+
 
 def _summary(remote: bool) -> dict:
     rows = query(
@@ -132,10 +139,15 @@ def load_world(*, remote: bool = True) -> dict:
         used = thread.get("reference_count") or 0
         idle = last_day - (thread.get("last_used_day") or thread["opened_day"])
         cooldown = thread.get("cooldown_days") or 0
-        # Past its planned length, or quiet for several times its cooldown:
-        # either way the next prompt should be told to close or abandon it.
+        # Past its planned length, quiet for several times its cooldown, or
+        # simply gone cold: any of the three and the next prompt should be told
+        # to close or abandon it. The third is not a refinement of the other
+        # two — it is the only one that fires for a thread that records neither
+        # a planned length nor a cooldown, which is most of them.
         thread["due_for_closure"] = bool(
-            (planned is not None and used >= planned) or (cooldown and idle > cooldown * 4)
+            (planned is not None and used >= planned)
+            or (cooldown and idle > cooldown * 4)
+            or idle > IDLE_CEILING_DAYS
         )
         thread["idle_days"] = idle
 

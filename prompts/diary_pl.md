@@ -225,7 +225,7 @@ wyjaśnień, bez bloku stanu.
 ```
 ---
 day: {dzien}
-title: "Dzień {dzien}. <Miejsce>"
+title: "Dzień {dzien}. <o czym jest ten dzień>"
 location: <identyfikator miejsca, małe litery, myślniki zamiast spacji>
 kind: {rodzaj}
 threads: [<identyfikatory wątków, których wpis naprawdę dotyka>]
@@ -241,3 +241,14 @@ we frontmatterze.
 `location` to identyfikator miejsca istniejącego w stanie świata albo miejsca,
 które ten wpis wprowadza. `threads` wymienia wyłącznie wątki, których wpis
 naprawdę dotyka — nie wszystkie otwarte.
+
+Tytuł nazywa **ten dzień**, nie współrzędne. Samo miejsce wystarczy tylko
+wtedy, gdy przybycie tam jest wydarzeniem — czyli zwykle przy pierwszym
+wpisie z danego miejsca. Ebner siedzi na jednej stacji tydzień, więc tytuł
+powtarzający nazwę stacji siedem razy nie mówi czytelnikowi niczego i na
+spisie dni wygląda jak usterka. Zobacz tytuły poprzednich wpisów wyżej i nie
+powtarzaj ostatniego.
+
+Dobrze: „Dzień 12. Sprawa holu", „Dzień 16. Co zbiera zbieracz",
+„Dzień 18. Czterysta osiemdziesiąt trzy potwierdzenia".
+Źle: „Dzień 12. Stacja głosowania", gdy poprzedni wpis też tak się nazywał.
