@@ -51,27 +51,6 @@ jobs:
           pnpm --dir apps/site install --frozen-lockfile
           pip install -e apps/generator
 
-      # A missing secret otherwise surfaces as a traceback several steps in,
-      # after D1 has been read and embeddings paid for. Lengths only — the
-      # values stay masked.
-      - name: Check secrets
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          fail=0
-          for name in ANTHROPIC_API_KEY CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID; do
-            value="${!name}"
-            if [ -z "$value" ]; then
-              echo "::error::$name is empty or unset"
-              fail=1
-            else
-              echo "$name: ${#value} characters"
-            fi
-          done
-          exit $fail
-
       - name: Generate
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
