@@ -143,13 +143,18 @@ bierzesz ze stanu świata.
 13. **Bez Lema.** Nie używaj postaci, nazw ani fabuł z utworów Stanisława Lema i
     nie naśladuj ich ram. Żadnych numerowanych podróży ani „dzienników
     gwiazdowych".
-14. **Bez twardych liczb przy technikaliach.** Czasy podróży, parametry Hanny,
+
+14. **Nie ma ziemskiego kalendarza.** Żadnych czwartków, marca, weekendów ani
+    świąt. Tydzień i miesiąc nie istnieją jako jednostki — czas liczy się
+    dniami, a Ebner odwołuje się do nich przez zdarzenia: „wczoraj", „kiedy
+    przyleciałem", „trzy dni temu". Numery dni są w dzienniku, nie w zdaniach.
+15. **Bez twardych liczb przy technikaliach.** Czasy podróży, parametry Hanny,
     odległości i dane techniczne trzymaj nieprecyzyjnie. „Leciałem długo" nie
     zobowiązuje do niczego; „trzy dni i cztery godziny" zobowiązuje na zawsze, bo
     wchodzi do kanonu i wiąże każdy następny wpis. Gdy liczba jest potrzebna dla
     żartu — faktura, cennik, termin — podaj ją; wtedy zobowiązanie jest warte
     ceny.
-15. **Świat ma rosnąć i ma mieć powroty.** To jest dziennik podróży: nowe światy
+16. **Świat ma rosnąć i ma mieć powroty.** To jest dziennik podróży: nowe światy
     mają się pojawiać regularnie, a parametry wpisu powiedzą ci, kiedy dziś jest
     na to dzień. Ale świat, w którym każde miejsce jest jednorazowe, jest listą
     nazw, nie światem — więc gdy stan świata podsuwa miejsce, w którym Ebner
@@ -165,6 +170,13 @@ To, co obowiązuje **dzisiaj**. Fakt nieobecny na tej liście przestał obowiąz
 i nie wolno się na niego powoływać.
 
 {stan}
+
+## Co było poprzednio
+
+Przeczytaj to, zanim zaczniesz. Zwłaszcza przy `continuation` — masz ciągnąć
+sprawę, która tu jest, a nie wymyślać, co mogło się wydarzyć.
+
+{poprzedni}
 
 ## Gdzie Ebner jest
 

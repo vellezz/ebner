@@ -1,0 +1,173 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { count } from '../../lib/plural';
+import { loadWorld } from '../../lib/world';
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  // Declared inside: Astro lifts getStaticPaths into its own module scope, so
+  // a const from this frontmatter is not in view when it runs.
+  const PER_PAGE = 100;
+
+  const entries = (await getCollection('entries')).sort((a, b) => b.data.day - a.data.day);
+
+  // Gaps are computed across the whole diary before paginating. Done per page
+  // they would vanish at every page boundary, which is exactly where a long
+  // silence is most likely to sit.
+  const rows = entries.map((entry, i) => ({
+    entry,
+    gap: entries[i + 1] ? entry.data.day - entries[i + 1].data.day : 0,
+  }));
+
+  return paginate(rows, {
+    pageSize: PER_PAGE,
+    props: {
+      total: entries.length,
+      places: new Set(entries.map((e) => e.data.location)).size,
+      lastDay: entries[0]?.data.day ?? 0,
+    },
+  });
+};
+
+interface Props {
+  page: Page<{ entry: any; gap: number }>;
+  total: number;
+  places: number;
+  lastDay: number;
+}
+
+const { page, total, places, lastDay } = Astro.props;
+const world = loadWorld();
+
+const KIND_LABEL: Record<string, string> = {
+  travel: 'podróż',
+  new_job: 'nowe zlecenie',
+  continuation: 'ciąg dalszy',
+  resolution: 'rozstrzygnięcie',
+  adventure: 'przygoda',
+  quiet: 'cisza',
+  note: 'notatka',
+  documents: 'dokumenty',
+  stopover: 'postój',
+};
+
+const placeName = (id: string) => world.entities.get(id)?.name ?? id.replace(/-/g, ' ');
+const title = page.currentPage === 1 ? 'Wszystkie dni' : `Wszystkie dni — ${page.currentPage}`;
+---
+
+<Base title={`${title} — ebner.gripe`} description="Spis wszystkich dni dziennika roboczego Ebnera Gripe.">
+  <header class="head">
+    <h1>Wszystkie dni</h1>
+    <p class="readout">
+      {count(total, 'wpis', 'wpisy', 'wpisów')} &middot;
+      {count(places, 'miejsce', 'miejsca', 'miejsc')} &middot;
+      do dnia {lastDay}
+      {page.lastPage > 1 && <> &middot; strona {page.currentPage} z {page.lastPage}</>}
+    </p>
+  </header>
+
+  <ol class="days">
+    {
+      page.data.map(({ entry, gap }) => (
+        <li>
+          <a href={`/dzien/${entry.data.day}`}>
+            <span class="n">{String(entry.data.day).padStart(4, '0')}</span>
+            <span class="body">
+              <span class="t">{entry.data.title}</span>
+              <span class="meta readout">
+                {KIND_LABEL[entry.data.kind] ?? entry.data.kind} &middot; {placeName(entry.data.location)}
+              </span>
+            </span>
+          </a>
+          {gap > 1 && <p class="gap readout">przerwa {count(gap - 1, 'dnia', 'dni', 'dni')}</p>}
+        </li>
+      ))
+    }
+  </ol>
+
+  {
+    page.lastPage > 1 && (
+      <nav class="pager readout">
+        {page.url.prev ? <a href={page.url.prev}>&larr; nowsze</a> : <span class="off">&larr; nowsze</span>}
+        <span>{page.currentPage} / {page.lastPage}</span>
+        {page.url.next ? <a href={page.url.next}>starsze &rarr;</a> : <span class="off">starsze &rarr;</span>}
+      </nav>
+    )
+  }
+</Base>
+
+<style>
+  .head {
+    max-width: var(--measure);
+    margin-bottom: 32px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 5vw, 40px);
+    margin: 0 0 6px;
+  }
+
+  .days {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: var(--measure);
+  }
+
+  .days a {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-top: 1px solid var(--sp);
+  }
+
+  .n {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--wt);
+    flex: none;
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .t {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+  }
+
+  .meta {
+    color: var(--ls);
+  }
+
+  /* The gap is the point, not a defect — label it rather than hide it. */
+  .gap {
+    margin: 0;
+    padding: 2px 0 2px 62px;
+    color: var(--p2);
+    font-size: 11px;
+  }
+
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: var(--measure);
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ln);
+    color: var(--f2);
+  }
+
+  .pager .off {
+    color: var(--p2);
+  }
+</style>

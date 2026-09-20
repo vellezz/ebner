@@ -27,8 +27,13 @@ planecie, planeta w układzie. Nie dodawaj bytu, który już istnieje w stanie
 wpis; ostatni kończy tam, gdzie `location` tego wpisu.
 
 **Sprawa, która się zaczyna, toczy albo kończy** → `threads`. Dług, spór,
-niedokończone zlecenie, powracający żart — wszystko to są wątki. Nowy wątek
-otwierasz tylko wtedy, gdy wpis naprawdę go zaczyna.
+niedokończone zlecenie, powracający żart — wszystko to są wątki.
+
+Sprawdź to osobno, bo najłatwiej tu przeoczyć: **jeśli wpis zajmuje się czymś,
+co ciągnie się dłużej niż jeden dzień, to jest wątek i trzeba go otworzyć.**
+Zlecenie rozpoznane wczoraj i wykonane dziś, spór, który będzie miał ciąg
+dalszy, usterka, do której Ebner wróci — wszystko to. Nie wystarczy, że wpis
+wspomni istniejący wątek; sprawa, o której wpis naprawdę jest, ma mieć własny.
 
 **Cokolwiek, co od teraz obowiązuje w świecie** → `facts_opened`. To jest
 najszerszy worek i celowo:

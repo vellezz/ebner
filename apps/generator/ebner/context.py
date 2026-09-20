@@ -76,6 +76,19 @@ def _facts(remote: bool) -> list[dict]:
     )
 
 
+def _previous(remote: bool) -> list[dict]:
+    """The last few entries, most recent first, the newest one in full.
+
+    Retrieval returns fragments, which are snippets chosen for similarity. They
+    are not a substitute for having read yesterday: an entry asked to continue
+    something it has never seen will invent the part it is missing.
+    """
+    return query(
+        "SELECT day, title, kind, body FROM entries ORDER BY day DESC LIMIT 4",
+        remote=remote,
+    )
+
+
 def _entities(remote: bool) -> list[dict]:
     return query(
         "SELECT id, kind, name, parent FROM entities ORDER BY kind, id",
@@ -125,6 +138,7 @@ def load_world(*, remote: bool = True) -> dict:
         "threads_due_for_closure": [t for t in threads if t["due_for_closure"]],
         "facts": _facts(remote),
         "entities": _entities(remote),
+        "previous": _previous(remote),
         "location": _location(remote),
         "places": _places(remote, last_day),
     }
@@ -215,6 +229,25 @@ def render_location(world: dict) -> str:
     where = " ← ".join(part["name"] for part in chain)
     summary = f"\n{here['summary']}" if here.get("summary") else ""
     return f"**{here['name']}** (`{here['id']}`)\n{where}{summary}"
+
+
+def render_previous(world: dict) -> str:
+    entries = world.get("previous") or []
+    if not entries:
+        return "Brak — to pierwszy wpis."
+
+    latest, earlier = entries[0], entries[1:]
+    lines = [
+        f"### Poprzedni wpis — dzień {latest['day']}: {latest['title']}",
+        "",
+        latest["body"].strip(),
+        "",
+    ]
+    if earlier:
+        lines.append("### Wcześniej")
+        for entry in earlier:
+            lines.append(f"- dzień {entry['day']}: {entry['title']} ({entry['kind']})")
+    return "\n".join(lines).strip()
 
 
 def render_places(world: dict) -> str:

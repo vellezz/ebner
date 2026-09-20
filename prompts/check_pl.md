@@ -31,7 +31,10 @@ Wypisz każde miejsce, w którym:
   świata, a model widzi je przy każdej generacji, więc ciąży ku nim;
 - wpis **podaje twardą liczbę** przy czasie podróży, parametrach Hanny albo
   odległości, w miejscu, gdzie nie służy to żartowi — każda taka liczba wiąże
-  wszystkie następne wpisy.
+  wszystkie następne wpisy;
+- wpis **używa ziemskiego kalendarza** — czwartek, marzec, weekend, święta.
+  Tydzień i miesiąc nie istnieją w tym świecie; czas liczy się dniami, a
+  odwołania idą przez zdarzenia: „wczoraj", „kiedy przyleciałem".
 
 ## Jak rozstrzygasz
 
@@ -48,6 +51,10 @@ zachowując treść i nastrój.
 
 Nie blokuj z powodów stylistycznych. Fałszywy alarm kosztuje cały dzień wpisu i
 niczego nie kupuje.
+
+## Co było poprzednio
+
+{poprzedni}
 
 ## Stan świata
 

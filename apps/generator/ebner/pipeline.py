@@ -25,6 +25,7 @@ from .context import (
     render_entities,
     render_location,
     render_places,
+    render_previous,
     render_state,
 )
 from .d1 import REPO
@@ -116,6 +117,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
 
     common = {
         "stan": render_state(world),
+        "poprzedni": render_previous(world),
         "miejsce": render_location(world),
         "zapomniane": render_places(world),
         "rag": render_recall(fragments),
