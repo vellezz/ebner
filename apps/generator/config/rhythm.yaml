@@ -1,0 +1,116 @@
+# Rhythm: what the randomiser picks before the writer runs.
+#
+# Polish values are literary content; keys and identifiers are English.
+
+# How far the in-world date advances from the previous entry.
+#
+# Publication is daily and unattended, so the MEAN here decides how fast the
+# world ages: a mean near 2 makes a year of publishing roughly two years of
+# Ebner's life. The cap stops a single bad roll; the mean stops slow drift,
+# which is the more dangerous of the two because no single entry looks wrong.
+day_step:
+  cap: 7
+  weights:
+    1: 55
+    2: 20
+    3: 11
+    4: 6
+    5: 4
+    6: 2
+    7: 2
+  # Longer hops belong to entries that are about being on the move.
+  allow_above_3_only_for: [travel, stopover]
+
+# Word counts, not paragraph counts — the writer reads these verbatim.
+length:
+  - id: note
+    weight: 20
+    words: [50, 200]
+    label: "notatka: kilka zdań, jedna obserwacja, jedno zdarzenie"
+  - id: medium
+    weight: 50
+    words: [300, 700]
+    label: "średni wpis"
+  - id: long
+    weight: 30
+    words: [900, 1600]
+    label: "długi wpis: sceny z dialogiem i konkretną robotą, nie streszczenia"
+
+# Entry kinds. Values must match the enum in content/schema/entry.schema.json.
+kind:
+  - id: travel
+    weight: 16
+    label: "dzień w drodze: podróż, przystanek, zdarzenie po drodze"
+  - id: new_job
+    weight: 14
+    label: "nowe zlecenie: przybycie, pierwsze rozpoznanie, klient"
+  - id: continuation
+    weight: 16
+    label: "ciąg dalszy sprawy w toku"
+  - id: resolution
+    weight: 10
+    label: "rozstrzygnięcie sprawy: udane, nieudane albo niejasne"
+  - id: adventure
+    weight: 10
+    label: "przygoda lub niebezpieczeństwo, niezwiązane ze zleceniem"
+  - id: note
+    weight: 10
+    label: "krótka notatka"
+  - id: documents
+    weight: 6
+    label: "wpis z dokumentów: faktura, spis wydatków, korespondencja, z krótkim komentarzem"
+  - id: stopover
+    weight: 10
+    label: "postój: naprawa Hanny, port, bar, spotkanie z kimś"
+  - id: quiet
+    weight: 8
+    label: "cisza: nic się nie wydarzyło — naprawił, zjadł, policzył, co zostało"
+
+# When something is already running, lean into it rather than starting again.
+kind_bias:
+  when_open_thread_due:
+    continuation: 2.0
+    resolution: 1.8
+  when_no_open_threads:
+    new_job: 2.0
+    travel: 1.4
+
+# Optional. The writer may ignore a hint that does not fit the world state.
+hints:
+  jobs:
+    - "brama tunelowa"
+    - "terraformer"
+    - "winda orbitalna"
+    - "reaktor"
+    - "stacja przeładunkowa"
+    - "system podtrzymywania życia"
+    - "SI habitatu"
+    - "maszyna obcych o nieznanej konstrukcji"
+    - "poprawka po Holdmark Serwis"
+    - "zjawisko egzotyczne: rozregulowana stała, zapowietrzony czas"  # rzadko
+  road:
+    - "sygnał ratunkowy z miejsca, gdzie nie powinno być statku"
+    - "wrak z ładunkiem, do którego ktoś rości sobie prawa"
+    - "pasażer na gapę"
+    - "kontrola celna według przepisów, których Ebner nie zna"
+    - "objazd przez nieznany układ"
+    - "awaria w próżni, daleko od portu"
+    - "spotkanie z podróżnym, który zna Ebnera z przeszłości"
+    - "planeta, której nie ma na mapach"
+  # To smuggle in, never to lecture. Weighted low on purpose.
+  themes:
+    - "sprawiedliwość a równość"
+    - "pamięć i tożsamość"
+    - "wolność a bezpieczeństwo"
+    - "prawda a dobro"
+    - "większość a racja"
+    - "porządek a życie"
+    - "posiadanie czasu"
+    - "odpowiedzialność za cudze obietnice"
+    - "granica między naprawą a zmianą"
+
+hint_probability:
+  jobs: 0.40
+  road: 0.35
+  themes: 0.10
+  none: 0.15

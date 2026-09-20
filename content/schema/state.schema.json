@@ -99,6 +99,12 @@
             "$ref": "#/$defs/slug"
           },
           "op": { "type": "string", "enum": ["open", "close"] },
+          "kind": {
+            "description": "world_rule marks the single rule a civilisation lives by — the one taken from a rational premise to its absurd end. Surfaced separately when assembling context so the writer does not contradict it. Everything else is general: the ship's condition, money, what someone owes, what a place is like.",
+            "type": "string",
+            "enum": ["general", "world_rule"],
+            "default": "general"
+          },
           "content": { "type": "string", "description": "Polish." },
           "subject": {
             "description": "Entity this fact is about.",

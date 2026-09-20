@@ -91,7 +91,10 @@ ebner/
 │   ├── state/             # 0000.json (seed), 0231.json (per entry), 0231_review.json (thread review)
 │   └── schema/            # entry.schema.json, state.schema.json — the two sources of truth
 ├── prompts/
-│   ├── diary_pl.md        # main writing prompt (Polish)
+│   ├── diary_pl.md        # step 2: writing (Polish)
+│   ├── check_pl.md        # step 3: logic and consistency, and the merge gate
+│   ├── edit_pl.md         # step 4: language edit
+│   ├── state_pl.md        # step 5: state extraction
 │   ├── style_samples/     # approved style samples
 │   └── edit_pairs/        # before/after pairs from human edits in PRs
 ├── samples/               # reference sample weeks
@@ -322,7 +325,13 @@ The look lives in the `claude.ai/design` project *Trzy kierunki wpisu Ebner* —
 
 - Form: Ebner's personal work diary, first person, dated headers ("Dzień N. Miejsce").
 - Science fiction first: space travel, adventure and concrete alien worlds are central.
-- Tone: grotesque and absurd with internal logic; deadpan dry reports, colloquial repairman's rants, rare quiet melancholy (at most every fifth entry). Quiet is not melancholy — most quiet entries are simply uneventful, not sad.
+- **Most entries should be funny.** Grotesque and absurd is the foundation of the cycle, not a seasoning on top of it.
+- **Absurd must have logic**: a rule, custom or trait taken literally and followed to its end — never random oddity. Be bold with scale, and collide the cosmic with the clerical: courts, invoices, stamps, queues, instalments. It works best in dialogue, where someone answers something preposterous entirely seriously. Recurring absurdities should be allowed to grow.
+- **Travel is a source of events, not an interlude**: breakdowns in vacuum, strange signals, customs, detours, wrecks, stowaways, places that are not on any map.
+- **Aliens are not humans in costume.** Give a world its physics, climate, gravity, day length, biology. Each civilisation lives by one rule that follows from a rational premise and is carried to its end — revealed through events and detail, never explained in a lecture.
+- **Danger is real.** Ebner can be afraid, hurt, lost, or out of money and equipment.
+- **A resolution never arrives by chance or from outside.** It follows from what Ebner did, or from the logic of the world.
+- Three registers, mixed freely: dry report, a tradesman's colloquial yarn, and — rarely — quiet melancholy. At most every fifth entry carries the third, and never as a punchline. Quiet is not melancholy: most quiet entries are simply uneventful, not sad.
 - Entries vary in kind and length; many are short; stories may span several days and need not resolve.
 - **Not every entry is an event.** `kind: quiet` exists for the days when nothing happened: a valve fixed, a meal, Hanna still knocking. That is the texture of an actual working life, and it is what makes the adventures land.
 - **Days are not consecutive.** The diary skips. A gap needs no apology and is frequently explanation enough by itself.
