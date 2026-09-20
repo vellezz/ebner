@@ -36,6 +36,59 @@ def _client():
     return anthropic.Anthropic()
 
 
+# Keywords structured outputs is known to accept. Everything else is dropped
+# from the copy sent to the API.
+#
+# The API rejects the schema outright for an unsupported keyword — `minimum` on
+# an integer was the first one found, and finding the rest by trial would cost
+# a full write, check and edit per attempt. So the model gets shape only:
+# what fields exist, what types they are, which are required, what the allowed
+# values are. Ranges, patterns and lengths are dropped, and nothing is lost by
+# it, because check-state.mjs validates the result against the complete schema
+# before anything is kept.
+_STRUCTURAL = {
+    "type", "properties", "required", "items", "enum", "const",
+    "description", "additionalProperties", "oneOf", "anyOf", "allOf",
+}
+
+
+def schema_for_api(schema: dict) -> dict:
+    """Reduce a JSON Schema to what structured outputs accepts.
+
+    $refs are inlined rather than passed through: our only one resolves to a
+    constrained string that reduces to a plain string anyway, and an unresolved
+    $ref would be one more way for the request to be rejected.
+    """
+    defs = schema.get("$defs", {})
+
+    def walk(node):
+        if isinstance(node, list):
+            return [walk(item) for item in node]
+        if not isinstance(node, dict):
+            return node
+
+        ref = node.get("$ref")
+        if isinstance(ref, str) and ref.startswith("#/$defs/"):
+            return walk(defs.get(ref.split("/")[-1], {}))
+
+        out = {}
+        for key, value in node.items():
+            if key == "properties":
+                out[key] = {name: walk(sub) for name, sub in value.items()}
+            elif key == "type" and isinstance(value, list):
+                # Union types are another plausible rejection and not worth a
+                # paid round trip to confirm. A nullable field is simply an
+                # optional one here: none of them are in `required`, so the
+                # model omits it instead of sending null.
+                concrete = [t for t in value if t != "null"]
+                out[key] = concrete[0] if concrete else "string"
+            elif key in _STRUCTURAL:
+                out[key] = walk(value)
+        return out
+
+    return walk({k: v for k, v in schema.items() if k != "$defs"})
+
+
 def step_config(step: str) -> dict:
     steps = load("models.yaml")["steps"]
     if step not in steps:
@@ -64,7 +117,10 @@ def complete(step: str, system: str, user: str, *, output_schema: dict | None = 
     if cfg.get("effort"):
         output_config["effort"] = cfg["effort"]
     if output_schema is not None:
-        output_config["format"] = {"type": "json_schema", "schema": output_schema}
+        output_config["format"] = {
+            "type": "json_schema",
+            "schema": schema_for_api(output_schema),
+        }
     if output_config:
         kwargs["output_config"] = output_config
 

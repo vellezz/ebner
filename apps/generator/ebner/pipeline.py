@@ -103,17 +103,26 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     )
 
     # --- 5. extract state -------------------------------------------------
+    # The prose is finished and paid for by this point. If extraction fails,
+    # the entry goes into the error rather than evaporating with the
+    # traceback — a failed run should not also destroy the expensive part.
     schema = json.loads((SCHEMA_DIR / "state.schema.json").read_text(encoding="utf-8"))
-    state_text = complete(
-        "state",
-        fill(
-            prompt("state_pl.md"),
-            {"stan": common["stan"], "wpis": entry_text, "schema": json.dumps(schema, ensure_ascii=False, indent=2)},
-        ),
-        "Wyciągnij stan.",
-        output_schema=schema,
-    )
-    state = json.loads(_strip_fence(state_text))
+    try:
+        state_text = complete(
+            "state",
+            fill(
+                prompt("state_pl.md"),
+                {"stan": common["stan"], "wpis": entry_text, "schema": json.dumps(schema, ensure_ascii=False, indent=2)},
+            ),
+            "Wyciągnij stan.",
+            output_schema=schema,
+        )
+        state = json.loads(_strip_fence(state_text))
+    except Exception as error:
+        raise PipelineError(
+            f"state extraction failed: {error}\n\n"
+            f"--- the entry was written, and is not lost ---\n{entry_text}"
+        ) from error
     state["day"] = params["day"]
 
     return {"params": params, "entry": entry_text, "state": state}
