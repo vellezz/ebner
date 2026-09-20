@@ -131,6 +131,14 @@ for (const f of readdirSync(stateDir).filter((n) => n.endsWith('.json')).sort())
         problems.push(
           `${f}: last hop arrives at ${hops[hops.length - 1].to}, but the entry location is ${entry.location}`,
         );
+    } else if (prevLocation && entry.location !== prevLocation) {
+      // Being somewhere else is movement, and movement is what `travel` is
+      // for. Checking continuity only when hops exist left the gap this closes:
+      // day 7 docked at a station and recorded no hop, so day 9 simply was
+      // there, and the record of how he got off the route did not exist.
+      problems.push(
+        `${f}: entry is at ${entry.location} after ${prevLocation}, with no travel recorded`,
+      );
     }
     for (const t of entry.threads ?? []) {
       if (!knownThreads.has(t)) problems.push(`${f}: frontmatter references unknown thread ${t}`);

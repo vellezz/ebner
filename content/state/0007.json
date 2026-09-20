@@ -9,6 +9,13 @@
       "summary": "Stacja z trzema pierścieniami roboczymi i przeładunkiem, czterdziestu siedmiu ludzi na pokładzie, gdzie decyzje o serwisie podejmowane są głosowaniem."
     }
   ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "szlak-za-hoonem",
+      "to": "stacja-glosowania"
+    }
+  ],
   "threads": [
     {
       "id": "nowe-zlecenie-glosowanie",
