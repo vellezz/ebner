@@ -77,7 +77,7 @@ Changing a model must be a one-line config change. Pin exact model IDs — `clau
 ```
 ebner/
 ├── .github/workflows/
-│   ├── generate.yml       # daily: write entry, open PR
+│   ├── generate.yml       # daily: write entry, commit to main
 │   ├── apply-state.yml    # on merge to main: apply state to D1 + Vectorize
 │   ├── review-threads.yml # weekly: thread review PR
 │   ├── backup.yml         # weekly: D1 export to R2
@@ -124,7 +124,7 @@ MDX components available in entries: `<Sketch>` (renders `srcset` from R2 varian
 
 The state change for each entry lives next to it in `content/state/NNNN.json`, validated against `content/schema/state.schema.json` — a file, for the same reason the frontmatter schema is one. The generator emits against it and `apply-state.yml` reads against it; the writing prompt describes the shape but does not define it.
 
-A state file carries only the **delta**: entities introduced, hops travelled, thread operations, facts opened or closed, fragments to index. The entry row itself is derived from the Markdown file and never restated. It travels in the same pull request as the text, so the two are always reviewable — and amendable — together, on the occasions the owner chooses to look.
+A state file carries only the **delta**: entities introduced, hops travelled, thread operations, facts opened or closed, fragments to index. The entry row itself is derived from the Markdown file and never restated. It is committed together with the text, so the two never drift apart and a single revert takes both.
 
 ## Cold start
 
@@ -162,7 +162,7 @@ Because no unmerged entry can exist when a run starts, the previous entry is alw
 4. **Language edit** (Polish prose only; keeps colloquial register where intended).
 5. **Extract state** into `content/state/NNNN.json`.
 6. **Sketch** (optional): if the state defines `sketch`, generate the image, create WebP/AVIF variants in several widths, upload to `ebner-media` with content-hash names, set `image` in frontmatter.
-7. **Open a pull request** as a bot with the entry and its state file. Nothing is written to D1 or Vectorize at this point.
+7. **Guard, then commit** the entry and its state file to `main` as the bot. Nothing is written to D1 or Vectorize at this point — the push triggers `apply-state.yml`, which does that.
 
 **No pull request.** The guards run inside the generator — `save` writes both files, runs the state guard across the whole corpus, and deletes both again if it refuses — so by the time anything could be proposed for merge it has already passed. A pull request would add a gate with nothing left to gate.
 
