@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { count } from '../lib/plural';
+import { CLOSURE_LABEL, STATUS_LABEL, loadWorld } from '../lib/world';
+
+const world = loadWorld();
+const entries = await getCollection('entries');
+
+// Which entries touched which thread comes from the frontmatter, which is
+// authoritative: an entry can touch a thread without producing a fragment.
+for (const entry of entries) {
+  for (const id of entry.data.threads) {
+    world.threads.get(id)?.days.push(entry.data.day);
+  }
+}
+
+const all = [...world.threads.values()].map((t) => ({
+  ...t,
+  days: [...t.days].sort((a, b) => a - b),
+}));
+
+const order: Record<string, number> = { active: 0, dormant: 1, closed: 2 };
+all.sort((a, b) => (order[a.status] ?? 3) - (order[b.status] ?? 3) || a.openedDay - b.openedDay);
+
+const counts = {
+  active: all.filter((t) => t.status === 'active').length,
+  dormant: all.filter((t) => t.status === 'dormant').length,
+  closed: all.filter((t) => t.status === 'closed').length,
+};
+---
+
+<Base title="Sprawy — ebner.gripe" description="Sprawy w toku, uśpione i zamknięte.">
+  <header class="head">
+    <h1>Sprawy</h1>
+    <p class="readout">
+      {count(all.length, 'sprawa', 'sprawy', 'spraw')} &middot; {counts.active} w toku &middot;
+      {count(counts.dormant, 'uśpiona', 'uśpione', 'uśpionych')} &middot;
+      {count(counts.closed, 'zamknięta', 'zamknięte', 'zamkniętych')}
+    </p>
+  </header>
+
+  {all.length === 0 && <p>Jeszcze żadnej. Ebner dopiero zaczyna.</p>}
+
+  <ul class="threads">
+    {
+      all.map((thread) => (
+        <li class={thread.status}>
+          <div class="plate">
+            <span class="tape">{STATUS_LABEL[thread.status] ?? thread.status}</span>
+            <span class="id readout">{thread.id}</span>
+          </div>
+          {thread.summary && <p class="summary">{thread.summary}</p>}
+          <p class="meta readout">
+            od dnia {thread.openedDay}
+            {thread.closedDay && <> &middot; do dnia {thread.closedDay}</>}
+            {thread.closure && <> &middot; {CLOSURE_LABEL[thread.closure] ?? thread.closure}</>}
+            {thread.days.length > 0 && (
+              <>
+                {' '}&middot;{' '}
+                {thread.days.map((day, i) => (
+                  <>
+                    {i > 0 && ', '}
+                    <a href={`/dzien/${day}`}>{day}</a>
+                  </>
+                ))}
+              </>
+            )}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .head {
+    max-width: var(--measure);
+    margin-bottom: 32px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 5vw, 40px);
+    margin: 0 0 6px;
+  }
+
+  .threads {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: var(--measure);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Plates with a status tape, the design's device for a filed matter. */
+  li {
+    border: 1px solid var(--wl);
+    background: var(--pl);
+    padding: 14px 16px;
+  }
+
+  li.closed {
+    background: transparent;
+    border-color: var(--sp);
+    color: var(--f2);
+  }
+
+  .plate {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tape {
+    background: var(--ts);
+    color: var(--tf);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+  }
+
+  li.closed .tape {
+    background: var(--p2);
+  }
+
+  .id {
+    color: var(--wt);
+  }
+
+  .summary {
+    margin: 10px 0 8px;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .meta {
+    margin: 0;
+    color: var(--ls);
+  }
+</style>
