@@ -88,16 +88,19 @@ for (const f of readdirSync(stateDir).filter((n) => n.endsWith('.json')).sort())
     if (t.op === 'open') knownThreads.add(t.id);
     else if (!knownThreads.has(t.id)) problems.push(`${f}: thread ${t.id}: ${t.op} before open`);
   }
-  for (const fact of s.facts ?? []) {
+  for (const fact of s.facts_opened ?? []) {
     if (fact.subject && !knownEntities.has(fact.subject))
       problems.push(`${f}: fact ${fact.id} has unknown subject ${fact.subject}`);
+    if (!fact.content) problems.push(`${f}: fact ${fact.id} opens with no content`);
+    knownFacts.add(fact.id);
+  }
 
-    // Closing a fact that was never opened is the quietest failure in the
-    // system: the UPDATE matches no row, nothing errors, and the world keeps
-    // believing something the entry just said is over.
-    if (fact.op === 'open') knownFacts.add(fact.id);
-    else if (!knownFacts.has(fact.id))
-      problems.push(`${f}: fact ${fact.id}: close before open`);
+  // Closing a fact that was never opened is the quietest failure in the
+  // system: the UPDATE matches no row, nothing errors, and the world keeps
+  // believing something the entry just said is over.
+  for (const fact of s.facts_closed ?? []) {
+    if (!knownFacts.has(fact.id))
+      problems.push(`${f}: fact ${fact.id}: closed but never opened`);
   }
   for (const fr of s.fragments ?? []) {
     for (const t of fr.threads ?? []) {

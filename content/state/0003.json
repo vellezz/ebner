@@ -17,7 +17,11 @@
     }
   ],
   "travel": [
-    { "seq": 1, "from": "dok-macierzysty", "to": "orbita-hoonu" }
+    {
+      "seq": 1,
+      "from": "dok-macierzysty",
+      "to": "orbita-hoonu"
+    }
   ],
   "threads": [
     {
@@ -29,15 +33,6 @@
       "planned_entries": 12,
       "cooldown_days": 4,
       "summary": "Dług z Varnu: kwota przychodzi regularnie, rośnie i nigdy nie jest tą samą kwotą. Ebner odpisuje, że zapłaci w przyszłym tygodniu."
-    }
-  ],
-  "facts": [
-    {
-      "id": "f-hoonu-brama",
-      "op": "open",
-      "subject": "orbita-hoonu",
-      "valid_from": 3,
-      "content": "Brama cumownicza na orbicie Hoonu ma trzy pierścienie. Dwa się obracają. Obsługa twierdzi, że trzeci jest w porządku i po prostu się nie obraca."
     }
   ],
   "fragments": [
@@ -57,8 +52,18 @@
       "id": "s-0003-varnu",
       "kind": "scene",
       "content": "Wiadomość z Varnu, ta sama co zawsze, z tą samą groźbą, która nigdy się nie spełnia. Ebner odpisał, że płaci w przyszłym tygodniu. Napisał tak poprzednim razem.",
-      "threads": ["dlug-z-varnu"]
+      "threads": [
+        "dlug-z-varnu"
+      ]
     }
   ],
-  "sketch": null
+  "sketch": null,
+  "facts_opened": [
+    {
+      "id": "f-hoonu-brama",
+      "subject": "orbita-hoonu",
+      "valid_from": 3,
+      "content": "Brama cumownicza na orbicie Hoonu ma trzy pierścienie. Dwa się obracają. Obsługa twierdzi, że trzeci jest w porządku i po prostu się nie obraca."
+    }
+  ]
 }

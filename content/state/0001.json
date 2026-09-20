@@ -1,14 +1,5 @@
 {
   "day": 1,
-  "facts": [
-    {
-      "id": "f-dziennik-powod",
-      "op": "open",
-      "subject": "ebner-gripe",
-      "valid_from": 1,
-      "content": "Ebner prowadzi dziennik, bo księgowa z Varnu uzależniła od tego płatność. Nie zna jej i nie sprawdzał, czy to prawda."
-    }
-  ],
   "fragments": [
     {
       "id": "s-0001-uszczelka",
@@ -23,5 +14,13 @@
       "threads": []
     }
   ],
-  "sketch": null
+  "sketch": null,
+  "facts_opened": [
+    {
+      "id": "f-dziennik-powod",
+      "subject": "ebner-gripe",
+      "valid_from": 1,
+      "content": "Ebner prowadzi dziennik, bo księgowa z Varnu uzależniła od tego płatność. Nie zna jej i nie sprawdzał, czy to prawda."
+    }
+  ]
 }

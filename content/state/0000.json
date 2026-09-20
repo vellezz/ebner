@@ -44,50 +44,6 @@
       "summary": "Gdzieś tam, daleko, i ktoś tam prowadzi księgi, w których Ebner figuruje po niewłaściwej stronie."
     }
   ],
-  "facts": [
-    {
-      "id": "f-ebner-zawod",
-      "op": "open",
-      "subject": "ebner-gripe",
-      "valid_from": 0,
-      "content": "Ebner Gripe pracuje na swoim: naprawia infrastrukturę obcych cywilizacji, przemieszczając się między układami. Nie specjalizuje się, bo nie stać go na specjalizację."
-    },
-    {
-      "id": "f-hanna-jednostka",
-      "op": "open",
-      "subject": "hanna",
-      "valid_from": 0,
-      "content": "Hanna jest jednostką Ebnera i jego warsztatem jednocześnie. Mieszka w niej, pracuje w niej i naprawia ją częściami przeznaczonymi dla klientów."
-    },
-    {
-      "id": "f-hanna-obieg",
-      "op": "open",
-      "subject": "hanna",
-      "valid_from": 0,
-      "content": "Obieg drugi w Hannie ma uszczelkę, która nie trzyma. Ebner wymienia ją regularnie, zamiast wymienić cały obieg, bo na cały obieg nie ma."
-    },
-    {
-      "id": "f-holdmark-konkurencja",
-      "op": "open",
-      "subject": "holdmark-serwis",
-      "valid_from": 0,
-      "content": "Holdmark Serwis to konkurencja Ebnera. Wchodzą taniej, wychodzą szybciej i zostawiają po sobie robotę, która wraca po kwartale. Ebner nienawidzi ich zawodowo, nie osobiście."
-    },
-    {
-      "id": "f-dlug-varnu",
-      "op": "open",
-      "subject": "ebner-gripe",
-      "valid_from": 0,
-      "content": "Ebner jest winien pieniądze na Varnu. Nie pamięta dokładnie za co ani od kiedy, ale kwota przychodzi regularnie i rośnie."
-    },
-    {
-      "id": "f-dok-stanowisko",
-      "op": "open",
-      "subject": "dok-macierzysty",
-      "valid_from": 0,
-      "content": "Ebner wynajmuje w doku macierzystym stanowisko numer czternaście. Płaci nieregularnie i nikt go z niego jeszcze nie wyrzucił."
-    }
-  ],
   "fragments": [
     {
       "id": "w-kim-jest-ebner",
@@ -112,6 +68,44 @@
       "kind": "world_description",
       "content": "Dług z Varnu jest starszy od Hanny i mniej więcej tak samo szczelny. Kwota przychodzi regularnie, rośnie i nigdy nie jest tą samą kwotą. Ebner odpisuje, że zapłaci w przyszłym tygodniu, i odpisywał tak już tyle razy, że jest to raczej forma powitania niż deklaracja.",
       "threads": []
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ebner-zawod",
+      "subject": "ebner-gripe",
+      "valid_from": 0,
+      "content": "Ebner Gripe pracuje na swoim: naprawia infrastrukturę obcych cywilizacji, przemieszczając się między układami. Nie specjalizuje się, bo nie stać go na specjalizację."
+    },
+    {
+      "id": "f-hanna-jednostka",
+      "subject": "hanna",
+      "valid_from": 0,
+      "content": "Hanna jest jednostką Ebnera i jego warsztatem jednocześnie. Mieszka w niej, pracuje w niej i naprawia ją częściami przeznaczonymi dla klientów."
+    },
+    {
+      "id": "f-hanna-obieg",
+      "subject": "hanna",
+      "valid_from": 0,
+      "content": "Obieg drugi w Hannie ma uszczelkę, która nie trzyma. Ebner wymienia ją regularnie, zamiast wymienić cały obieg, bo na cały obieg nie ma."
+    },
+    {
+      "id": "f-holdmark-konkurencja",
+      "subject": "holdmark-serwis",
+      "valid_from": 0,
+      "content": "Holdmark Serwis to konkurencja Ebnera. Wchodzą taniej, wychodzą szybciej i zostawiają po sobie robotę, która wraca po kwartale. Ebner nienawidzi ich zawodowo, nie osobiście."
+    },
+    {
+      "id": "f-dlug-varnu",
+      "subject": "ebner-gripe",
+      "valid_from": 0,
+      "content": "Ebner jest winien pieniądze na Varnu. Nie pamięta dokładnie za co ani od kiedy, ale kwota przychodzi regularnie i rośnie."
+    },
+    {
+      "id": "f-dok-stanowisko",
+      "subject": "dok-macierzysty",
+      "valid_from": 0,
+      "content": "Ebner wynajmuje w doku macierzystym stanowisko numer czternaście. Płaci nieregularnie i nikt go z niego jeszcze nie wyrzucił."
     }
   ]
 }

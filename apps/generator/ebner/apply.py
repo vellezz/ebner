@@ -131,23 +131,21 @@ def _statements(state: dict, entry: dict | None, body: str | None) -> list[str]:
             )
 
     # --- facts ------------------------------------------------------------
-    for fact in state.get("facts", []):
-        if fact["op"] == "open":
-            out.append(
-                "INSERT INTO facts (id, kind, content, subject, valid_from, source_entry) "
-                f"VALUES ({sql_str(fact['id'])}, {sql_str(fact.get('kind', 'general'))}, "
-                f"{sql_str(fact['content'])}, {sql_str(fact.get('subject'))}, "
-                f"{sql_str(fact.get('valid_from', day))}, {sql_str(entry_day)}) "
-                "ON CONFLICT(id) DO UPDATE SET "
-                "kind = excluded.kind, content = excluded.content, "
-                "subject = excluded.subject, valid_from = excluded.valid_from"
-            )
-        else:
-            valid_to = fact.get("valid_to", day)
-            out.append(
-                f"UPDATE facts SET valid_to = {sql_str(valid_to)} "
-                f"WHERE id = {sql_str(fact['id'])}"
-            )
+    for fact in state.get("facts_opened", []):
+        out.append(
+            "INSERT INTO facts (id, kind, content, subject, valid_from, source_entry) "
+            f"VALUES ({sql_str(fact['id'])}, {sql_str(fact.get('kind', 'general'))}, "
+            f"{sql_str(fact['content'])}, {sql_str(fact.get('subject'))}, "
+            f"{sql_str(fact.get('valid_from', day))}, {sql_str(entry_day)}) "
+            "ON CONFLICT(id) DO UPDATE SET "
+            "kind = excluded.kind, content = excluded.content, "
+            "subject = excluded.subject, valid_from = excluded.valid_from"
+        )
+    for fact in state.get("facts_closed", []):
+        out.append(
+            f"UPDATE facts SET valid_to = {sql_str(fact.get('valid_to', day))} "
+            f"WHERE id = {sql_str(fact['id'])}"
+        )
 
     # --- fragments --------------------------------------------------------
     if entry_day is not None:

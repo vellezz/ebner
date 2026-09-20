@@ -30,16 +30,19 @@ wpis; ostatni kończy tam, gdzie `location` tego wpisu.
 niedokończone zlecenie, powracający żart — wszystko to są wątki. Nowy wątek
 otwierasz tylko wtedy, gdy wpis naprawdę go zaczyna.
 
-**Cokolwiek, co od teraz obowiązuje w świecie** → `facts`. To jest najszerszy
-worek i celowo:
+**Cokolwiek, co od teraz obowiązuje w świecie** → `facts_opened`. To jest
+najszerszy worek i celowo:
 
 - stan Hanny („uszczelka w obiegu drugim wymieniona", „ładownia bez oświetlenia")
 - pieniądze („dostał zapłatę za bramę na Hoonu", „nie ma na paliwo")
 - zadłużenie i wierzytelności („winien jest kancelarii z Varnu, kwota rośnie")
 - jaki jest świat i ludzie w nim
 
-Fakt, który **przestał obowiązywać**, zamykasz osobnym wpisem z `op: "close"` i
-jego identyfikatorem. Faktów się nie edytuje: naprawa, spłata czy zmiana
+Każdy fakt w `facts_opened` **musi mieć treść i podmiot**. Fakt bez treści to
+pusta skorupa: nic nie wnosi do świata, a wygląda, jakby wnosił.
+
+Fakt, który **przestał obowiązywać**, wymieniasz w `facts_closed` — tam wystarczy
+sam identyfikator. Faktów się nie edytuje: naprawa, spłata czy zmiana
 okoliczności **zamyka stary fakt i otwiera nowy**.
 
 Identyfikator do zamknięcia **musi pochodzić z listy w stanie świata powyżej** —

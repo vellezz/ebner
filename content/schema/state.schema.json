@@ -86,31 +86,42 @@
       }
     },
 
-    "facts": {
-      "description": "Facts opened or closed by this change. A fact is never edited: an upgrade or a change of circumstance closes the old one and opens a new one, which is what valid_from/valid_to are for.",
+    "facts_opened": {
+      "description": "Facts that begin holding with this entry. A fact is never edited: a repair, a payment or any change of circumstance closes the old one and opens a new one, which is what valid_from and valid_to are for. Separate from facts_closed on purpose — one array with an operation field cannot say that content is required when opening and meaningless when closing, and a model reading such a schema will omit it.",
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "op"],
+        "required": ["id", "content", "subject"],
         "properties": {
           "id": {
-            "description": "Stable id so a later entry can close this fact without matching on its prose.",
+            "description": "Stable id, so a later entry can close this fact without matching on its prose.",
             "$ref": "#/$defs/slug"
           },
-          "op": { "type": "string", "enum": ["open", "close"] },
           "kind": {
             "description": "world_rule marks the single rule a civilisation lives by — the one taken from a rational premise to its absurd end. Surfaced separately when assembling context so the writer does not contradict it. Everything else is general: the ship's condition, money, what someone owes, what a place is like.",
             "type": "string",
-            "enum": ["general", "world_rule"],
-            "default": "general"
+            "enum": ["general", "world_rule"]
           },
           "content": { "type": "string", "description": "Polish." },
           "subject": {
             "description": "Entity this fact is about.",
             "$ref": "#/$defs/slug"
           },
-          "valid_from": { "type": "integer", "minimum": 0 },
+          "valid_from": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+
+    "facts_closed": {
+      "description": "Facts that stop holding with this entry. The id must name a fact that already exists — the context lists them.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
           "valid_to": { "type": "integer", "minimum": 0 }
         }
       }

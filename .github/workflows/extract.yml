@@ -1,0 +1,72 @@
+name: Re-extract state
+
+# Recovery, not part of the daily loop. Extraction is the cheapest of the four
+# steps, so when it produces something wrong there is no reason to pay for the
+# prose again — this re-runs step 5 against an entry that already exists and
+# commits the corrected state file.
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'Days to re-extract, space separated'
+        required: true
+
+concurrency:
+  group: ebner-state
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: apps/site/pnpm-lock.yaml
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        run: |
+          pnpm --dir apps/site install --frozen-lockfile
+          pip install -e apps/generator
+
+      - name: Extract
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: python -m ebner extract ${{ inputs.days }}
+
+      # The guard has to agree before anything is committed, exactly as it does
+      # in the daily loop.
+      - name: Guard
+        run: node apps/site/scripts/check-state.mjs
+
+      - name: Commit
+        run: |
+          if [ -z "$(git status --porcelain content/)" ]; then
+            echo "extraction produced no change"
+            exit 0
+          fi
+          git config user.name  'ebner-bot'
+          git config user.email 'bot@ebner.gripe'
+          git add content/
+          git commit -m "Re-extract state for day(s) ${{ inputs.days }}"
+          git push
+          gh workflow run apply-state.yml --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ github.token }}

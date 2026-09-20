@@ -151,8 +151,27 @@ def cmd_generate(args: list[str]) -> int:
     return 0
 
 
+def cmd_extract(args: list[str]) -> int:
+    from .pipeline import PipelineError, extract_for
+
+    local = "--local" in args
+    days = [int(a) for a in args if not a.startswith("-")]
+    if not days:
+        print("  usage: extract <day> [<day>...]", file=sys.stderr)
+        return 2
+    try:
+        for day in days:
+            result = extract_for(day, remote=not local)
+            print(f"  rewrote {result['state'].name}")
+    except PipelineError as error:
+        print(f"  {error}", file=sys.stderr)
+        return 1
+    return 0
+
+
 COMMANDS = {
     "apply": cmd_apply,
+    "extract": cmd_extract,
     "status": cmd_status,
     "plan": cmd_plan,
     "index": cmd_index,

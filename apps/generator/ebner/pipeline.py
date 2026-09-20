@@ -132,6 +132,44 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     return {"params": params, "entry": entry_text, "state": state}
 
 
+def extract_for(day: int, *, remote: bool = True) -> dict:
+    """Re-run step 5 against an entry that already exists.
+
+    A recovery path, not part of the daily loop. Extraction is the cheapest of
+    the four steps, so when it produces something wrong there is no reason to
+    pay for the prose again to fix it.
+    """
+    entry_path = ENTRIES_DIR / f"{day:04d}.md"
+    if not entry_path.exists():
+        raise PipelineError(f"no entry at {entry_path.name}")
+
+    world = load_world(remote=remote)
+    schema = json.loads((SCHEMA_DIR / "state.schema.json").read_text(encoding="utf-8"))
+    entry_text = entry_path.read_text(encoding="utf-8")
+
+    state_text = complete(
+        "state",
+        fill(
+            prompt("state_pl.md"),
+            {
+                "stan": render_state(world),
+                "wpis": entry_text,
+                "schema": json.dumps(schema, ensure_ascii=False, indent=2),
+            },
+        ),
+        "Wyciągnij stan.",
+        output_schema=schema,
+    )
+    state = json.loads(_strip_fence(state_text))
+    state["day"] = day
+
+    state_path = STATE_DIR / f"{day:04d}.json"
+    state_path.write_text(
+        json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    return {"day": day, "state": state_path}
+
+
 def save(result: dict) -> dict:
     """Write both files, then let the guards decide whether they may stay.
 

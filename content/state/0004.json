@@ -8,35 +8,6 @@
       "summary": "Komisja, która zdecydowała o utrzymaniu trzeciego pierścienia w spoczynku."
     }
   ],
-  "facts": [
-    {
-      "id": "f-hoonu-brama",
-      "op": "close",
-      "subject": "orbita-hoonu",
-      "valid_to": 4
-    },
-    {
-      "id": "pierscien-3-sprawny",
-      "op": "open",
-      "subject": "orbita-hoonu",
-      "valid_from": 4,
-      "valid_to": 4294967295
-    },
-    {
-      "id": "dlug-z-varnu-d4",
-      "op": "open",
-      "subject": "ebner-gripe",
-      "valid_from": 4,
-      "valid_to": 4294967295
-    },
-    {
-      "id": "zarobek-brama-hoonu",
-      "op": "open",
-      "subject": "ebner-gripe",
-      "valid_from": 4,
-      "valid_to": 4294967295
-    }
-  ],
   "fragments": [
     {
       "id": "protokol-holdmark",
@@ -65,5 +36,31 @@
       "content": "Przez pół roku ktoś dospawał do wewnętrznego kołnierza trójki dwie chłodnie, magazyn paliwa w beczkach, biuro celne Hoonu i siedem skrzynek z mchem pod lampą. Wszystko to stoi tam, bo nie wiruje. Beczek nie da się trzymać na pierścieniu, który się obraca, bo się układają. Mchu też."
     }
   ],
-  "sketch": "Ebner wspina się drabiną wewnątrz trzeciego pierścienia bramy cumowniczej Hoonu, mijając mech w doniczkach i beczki z paliwem zaparkowane pod jego nogami."
+  "sketch": "Ebner wspina się drabiną wewnątrz trzeciego pierścienia bramy cumowniczej Hoonu, mijając mech w doniczkach i beczki z paliwem zaparkowane pod jego nogami.",
+  "facts_opened": [
+    {
+      "id": "pierscien-3-sprawny",
+      "subject": "orbita-hoonu",
+      "valid_from": 4,
+      "valid_to": 4294967295
+    },
+    {
+      "id": "dlug-z-varnu-d4",
+      "subject": "ebner-gripe",
+      "valid_from": 4,
+      "valid_to": 4294967295
+    },
+    {
+      "id": "zarobek-brama-hoonu",
+      "subject": "ebner-gripe",
+      "valid_from": 4,
+      "valid_to": 4294967295
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-hoonu-brama",
+      "valid_to": 4
+    }
+  ]
 }
