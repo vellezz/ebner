@@ -8,13 +8,6 @@ node_modules/
 apps/site/dist/
 apps/site/.astro/
 
-# OpenTofu / Terraform — *.auto.tfvars carries the Cloudflare token
-.terraform/
-*.tfstate
-*.tfstate.*
-*.auto.tfvars
-crash.log
-
 # Local environment
 .env
 .env.local

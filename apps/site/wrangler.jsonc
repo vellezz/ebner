@@ -9,8 +9,8 @@
     "directory": "./dist"
   },
   // The custom domain is declared here rather than clicked in the dashboard.
-  // Attaching it also creates the zone's DNS record for ebner.gripe, so
-  // OpenTofu must not manage that record — see CLAUDE.md, "Infrastructure
-  // ownership", for where the boundary runs.
+  // Attaching it also creates the zone's DNS record for ebner.gripe. Wrangler
+  // is the only thing that provisions in this project — see CLAUDE.md,
+  // "Infrastructure".
   "routes": [{ "pattern": "ebner.gripe", "custom_domain": true }]
 }

@@ -39,21 +39,20 @@ Do not add any of these unless explicitly asked:
 | Media | R2 bucket `ebner-media`, native custom domain `media.ebner.gripe` |
 | Backups | R2 bucket `ebner-backups` (private): weekly D1 exports. Convenience only — the real backup is git |
 | Domain and DNS | `ebner.gripe`, Cloudflare Registrar, DNS in Cloudflare |
-| IaC | OpenTofu with the Cloudflare provider; `infra/bootstrap.sh` (wrangler) only for resources the provider does not support. Ownership boundary below |
+| Provisioning | `infra/bootstrap.sh` — idempotent wrangler commands. No Terraform or OpenTofu layer, deliberately; see below |
 | LLM gateway | LiteLLM used as a Python library (no proxy server); per-step model routing from one config file |
 | Secrets | GitHub Actions secrets (Cloudflare API token scoped to this account's resources, Anthropic key, OpenRouter key) |
 | Logs | GitHub Actions run logs |
 
-## Infrastructure ownership
+## Infrastructure
 
-Two tools can change Cloudflare state, so the boundary is fixed here rather than discovered later:
+**One tool: wrangler.** There is no Terraform or OpenTofu layer, and that is a decision rather than an omission.
 
-- **`apps/site/wrangler.jsonc` owns the site Worker** — its assets, its routes, and the `ebner.gripe` custom domain. Attaching that domain also creates the zone's DNS record for it.
-- **OpenTofu (`infra/tofu/`) owns everything else** — R2 buckets and the media custom domain, D1, and any DNS record the Worker binding does not create.
+The account holds six resources — two R2 buckets, a D1 database, a Vectorize index, the site Worker and the media custom domain. They are created once and essentially never change. A declarative IaC layer earns its keep across dozens of resources, several environments, or a team; here it would buy drift detection in exchange for a second API token, a state file with nowhere to live (its natural backend is the R2 bucket it is supposed to create), a provider that already cannot manage Vectorize, and two tools able to change the same state — which would need a written boundary to stop them fighting over the `ebner.gripe` DNS record.
 
-OpenTofu must not manage the `ebner.gripe` record. The Worker binding creates it, and two owners of one record is exactly the drift this document spends the rest of its length avoiding.
+Provisioning is therefore `infra/bootstrap.sh`: wrangler commands, idempotent, safe to re-run. `wrangler r2 bucket create` fails on a bucket that exists, so each step checks before it creates. The site Worker and its custom domain are declared in `apps/site/wrangler.jsonc` and applied by CI on every deploy.
 
-OpenTofu authenticates with an **API token**, not with wrangler's OAuth session, so `infra/tofu/` needs its own credential in a gitignored `*.auto.tfvars`. Anything created imperatively before the tofu configuration exists — as the site Worker and its domain were — is brought under management with `tofu import`, never by deleting and recreating it.
+What this gives up, stated plainly: **nothing detects drift.** Change a resource by hand in the dashboard and no plan will tell you. At six static resources that is worth the simplicity. Revisit it if the account ever grows a second environment.
 
 ## Model routing (`apps/generator/config/models.yaml`)
 
@@ -100,8 +99,7 @@ ebner/
 ├── samples/               # reference sample weeks
 ├── db/migrations/         # plain SQL migrations for D1 (applied with wrangler)
 ├── infra/
-│   ├── tofu/              # Cloudflare: R2, R2 custom domain, D1 — not the site Worker
-│   └── bootstrap.sh       # wrangler: Vectorize index and anything tofu can't manage
+│   └── bootstrap.sh       # wrangler: R2 buckets, media domain, D1, Vectorize
 └── CLAUDE.md
 ```
 
@@ -306,7 +304,7 @@ What guards explicitly do **not** cover: travel times, ship parameters and other
 ## Build order
 
 0. World canon: `content/state/0000.json` (seed entities, facts and world fragments) and `prompts/diary_pl.md`.
-1. Repository skeleton, OpenTofu (R2, D1), `bootstrap.sh` (Vectorize), D1 migrations.
+1. Repository skeleton, `bootstrap.sh` (R2, D1, Vectorize), D1 migrations.
 2. Generator runs locally and writes an entry + state file.
 3. `generate.yml` with bot PRs; Astro site deployed as a Worker from Actions.
 4. `apply-state.yml`: state into D1, fragments into Vectorize; retrieval, thread discipline, geography and travel continuity. `rebuild-state.yml` is the same machinery run across every state file, so it arrives with it.
