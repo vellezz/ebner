@@ -1,0 +1,90 @@
+{
+  "day": 6,
+  "entities": [
+    {
+      "id": "platforma-wiertlo",
+      "kind": "place",
+      "name": "Platforma z wiertłem rdzeniowym",
+      "summary": "Długa, płaska platforma na szlaku za Hoonem, zabudowana wokół starego wiertła rdzeniowego, które stoi od dawna i nie może być ani uruchomione, ani uznane za złom."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "szlak-za-hoonem",
+      "to": "platforma-wiertlo"
+    },
+    {
+      "seq": 2,
+      "from": "platforma-wiertlo",
+      "to": "szlak-za-hoonem"
+    }
+  ],
+  "threads": [
+    {
+      "id": "utrzymanie-w-spoczynku",
+      "op": "open",
+      "type": "short",
+      "status": "active",
+      "reference_policy": "mention",
+      "summary": "Zlecenie utrzymania wiertła rdzeniowego platformy w stanie pośrednim — ani sprawnym, ani złomem — za pomocą protokołu, plomby i pieczęci."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ebner-ogniwo-grzewcze",
+      "kind": "general",
+      "content": "Ebner zainstalował jedno z dwóch otrzymanych ogniw grzewczych w kabinie Hanny; od wieczora w kabinie jest wyraźnie cieplej.",
+      "subject": "ebner-gripe",
+      "valid_from": 6
+    },
+    {
+      "id": "f-hanna-rura-do-sprzedazy",
+      "kind": "general",
+      "content": "W ładowni Hanny znajduje się dwanaście metrów rury ciśnieniowej o złej średnicy, którą Ebner planuje sprzedać — wycena czterdzieści dwie jednostki.",
+      "subject": "hanna",
+      "valid_from": 6
+    },
+    {
+      "id": "f-platforma-wiertlo-utrwalenie",
+      "kind": "general",
+      "content": "Wiertło rdzeniowe platformy zostało utrwalone w spoczynku poprzez protokół stanu, fotografię sześciu zamków, plombę drutową na dźwigni rozruchu i pieczęć — zmiana stanu wymaga zerwania plomby i nowego protokołu.",
+      "subject": "platforma-wiertlo",
+      "valid_from": 6
+    },
+    {
+      "id": "f-ebner-platnosc-wiertlo",
+      "kind": "general",
+      "content": "Ebner otrzymał zapłatę w naturze za utrzymanie wiertła w spoczynku: dwanaście metrów rury ciśnieniowej i dwa ogniwa grzewcze.",
+      "subject": "ebner-gripe",
+      "valid_from": 6
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-kabel-transmisja",
+      "kind": "punchline",
+      "content": "To, co idzie próżnią, jest wspólne — kabel jest nasz i pana. Słyszeliśmy pana przez cztery doby. Wszystko. Mamy osiemdziesiąt siedem złączek pana w spisie, kurs i trzy pozycje faktury.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "frag-wiertlo-stan-posredni",
+      "kind": "world_description",
+      "content": "Stan pośredni: nie sprawne, nie niesprawne. Utrzymywane w spoczynku. Ma protokół i datę. Dopóki nikt nie zerwie plomby, zmiana nie następuje. Jak zerwie, zmienia się stan i trzeba nowego protokołu.",
+      "threads": [
+        "utrzymanie-w-spoczynku"
+      ]
+    },
+    {
+      "id": "frag-platforma-zblizenie",
+      "kind": "scene",
+      "content": "Platforma była długa i płaska, z wiertłem rdzeniowym na dziobie, obrośnięta cudzymi kadłubami jak skała pąklami. Przeszedł do mnie jeden. Nie zdjął hełmu.",
+      "threads": [
+        "utrzymanie-w-spoczynku"
+      ]
+    }
+  ],
+  "sketch": "Platforma wiertła rdzeniowego ze zbliżającą się Hanną, długa i płaska, pokryta obcymi kadłubami, z gigantycznym martwym wiertłem na dziobie."
+}
