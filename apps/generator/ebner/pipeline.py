@@ -12,6 +12,7 @@ so a failed run leaves no half-entry behind.
 
 from __future__ import annotations
 
+import difflib
 import json
 import re
 import subprocess
@@ -93,13 +94,17 @@ _SLUG_FIELDS = {
 }
 
 
-def normalise_state(state: dict, known_threads: set[str] | None = None) -> dict:
+def normalise_state(
+    state: dict,
+    known_threads: set[str] | None = None,
+    known_facts: set[str] | None = None,
+) -> dict:
     """Fix mechanically what a prompt would only ask for.
 
-    Four separate failures today came from instructing a model to get a
+    Five separate failures now came from instructing a model to get a
     mechanical detail right and then rejecting its answer when it did not.
-    Slugs were the first; thread operations are the fourth. Anything with a
-    single correct answer derivable from the data belongs here, not in prose.
+    Slugs were the first; fact ids are the fifth. Anything with a single
+    correct answer derivable from the data belongs here, not in prose.
     """
     for section, fields in _SLUG_FIELDS.items():
         for item in state.get(section) or []:
@@ -118,6 +123,31 @@ def normalise_state(state: dict, known_threads: set[str] | None = None) -> dict:
             if thread.get("op") != "open" and thread.get("id") not in known_threads:
                 thread["op"] = "open"
                 thread.setdefault("status", "active")
+
+    # A fact can only be closed by the id it was opened under. The context
+    # lists those ids for exactly this purpose and the extractor still mangles
+    # one — `f-ebner-strategi-a-wywiad-postep` for `f-ebner-strategia-wywiad`
+    # cost a written, checked and edited entry. Near misses are resolved to the
+    # fact they plainly mean; a close nothing matches is dropped, because in D1
+    # it would update no rows anyway and failing the run over it throws away
+    # the prose to punish a typo.
+    if known_facts is not None:
+        candidates = sorted(known_facts)
+        kept: list[dict] = []
+        for fact in state.get("facts_closed") or []:
+            fact_id = fact.get("id")
+            if fact_id in known_facts:
+                kept.append(fact)
+                continue
+            near = difflib.get_close_matches(str(fact_id), candidates, n=1, cutoff=0.72)
+            if near:
+                print(f"  closing `{near[0]}`, which the extractor called `{fact_id}`")
+                fact["id"] = near[0]
+                kept.append(fact)
+            else:
+                print(f"  dropping close of `{fact_id}`: no open fact by that name")
+        if "facts_closed" in state:
+            state["facts_closed"] = kept
 
     return state
 
@@ -209,6 +239,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
         state = normalise_state(
             json.loads(_strip_fence(state_text)),
             {t["id"] for t in world["threads"]},
+            {f["id"] for f in world["facts"]},
         )
     except Exception as error:
         raise PipelineError(
@@ -270,6 +301,7 @@ def extract_for(day: int, *, remote: bool = True) -> dict:
     state = normalise_state(
         json.loads(_strip_fence(state_text)),
         {t["id"] for t in world["threads"]},
+        {f["id"] for f in world["facts"]},
     )
     state["day"] = day
 
