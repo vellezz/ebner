@@ -1,0 +1,86 @@
+{
+  "day": 5,
+  "entities": [
+    {
+      "id": "szlak-za-hoonem",
+      "kind": "place",
+      "name": "Szlak za Hoonem",
+      "summary": "Область между Hoonem и неизвестным направлением, где находится буй отслеживания и пусто"
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "orbita-hoonu",
+      "to": "szlak-za-hoonem"
+    }
+  ],
+  "threads": [
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "status": "active",
+      "summary": "Dług z Varnu: kwota przychodzi regularnie, rośnie i nigdy nie jest tą samą kwotą. Ebner odpisuje, że zapłaci w przyszłym tygodniu. Po transmisji inwentarza kwota przyszła wcześniej z dopiskiem."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-hanna-obieg-wymiana",
+      "kind": "general",
+      "content": "Obieg drugi w Hannie wymaga pełnej wymiany, a nie tylko wymiany uszczelki. Reaktor pracuje na jałowym, aby straty były uzupełnialne.",
+      "subject": "hanna",
+      "valid_from": 5
+    },
+    {
+      "id": "f-transmisja-boja",
+      "kind": "general",
+      "content": "Boja opłat za przesłanie określa opłatę na podstawie kompresowności treści: transmisje powtarzalne są tańsze, treść niepowtarzalna droga.",
+      "subject": "szlak-za-hoonem",
+      "valid_from": 5
+    },
+    {
+      "id": "f-ebner-danych-niebezpieczne",
+      "kind": "general",
+      "content": "Ebner transmitował przez cztery dni pełny inwentarz ładowni, numer, kurs i dane statku w otwartej przestrzeni.",
+      "subject": "ebner-gripe",
+      "valid_from": 5
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-hanna-obieg",
+      "valid_to": 5
+    }
+  ],
+  "fragments": [
+    {
+      "id": "boja-logika",
+      "kind": "scene",
+      "content": "Statek milczący wymaga śledzenia aktywnego, a śledzenie aktywne zużywa moc nadzoru, natomiast statek nadający śledzi się sam i jest tańszy w obsłudze o połowę.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "kompresja-def",
+      "kind": "document",
+      "content": "Definicja treści niepowtarzalnej miała cztery zdania i w trzecim odsyłała do samej siebie.",
+      "threads": []
+    },
+    {
+      "id": "kopanie-dolu",
+      "kind": "punchline",
+      "content": "Człowiek sam sobie kopie – transmisja pełnego inwentarza ładowni na otwartym kanale przyczyniła się do wzrostu długu z Varnu.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "reaktor-liczy",
+      "kind": "scene",
+      "content": "Reaktor trzymam na jałowym do następnego portu. Stuka teraz inaczej niż zwykle, wolniej, jakby liczył.",
+      "threads": []
+    }
+  ],
+  "sketch": "Samotny statek na szlaku za Hoonem, reaktor na jałowym, otaczający kosmos i martwa skała w oddali."
+}
