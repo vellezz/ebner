@@ -30,3 +30,8 @@ venv/
 
 # VAPID private key, generated locally and moved to a repository secret
 .vapid-private.key
+
+# Playwright MCP scratch output (snapshots, console logs, screenshots),
+# written into whatever directory the browser check ran from.
+.playwright-mcp/
+**/.playwright-mcp/

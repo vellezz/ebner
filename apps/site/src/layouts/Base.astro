@@ -1,5 +1,5 @@
 ---
-import NotifyToggle from '../components/NotifyToggle.astro';
+import AppPanel from '../components/AppPanel.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import '../styles/tokens.css';
 
@@ -48,8 +48,10 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
           <a href="/dni">Dni</a>
           <a href="/sprawy">Sprawy</a>
         </nav>
-        <ThemeToggle />
-        <span class="readout stamp">Ebner Gripe &middot; usługi ogólne &middot; jedn. Hanna</span>
+        <div class="ident">
+          <span class="readout stamp">Ebner Gripe &middot; usługi ogólne &middot; jedn. Hanna</span>
+          <ThemeToggle />
+        </div>
       </header>
 
       <main>
@@ -58,7 +60,7 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
 
       <footer class="footer">
         <span class="readout">Dziennik roboczy</span>
-        <NotifyToggle />
+        <AppPanel />
       </footer>
     </div>
 
@@ -111,6 +113,12 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
 
   .nav a {
     color: var(--f2);
+  }
+
+  .ident {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   /* Label tape, not a stamp — the design's own device for identity marks. */

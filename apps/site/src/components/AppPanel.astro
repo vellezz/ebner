@@ -1,0 +1,199 @@
+---
+// Installing the app, and — once installed — turning notifications on.
+//
+// One block with four faces, because the honest answer differs per platform
+// and a control that silently does nothing is worse than a sentence saying
+// why. Notifications are offered only inside the installed app: they work in a
+// desktop browser too, but a bare "notify me" button on a web page reads as
+// noise rather than a feature.
+const VAPID_PUBLIC_KEY =
+  'BGdFMJ2qV3Y83WprKM9IpH8UDvYG6yN9b8xUEUvrGo-Ltv5O_JtZ4fp41OU8rnOJZXi18cACeOciFFnEM8vhcfs';
+---
+
+<section class="app" data-vapid={VAPID_PUBLIC_KEY} hidden>
+  <h2 class="readout">Aplikacja</h2>
+  <p class="note" data-note hidden></p>
+  <button type="button" data-install hidden>zainstaluj</button>
+  <button type="button" data-notify hidden></button>
+</section>
+
+<script is:inline>
+  (() => {
+    const root = document.querySelector('.app');
+    if (!root) return;
+
+    const install = root.querySelector('[data-install]');
+    const notify = root.querySelector('[data-notify]');
+    const note = root.querySelector('[data-note]');
+
+    const show = (el, on = true) => {
+      el.hidden = !on;
+      root.hidden = false;
+    };
+    const say = (text) => {
+      note.textContent = text || '';
+      show(note, Boolean(text));
+    };
+
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      navigator.standalone === true;
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const pushable =
+      'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+
+    // --- installed: offer notifications -------------------------------
+    const b64ToBytes = (base64) => {
+      const padded = (base64 + '='.repeat((4 - (base64.length % 4)) % 4))
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+      return Uint8Array.from(atob(padded), (c) => c.charCodeAt(0));
+    };
+
+    const refreshNotify = async () => {
+      const registration = await navigator.serviceWorker.ready;
+      const existing = await registration.pushManager.getSubscription();
+      notify.textContent = existing ? 'powiadomienia włączone' : 'powiadom o nowym wpisie';
+      notify.dataset.on = existing ? 'yes' : 'no';
+      show(notify);
+    };
+
+    const setUpNotify = async () => {
+      if (!pushable) return say('ta przeglądarka nie obsługuje powiadomień');
+      if (Notification.permission === 'denied') {
+        return say('powiadomienia zablokowane — zmień to w ustawieniach systemu');
+      }
+
+      notify.addEventListener('click', async () => {
+        notify.disabled = true;
+        try {
+          const registration = await navigator.serviceWorker.ready;
+          const existing = await registration.pushManager.getSubscription();
+
+          if (existing) {
+            await fetch('/api/unsubscribe', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ endpoint: existing.endpoint }),
+            }).catch(() => {});
+            await existing.unsubscribe();
+            say('wyłączone');
+          } else {
+            if ((await Notification.requestPermission()) !== 'granted') {
+              return say('bez zgody nie ma powiadomień');
+            }
+            const subscription = await registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: b64ToBytes(root.dataset.vapid),
+            });
+            const response = await fetch('/api/subscribe', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(subscription.toJSON()),
+            });
+            say(response.ok ? 'gotowe — jeden wpis dziennie' : 'nie udało się zapisać');
+          }
+          await refreshNotify();
+        } catch (error) {
+          say('nie udało się: ' + (error?.message || error));
+        } finally {
+          notify.disabled = false;
+        }
+      });
+
+      await refreshNotify();
+    };
+
+    if (standalone) {
+      setUpNotify().catch(() => {});
+      return;
+    }
+
+    // --- not installed: explain how ------------------------------------
+    if (iOS) {
+      say('Na iPhonie: przycisk Udostępnij na dole Safari, potem „Dodaj do ekranu początkowego”. Powiadomienia włączysz już w aplikacji.');
+      return;
+    }
+
+    let deferred = null;
+    window.addEventListener('beforeinstallprompt', (event) => {
+      // Chrome and Edge offer the real prompt, but only after this is caught.
+      event.preventDefault();
+      deferred = event;
+      say(
+        'Zainstaluj, żeby czytać offline i dostawać powiadomienia o nowym wpisie. ' +
+          'Na telefonie: otwórz ebner.gripe w przeglądarce i wybierz „Dodaj do ekranu początkowego”.',
+      );
+      show(install);
+    });
+
+    window.addEventListener('appinstalled', () => {
+      install.hidden = true;
+      say('Zainstalowane. Powiadomienia włączysz w aplikacji.');
+    });
+
+    install.addEventListener('click', async () => {
+      if (!deferred) return;
+      install.disabled = true;
+      deferred.prompt();
+      await deferred.userChoice.catch(() => {});
+      deferred = null;
+      install.hidden = true;
+      install.disabled = false;
+    });
+
+    // Firefox fires no beforeinstallprompt and has no install path on desktop.
+    setTimeout(() => {
+      if (install.hidden && note.hidden) {
+        say('Aplikację zainstalujesz z przeglądarki na telefonie — wtedy dochodzą powiadomienia o nowym wpisie.');
+      }
+    }, 1500);
+  })();
+</script>
+
+<style>
+  .app {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: 46ch;
+  }
+
+  .app h2 {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ls);
+    font-weight: 400;
+  }
+
+  .app button {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border: 1px solid var(--wl);
+    background: var(--pl);
+    color: var(--f2);
+    cursor: pointer;
+  }
+
+  .app button[data-on='yes'] {
+    background: var(--ts);
+    color: var(--tf);
+    border-color: var(--ts);
+  }
+
+  .app button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .note {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ls);
+  }
+</style>
