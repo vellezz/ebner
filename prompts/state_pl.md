@@ -76,6 +76,14 @@ albo `null`. Nie każdy wpis go potrzebuje.
   wskazane, przy technice nie.
 - Nie zamykasz wątku, który we wpisie tylko przycichł.
 
+## Gdzie skończył się poprzedni wpis
+
+{skad}
+
+Pierwszy przeskok w `travel` musi wychodzić **stąd**, a ostatni kończyć się tam,
+gdzie wskazuje `location` we frontmatterze tego wpisu. Jeśli Ebner się nie
+ruszył, nie zapisuj żadnego przeskoku.
+
 ## Byty, które już istnieją
 
 Nie wprowadzaj ich ponownie w `entities`. Odwołuj się do nich tym

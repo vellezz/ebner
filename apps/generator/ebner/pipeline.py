@@ -29,6 +29,7 @@ from .context import (
     render_state,
 )
 from .d1 import REPO
+from .d1 import query as d1_query
 from .llm import complete
 from .retrieval import recall
 from .retrieval import render as render_recall
@@ -180,6 +181,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
                 {
                     "stan": common["stan"],
                     "byty": render_entities(world),
+                    "skad": common["miejsce"],
                     "wpis": entry_text,
                     "schema": json.dumps(schema, ensure_ascii=False, indent=2),
                 },
@@ -196,6 +198,20 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     state["day"] = params["day"]
 
     return {"params": params, "entry": entry_text, "state": state}
+
+
+def _location_before(day: int, *, remote: bool = True) -> str:
+    """Where the entry before this one ended."""
+    rows = d1_query(
+        "SELECT e.location, n.name FROM entries e "
+        "LEFT JOIN entities n ON n.id = e.location "
+        f"WHERE e.day < {int(day)} ORDER BY e.day DESC LIMIT 1",
+        remote=remote,
+    )
+    if not rows:
+        return "Nigdzie — to pierwszy wpis."
+    row = rows[0]
+    return f"**{row.get('name') or row['location']}** (`{row['location']}`)"
 
 
 def extract_for(day: int, *, remote: bool = True) -> dict:
@@ -220,6 +236,10 @@ def extract_for(day: int, *, remote: bool = True) -> dict:
             {
                 "stan": render_state(world),
                 "byty": render_entities(world),
+                # Where the entry BEFORE this one ended — not the current
+                # location, which for a historical re-extraction is a later
+                # day's and would push the hops somewhere the entry never was.
+                "skad": _location_before(day, remote=remote),
                 "wpis": entry_text,
                 "schema": json.dumps(schema, ensure_ascii=False, indent=2),
             },
