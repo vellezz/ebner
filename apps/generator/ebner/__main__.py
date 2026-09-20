@@ -127,11 +127,36 @@ def cmd_plan(args: list[str]) -> int:
     return 0
 
 
+def cmd_generate(args: list[str]) -> int:
+    from .pipeline import PipelineError, generate, save
+
+    local = "--local" in args
+    dry = "--dry-run" in args
+    seed = int(args[args.index("--seed") + 1]) if "--seed" in args else None
+
+    try:
+        result = generate(seed=seed, remote=not local, dry_run=dry)
+    except PipelineError as error:
+        print(f"  {error}", file=sys.stderr)
+        return 1
+
+    if dry:
+        print(result["prompt"])
+        return 0
+
+    saved = save(result)
+    print(f"  {saved['title']}")
+    print(f"  {saved['entry'].relative_to(saved['entry'].parents[2])}")
+    print(f"  {saved['state'].relative_to(saved['state'].parents[2])}")
+    return 0
+
+
 COMMANDS = {
     "apply": cmd_apply,
     "status": cmd_status,
     "plan": cmd_plan,
     "index": cmd_index,
+    "generate": cmd_generate,
 }
 
 

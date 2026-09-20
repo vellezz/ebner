@@ -186,9 +186,13 @@ Każdy fragment ma etykietę mówiącą, co wolno z nim zrobić: `[rozwijaj]`,
 - Rodzaj wpisu: {rodzaj}
 - Długość: {dlugosc}
 - Nowy świat: {nowy_swiat}
-- Miejsca, w których dawno nie był: {zapomniane}
 - Podpowiedź (opcjonalna, zignoruj, jeśli nie pasuje do stanu świata):
   {podpowiedz}
+
+Miejsca, w których dawno nie był — powrót do któregoś jest równie dobrym
+pomysłem jak wymyślenie nowego:
+
+{zapomniane}
 
 Parametry są wiążące poza podpowiedzią. Sam decydujesz na podstawie stanu świata,
 czy dziś ciągniesz trwającą sprawę, zaczynasz nową, czy piszesz o drodze — ale

@@ -1,0 +1,33 @@
+# Per-step model routing. Changing a model is a one-line change here.
+#
+# Effort is set on every step on purpose. Opus 5 runs adaptive thinking by
+# default at effort `high`, and thinking tokens bill as output — that single
+# inherited default is the largest line in the bill. It is a decision, so it is
+# written down.
+
+steps:
+  # The only step whose quality the reader sees directly. Worth the effort.
+  write:
+    model: claude-opus-5
+    effort: high
+    max_tokens: 16000
+
+  # Judging fuzzy consistency against recorded state. Needs reasoning, not
+  # prose, and it is also the enforcement gate — a false block costs a day.
+  check:
+    model: claude-sonnet-5
+    effort: medium
+    max_tokens: 16000
+
+  # Language only, no judgement about content. Low effort is the point: a
+  # thorough editor here would start rewriting, which is exactly what the
+  # prompt forbids.
+  edit:
+    model: claude-sonnet-5
+    effort: low
+    max_tokens: 16000
+
+  # Mechanical transformation into JSON. Haiku does not take `effort`.
+  state:
+    model: claude-haiku-4-5
+    max_tokens: 8000

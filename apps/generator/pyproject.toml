@@ -9,6 +9,11 @@ requires-python = ">=3.10"
 # CI — no HTTP client here on purpose. LiteLLM arrives with the writing steps.
 dependencies = [
   "PyYAML>=6.0",
+  # The official SDK rather than LiteLLM, which the spec named: all four text
+  # steps go to Anthropic, so an abstraction over one provider costs a
+  # dependency and buys nothing. Needs a version that knows output_config,
+  # which carries both `effort` and structured outputs.
+  "anthropic>=1.0",
 ]
 
 [tool.setuptools.packages.find]
