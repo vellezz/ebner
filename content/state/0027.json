@@ -1,0 +1,57 @@
+{
+  "day": 27,
+  "threads": [
+    {
+      "id": "sygnal-spod-oskry",
+      "op": "update",
+      "summary": "Ebner ustalił w rozdzielni czasu, że sygnał pochodzi z piątego odgałęzienia czwartej nitki, punktu odbiorcy w wieczystej zaległości bez terminu wygaśnięcia. Wpisał się jako współodbiorca czasu, uzyskał uchylenie zaworu o ćwierć obrotu; sygnał wraca z coraz krótszym odstępem."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-oskra-odbiorca-zaleglosc",
+      "content": "Piąte odgałęzienie czwartej nitki kończy się w przeładowni z wstrzymaną dostawą i nieuregulowaną zaległością; wstrzymanie jest stanem, nie wydarzeniem czasowym, więc termin nigdy nie biegnie i odbiorcy nie da się skreślić z księgi.",
+      "subject": "oskra",
+      "valid_from": 27
+    },
+    {
+      "id": "f-ebner-wspolodbiorca-piate-odgalezienie",
+      "content": "Ebner został wpisany do księgi rozdzielni jako współodbiorca czasu w punkcie piątego odgałęzienia, na zasadzie że nadawanie sygnału jest zużyciem, a zużycie bez dostawy oznacza zapas własny, czyli punkt czynny; jego należność wygaśnie przy drugim przejściu bąbla po otwarciu zaworu.",
+      "subject": "ebner-gripe",
+      "valid_from": 27
+    },
+    {
+      "id": "f-oskra-zawor-odkrecony",
+      "content": "Rachmistrzyni odkręciła zawór na końcu piątego odgałęzienia o ćwierć obrotu, nazywając to księgowością, nie hojnością; sygnał wezwania pomocy przyszedł ponownie z krótszym odstępem niż poprzednio.",
+      "subject": "oskra",
+      "valid_from": 27
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-rachmistrzyni-wstrzymanie",
+      "kind": "scene",
+      "content": "— Kiedy wstrzymana? — Nie wiem. Wstrzymanie nie jest wydarzeniem czasowym. Jest stanem. — A kiedy się kończy? — Po terminie. Termin biegnie z dostawy. Dostawy nie ma, więc termin nie biegnie.",
+      "threads": [
+        "sygnal-spod-oskry"
+      ]
+    },
+    {
+      "id": "frag-punkt-czynny",
+      "kind": "scene",
+      "content": "— Nadawanie nie jest poborem — powiedziała wreszcie. — Ale jest zużyciem. Zużycie bez dostawy oznacza zapas własny. Zapas własny oznacza punkt czynny. Wpisała mnie.",
+      "threads": [
+        "sygnal-spod-oskry"
+      ]
+    },
+    {
+      "id": "frag-odstep-krotszy",
+      "kind": "punchline",
+      "content": "Sygnał przyszedł. Potem przyszedł znowu. Odstęp był krótszy.",
+      "threads": [
+        "sygnal-spod-oskry"
+      ]
+    }
+  ],
+  "sketch": "Ebner stoi w mroku przy starej księdze rozdzielni czasu, niska szeroka rachmistrzyni odwraca kartę ku niemu, wskazując zapis o wstrzymanej dostawie."
+}
