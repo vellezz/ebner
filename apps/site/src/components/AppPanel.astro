@@ -18,9 +18,13 @@ const VAPID_PUBLIC_KEY =
 </section>
 
 <script is:inline>
-  (() => {
+  document.addEventListener('astro:page-load', () => {
     const root = document.querySelector('.app');
-    if (!root) return;
+    // The footer is rebuilt on every navigation, so this runs again with a
+    // fresh element each time; the guard is against the script itself also
+    // re-executing, which would bind every handler twice.
+    if (!root || root.dataset.readyApp) return;
+    root.dataset.readyApp = '1';
 
     const install = root.querySelector('[data-install]');
     const notify = root.querySelector('[data-notify]');
@@ -148,7 +152,7 @@ const VAPID_PUBLIC_KEY =
         say('Aplikację zainstalujesz z przeglądarki na telefonie — wtedy dochodzą powiadomienia o nowym wpisie.');
       }
     }, 1500);
-  })();
+  });
 </script>
 
 <style>

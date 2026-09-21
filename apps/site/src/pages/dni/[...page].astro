@@ -163,18 +163,23 @@ const title = page.currentPage === 1 ? 'Wszystkie dni' : `Wszystkie dni — ${pa
 
 <script>
   import { readDays } from '../../lib/read';
+  import { onPage } from '../../lib/page';
 
   // Marking what is read rather than what is unread: a browser with no marks
   // at all is someone arriving for the first time, and lighting up twenty
   // rows to tell them they have read nothing is not information.
-  const seen = readDays();
-  if (seen.size > 0) {
+  //
+  // No `once` guard: this only reads and sets classes, so running twice on the
+  // same list changes nothing.
+  onPage(() => {
+    const seen = readDays();
+    if (seen.size === 0) return;
     for (const row of document.querySelectorAll('[data-entry]')) {
       const day = Number((row as HTMLElement).dataset.entry);
       if (seen.has(day)) row.classList.add('seen');
     }
     document.querySelector('.days')?.classList.add('marked');
-  }
+  });
 </script>
 
 <style>

@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import AppPanel from '../components/AppPanel.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import '../styles/tokens.css';
@@ -28,10 +29,21 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
 
     {/* Before first paint, or a dark-mode visitor gets a white flash. */}
     <script is:inline>
-      try {
-        const t = localStorage.getItem('ebner-theme');
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
-      } catch {}
+      (() => {
+        const apply = () => {
+          try {
+            const t = localStorage.getItem('ebner-theme');
+            if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+            else delete document.documentElement.dataset.theme;
+          } catch {}
+        };
+        apply();
+        // A swap replaces the document, and the chosen theme lives on its root
+        // element. `astro:after-swap` runs before the new page is painted, so
+        // reapplying here means the flash never happens rather than happening
+        // briefly. This listener is registered once, in the head, on purpose.
+        document.addEventListener('astro:after-swap', apply);
+      })();
     </script>
 
     {/*
@@ -72,6 +84,18 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
         color: var(--boot-fg);
       }
     </style>
+    {/*
+      Client-side navigation, which is here for a reason that is not polish.
+      In an installed app every link click was a full document load, and
+      Android repaints the ground behind its own navigation bar each time —
+      the buttons at the bottom of the phone flickered on every move. Nothing
+      added to a reloading page fixes that; the page has to stop reloading.
+
+      The transition it brings is the second reason, and it is why the swipe
+      can now move in the direction of the gesture.
+    */}
+    <ClientRouter />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -114,6 +138,8 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
       // a new service worker; an installed app gets opened and resumed, and
       // can sit on one version indefinitely. So the app asks on every resume,
       // and reloads itself when a new worker takes over.
+      // Once per document, not once per page: with client-side navigation the
+      // document outlives every page in it.
       if ('serviceWorker' in navigator) {
         addEventListener('load', () => {
           navigator.serviceWorker

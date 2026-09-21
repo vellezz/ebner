@@ -30,20 +30,26 @@
   </svg>
 </button>
 
-<script is:inline>
-  (() => {
+<script>
+  import { onPage, once } from '../lib/page';
+
+  onPage(() => {
     const KEY = 'ebner-theme';
     const ORDER = ['system', 'light', 'dark'];
-    const LABEL = { system: 'jak w systemie', light: 'jasny', dark: 'ciemny' };
+    const LABEL: Record<string, string> = {
+      system: 'jak w systemie',
+      light: 'jasny',
+      dark: 'ciemny',
+    };
 
     const root = document.documentElement;
-    const button = document.querySelector('.theme');
-    if (!button) return;
+    const button = document.querySelector('.theme') as HTMLButtonElement | null;
+    if (!button || !once(button, 'Theme')) return;
 
     const read = () => {
       try {
         const stored = localStorage.getItem(KEY);
-        return ORDER.includes(stored) ? stored : 'system';
+        return stored && ORDER.includes(stored) ? stored : 'system';
       } catch {
         // Private windows and blocked site data both throw here. A theme is a
         // convenience; losing it must not take the page with it.
@@ -51,7 +57,7 @@
       }
     };
 
-    const apply = (value) => {
+    const apply = (value: string) => {
       if (value === 'light' || value === 'dark') root.dataset.theme = value;
       else delete root.dataset.theme;
       button.dataset.themeMode = value;
@@ -64,14 +70,14 @@
     apply(read());
 
     button.addEventListener('click', () => {
-      const next = ORDER[(ORDER.indexOf(button.dataset.themeMode) + 1) % ORDER.length];
+      const next = ORDER[(ORDER.indexOf(button.dataset.themeMode || '') + 1) % ORDER.length];
       try {
         if (next === 'system') localStorage.removeItem(KEY);
         else localStorage.setItem(KEY, next);
       } catch {}
       apply(next);
     });
-  })();
+  });
 </script>
 
 <style>

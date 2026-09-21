@@ -95,6 +95,70 @@
   box-sizing: border-box;
 }
 
+/*
+ * Page transitions.
+ *
+ * Short and small on purpose. The job is to cover the swap so nothing blinks,
+ * not to be noticed: a long or large movement on a diary reads as a toy, and
+ * on a phone it is what stands between the reader and the next sentence.
+ */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* A swipe moves the page the way the thumb went; everything else fades. */
+:root[data-swipe='forward']::view-transition-old(root) {
+  animation-name: slide-out-left;
+}
+:root[data-swipe='forward']::view-transition-new(root) {
+  animation-name: slide-in-right;
+}
+:root[data-swipe='back']::view-transition-old(root) {
+  animation-name: slide-out-right;
+}
+:root[data-swipe='back']::view-transition-new(root) {
+  animation-name: slide-in-left;
+}
+
+@keyframes slide-out-left {
+  to {
+    transform: translateX(-4%);
+    opacity: 0;
+  }
+}
+@keyframes slide-in-right {
+  from {
+    transform: translateX(4%);
+    opacity: 0;
+  }
+}
+@keyframes slide-out-right {
+  to {
+    transform: translateX(4%);
+    opacity: 0;
+  }
+}
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-4%);
+    opacity: 0;
+  }
+}
+
+/* Asked not to animate, do not animate. The swap still happens. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
 body {
   margin: 0;
   background: var(--bg);

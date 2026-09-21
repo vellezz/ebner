@@ -37,28 +37,55 @@ const { entry, previous, next } = Astro.props;
 
 <script>
   import { markRead } from '../../lib/read';
+  import { onPage, once } from '../../lib/page';
+  import { navigate } from 'astro:transitions/client';
 
-  // Reading it is opening it. A dwell timer would be more accurate and would
-  // also mean an entry you opened, read and closed in twenty seconds stays
-  // unread — which is the wrong error to make.
-  const day = Number(document.querySelector('[data-day]')?.getAttribute('data-day'));
-  markRead(day);
-</script>
+  // Outside the per-page init, and registered once, because the swap replaces
+  // the root element's attributes with the incoming document's — which do not
+  // include a direction, so the attribute set before navigating is gone by the
+  // time the arriving page animates in. Holding it here and putting it back in
+  // `astro:after-swap`, which runs before the new page paints, is what makes
+  // the second half of the movement go the same way as the first.
+  let heading: string | null = null;
 
-<script is:inline>
-  // Swipe between entries, on touch only.
-  //
-  // The links above are the source of truth — the neighbours are already
-  // computed at build time and days are not consecutive, so anything that
-  // worked out a target from the day number would be wrong on every gap.
-  (() => {
-    const nav = document.querySelector('[data-neighbours]');
-    if (!nav || !window.matchMedia('(pointer: coarse)').matches) return;
+  document.addEventListener('astro:after-swap', () => {
+    if (heading) document.documentElement.dataset.swipe = heading;
+  });
 
-    const go = (rel) => {
-      const link = nav.querySelector(`a[rel="${rel}"]`);
-      if (link) location.href = link.href;
+  onPage(() => {
+    // Reading it is opening it. A dwell timer would be more accurate and would
+    // also mean an entry you opened, read and closed in twenty seconds stays
+    // unread — which is the wrong error to make.
+    const marker = document.querySelector('[data-day]') as HTMLElement | null;
+    if (marker) markRead(Number(marker.dataset.day));
+
+    // Swipe between entries, on touch only.
+    //
+    // The links are the source of truth — the neighbours are computed at build
+    // time and days are not consecutive, so anything that worked out a target
+    // from the day number would be wrong at every gap.
+    const nav = document.querySelector('[data-neighbours]') as HTMLElement | null;
+    if (!nav || !once(nav, 'Swipe') || !window.matchMedia('(pointer: coarse)').matches) return;
+
+    const go = (rel: string) => {
+      const link = nav.querySelector(`a[rel="${rel}"]`) as HTMLAnchorElement | null;
+      if (!link) return;
+      // The direction is set on the root so the stylesheet can slide the old
+      // page out the way the thumb went, rather than cross-fading whichever
+      // way the navigation happened to come.
+      heading = rel === 'next' ? 'forward' : 'back';
+      document.documentElement.dataset.swipe = heading;
+      navigate(link.href);
     };
+
+    // Cleared once the transition has played out, or the next click on an
+    // ordinary link would slide whichever way the last swipe happened to go.
+    // Not on `astro:after-swap`, which fires while the transition is still
+    // running and would take the direction from the animation using it.
+    setTimeout(() => {
+      heading = null;
+      delete document.documentElement.dataset.swipe;
+    }, 500);
 
     let x = 0;
     let y = 0;
@@ -70,7 +97,9 @@ const { entry, previous, next } = Astro.props;
       (event) => {
         // One finger, and not inside something that scrolls sideways of its
         // own accord — a wide table or a code block gets its own gesture.
-        live = event.touches.length === 1 && !event.target.closest('table, pre, [data-scroll-x]');
+        const target = event.target as Element;
+        live =
+          event.touches.length === 1 && !target.closest('table, pre, [data-scroll-x]');
         if (!live) return;
         x = event.touches[0].clientX;
         y = event.touches[0].clientY;
@@ -93,13 +122,13 @@ const { entry, previous, next } = Astro.props;
         if (Date.now() - at > 700) return;
         if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2) return;
         // Someone selecting text is not navigating.
-        if (!getSelection().isCollapsed) return;
+        if (!getSelection()?.isCollapsed) return;
 
         go(dx < 0 ? 'next' : 'prev');
       },
       { passive: true },
     );
-  })();
+  });
 </script>
 
 <style>

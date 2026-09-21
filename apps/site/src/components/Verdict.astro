@@ -22,8 +22,11 @@ const { day } = Astro.props;
 </div>
 
 <script>
-  const box = document.querySelector('[data-verdict]') as HTMLElement | null;
-  if (box) {
+  import { onPage, once } from '../lib/page';
+
+  onPage(() => {
+    const box = document.querySelector('[data-verdict]') as HTMLElement | null;
+    if (box && once(box, 'Verdict')) {
     const day = Number(box.dataset.verdict);
     const note = box.querySelector('[data-note]') as HTMLElement;
     const buttons = [...box.querySelectorAll('[data-vote]')] as HTMLButtonElement[];
@@ -82,9 +85,10 @@ const { day } = Astro.props;
         } finally {
           for (const b of buttons) b.disabled = false;
         }
-      });
+        });
+      }
     }
-  }
+  });
 </script>
 
 <style>

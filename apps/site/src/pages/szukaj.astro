@@ -36,11 +36,15 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <script>
+  import { onPage, once } from '../lib/page';
+
   // Imported rather than <script src> so the bundle is fetched only by people
   // who opened this page — every other page pays nothing for search existing.
+  onPage(() => {
   const results = document.querySelector('[data-results]') as HTMLElement;
   const status = document.querySelector('[data-status]') as HTMLElement;
   const input = document.querySelector('#q') as HTMLInputElement;
+  if (!input || !once(input, 'Search')) return;
 
   let pagefind: any = null;
   const load = async () => {
@@ -146,6 +150,7 @@ import Base from '../layouts/Base.astro';
     run(initial);
   }
   input.focus();
+  });
 </script>
 
 <style>

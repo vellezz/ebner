@@ -84,9 +84,15 @@ const graph = {
   <script is:inline define:vars={{ graph }}>
     // Laid out here rather than at build time so it can settle: the shape is
     // a few springs, and a few springs are easier to let run than to solve.
+    //
+    // `define:vars` means this script is inline and re-runs on every
+    // navigation, so it rebuilds the graph each time it finds an empty one and
+    // leaves an already-drawn map alone.
+    document.addEventListener('astro:page-load', () => {
     const svg = document.querySelector('[data-map]');
     const { nodes, legs, current } = graph;
-    if (svg && nodes.length) {
+    if (svg && !svg.dataset.drawn && nodes.length) {
+      svg.dataset.drawn = '1';
       const W = 800;
       const H = 520;
       const NS = 'http://www.w3.org/2000/svg';
@@ -198,6 +204,7 @@ const graph = {
         nodeLayer.append(g);
       }
     }
+    });
   </script>
 
   <ol class="legend">

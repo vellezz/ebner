@@ -27,9 +27,11 @@ const { days, current } = Astro.props;
 <script>
   import { markRead, readDays, unread } from '../lib/read';
   import { count } from '../lib/plural';
+  import { onPage, once } from '../lib/page';
 
-  const box = document.querySelector('[data-unread]') as HTMLElement | null;
-  if (box) {
+  onPage(() => {
+    const box = document.querySelector('[data-unread]') as HTMLElement | null;
+    if (box && once(box, 'Unread')) {
     // The entry printed in full above this line has been read by anyone who
     // scrolled past it, and counting it as unread while they look at it is
     // the kind of wrong a reader notices immediately.
@@ -55,9 +57,10 @@ const { days, current } = Astro.props;
         ),
         link,
       );
-      box.hidden = false;
+        box.hidden = false;
+      }
     }
-  }
+  });
 </script>
 
 <style>
