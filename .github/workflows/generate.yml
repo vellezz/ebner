@@ -57,6 +57,12 @@ jobs:
           pnpm --dir apps/site install --frozen-lockfile
           pip install -e apps/generator
 
+      # Seconds, against a step that costs about thirty cents and several
+      # minutes. Every case in here is a fault that once destroyed an entry
+      # after it had been written, checked, edited and paid for.
+      - name: Check the generator's own logic
+        run: python -m unittest discover -s apps/generator/tests
+
       - name: Generate
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

@@ -1,0 +1,42 @@
+name: Tests
+
+# The generator's own logic, checked without asking a model anything.
+#
+# The project has no test suite for its writing, deliberately — prose is not
+# testable and the guards are the only layer there. This is the other half:
+# the code that decides what the world records, which broke four times in one
+# run of seven, every time on the same shape of mistake.
+#
+# Cheap enough to gate on. A run that generates an entry costs about thirty
+# cents and takes minutes; this costs seconds and catches the class of fault
+# that would throw that entry away after paying for it.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/generator/**'
+      - 'prompts/**'
+      - '.github/workflows/tests.yml'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        run: pip install -e apps/generator
+
+      # Nothing here reaches D1 or an API: every case is a pure function fed
+      # the state that broke it.
+      - name: Run
+        run: python -m unittest discover -s apps/generator/tests -v
