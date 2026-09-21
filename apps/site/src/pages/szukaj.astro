@@ -1,0 +1,197 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Search runs entirely in the browser against an index Pagefind builds from
+// dist/ after Astro is done. There is no search server and no request to one:
+// the spec rules that out, and at this size a static index is smaller than the
+// page that would query it.
+//
+// Pagefind's own UI bundle is deliberately not used. It ships its own styling
+// and markup, which would be the one part of the site that does not belong to
+// the design; its JS API returns data, and the data is rendered below in the
+// site's own vocabulary.
+---
+
+<Base title="Szukaj — ebner.gripe" description="Przeszukaj dziennik roboczy Ebnera Gripe.">
+  <header class="head">
+    <h1>Szukaj</h1>
+    <p class="readout lead">W treści wpisów</p>
+  </header>
+
+  <form class="search" role="search" onsubmit="return false">
+    <label class="readout" for="q">Czego szukasz</label>
+    <input
+      id="q"
+      name="q"
+      type="search"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+      placeholder="np. głosowanie, zbieracz, Varnu"
+    />
+  </form>
+
+  <p class="status readout" data-status role="status" aria-live="polite"></p>
+  <ol class="results" data-results></ol>
+</Base>
+
+<script>
+  // Imported rather than <script src> so the bundle is fetched only by people
+  // who opened this page — every other page pays nothing for search existing.
+  const results = document.querySelector('[data-results]') as HTMLElement;
+  const status = document.querySelector('[data-status]') as HTMLElement;
+  const input = document.querySelector('#q') as HTMLInputElement;
+
+  let pagefind: any = null;
+  const load = async () => {
+    if (pagefind) return pagefind;
+    // Pagefind writes this file after Astro has finished, so at build time it
+    // does not exist and Rollup fails trying to resolve it. Held in a variable
+    // because @vite-ignore alone does not stop a literal from being analysed.
+    const bundle = '/pagefind/pagefind.js';
+    pagefind = await import(/* @vite-ignore */ bundle);
+    await pagefind.options({ excerptLength: 26 });
+    return pagefind;
+  };
+
+  const plural = (n: number) => {
+    const last = n % 10;
+    const teen = n % 100 >= 12 && n % 100 <= 14;
+    if (n === 1) return 'wpis';
+    return !teen && last >= 2 && last <= 4 ? 'wpisy' : 'wpisów';
+  };
+
+  let token = 0;
+  const run = async (term: string) => {
+    const mine = ++token;
+    results.replaceChildren();
+
+    if (term.trim().length < 2) {
+      status.textContent = '';
+      return;
+    }
+
+    status.textContent = 'szukam…';
+    let found;
+    try {
+      const pf = await load();
+      found = await pf.search(term);
+    } catch {
+      status.textContent = 'wyszukiwarka niedostępna offline';
+      return;
+    }
+    // A slower search for an older term must not overwrite a newer one.
+    if (mine !== token) return;
+
+    if (!found.results.length) {
+      status.textContent = 'nic nie znaleziono';
+      return;
+    }
+
+    status.textContent = `${found.results.length} ${plural(found.results.length)}`;
+    const top = await Promise.all(found.results.slice(0, 20).map((r: any) => r.data()));
+    if (mine !== token) return;
+
+    for (const hit of top) {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = hit.url.replace(/index\.html$/, '');
+      a.textContent = hit.meta?.title || hit.url;
+      const p = document.createElement('p');
+      // Pagefind marks the matched words itself; this is its own output, not
+      // anything a visitor typed.
+      p.innerHTML = hit.excerpt;
+      li.append(a, p);
+      results.append(li);
+    }
+  };
+
+  let timer: number;
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = window.setTimeout(() => run(input.value), 180);
+  });
+
+  // ?q= makes a search linkable, which is what someone does when they want to
+  // send a friend the entry about the voting station.
+  const initial = new URLSearchParams(location.search).get('q');
+  if (initial) {
+    input.value = initial;
+    run(initial);
+  }
+  input.focus();
+</script>
+
+<style>
+  .head {
+    margin-bottom: 32px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 6vw, 44px);
+    margin: 0;
+  }
+
+  .lead {
+    margin: 6px 0 0;
+  }
+
+  .search {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: var(--measure);
+  }
+
+  .search input {
+    font-family: var(--font-body);
+    font-size: 19px;
+    padding: 12px 14px;
+    background: var(--wb);
+    border: 1px solid var(--wl);
+    color: var(--fg);
+    width: 100%;
+  }
+
+  .search input:focus-visible {
+    outline: 2px solid var(--ac);
+    outline-offset: 1px;
+  }
+
+  .status {
+    margin: 18px 0 0;
+    min-height: 1em;
+  }
+
+  .results {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    max-width: var(--measure);
+  }
+
+  .results li {
+    padding: 18px 0;
+    border-top: 1px solid var(--sp);
+  }
+
+  .results a {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 21px;
+  }
+
+  .results p {
+    margin: 6px 0 0;
+    color: var(--f2);
+    line-height: 1.55;
+  }
+
+  .results :global(mark) {
+    background: var(--ts);
+    color: var(--tf);
+    padding: 0 2px;
+  }
+</style>

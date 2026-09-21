@@ -15,21 +15,36 @@ const Heading = headingLevel;
 const dayLabel = String(day).padStart(3, '0');
 ---
 
-<article class="entry">
-  <div class="meta">
+{/*
+  data-pagefind-* marks what the search index takes from this page. Without
+  the body marker Pagefind indexes everything including the masthead and the
+  footer, and every entry then matches "dziennik roboczy".
+*/}
+<article class="entry" data-pagefind-body>
+  {/*
+    Ignored, or every excerpt opens with "stacja glosowania nowe zlecenie
+    glosowanie" before reaching a sentence. The labels are navigation, and a
+    search result should show the prose someone was looking for.
+  */}
+  <div class="meta" data-pagefind-ignore>
     <span class="day">{dayLabel}</span>
     <span class="readout facts">
       {kindLabel(kind)} &middot; {location.replace(/-/g, ' ')}
     </span>
   </div>
 
-  <Heading class="title">
+  <Heading class="title" data-pagefind-meta="title">
     <a href={`/dzien/${day}`}>{title}</a>
   </Heading>
+  <span
+    hidden
+    data-pagefind-meta={`dzien:${day}`}
+    data-pagefind-filter={`rodzaj:${kindLabel(kind)}`}
+  ></span>
 
   {
     threads.length > 0 && (
-      <ul class="threads readout">
+      <ul class="threads readout" data-pagefind-ignore>
         {threads.map((t) => (
           <li>{t.replace(/-/g, ' ')}</li>
         ))}
