@@ -1,0 +1,19 @@
+{
+  "day": 45,
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Ebner zmienia przełożenie liny wciągarki holującej frachtowiec Treska z jedenastu na pięć i pół obrotu na centymetr, kosztem podwojenia siły potrzebnej do kręcenia; Otha i Tresk kręcą teraz razem, wyczuwając szczyty fal dygotania skorupy."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-wciagarka-tempo-obrotow"
+    }
+  ],
+  "sketch": "placeholder"
+}
