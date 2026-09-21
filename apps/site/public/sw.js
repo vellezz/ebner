@@ -36,6 +36,12 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
   // The subscription endpoint must never be served from cache.
   if (url.pathname.startsWith('/api/')) return;
+  // Nor the search index. Its files are content-hashed and change name on
+  // every deploy, so caching them keeps dead weight for good — and a stale
+  // entry file points the index at fragments that no longer exist, which is
+  // search silently returning nothing for anyone with the app installed while
+  // it works perfectly in a browser that never cached the old one.
+  if (url.pathname.startsWith('/pagefind/')) return;
 
   event.respondWith(
     fetch(request)
