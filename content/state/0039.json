@@ -1,0 +1,20 @@
+{
+  "day": 39,
+  "facts_opened": [
+    {
+      "id": "f-ebner-zapasy-przeglad",
+      "content": "Ebner sprawdził zapasy w ładowni Hanny: pół kompletu uszczelek kołnierzowych, pudełko niesortowanych złączy gwintowanych, brak ogniw grzewczych zapasowych, mniej rozpuszczalnika niż sądził, dwie całe tuby smaru łożyskowego i brak rury ciśnieniowej.",
+      "subject": "ebner-gripe",
+      "valid_from": 39
+    }
+  ],
+  "fragments": [
+    {
+      "id": "grot-po-szesnastu-latach",
+      "kind": "scene",
+      "content": "Kobieta z pola trzeciego oddała Ebnerowi grot pożyczony szesnaście lat wcześniej, zgodnie z ambrackim obrzędem przekazania z dłoni do dłoni w obecności świadka.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner w hali portowej na Ambracie trzyma miskę lewą ręką, łyżkę prawą, a kobieta przy stole podaje mu na otwartej dłoni stary grot pod okiem patrzącego dziecka."
+}
