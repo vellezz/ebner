@@ -1,0 +1,33 @@
+{
+  "day": 25,
+  "threads": [
+    {
+      "id": "rozliczenie-czwarta-nitka",
+      "op": "open",
+      "type": "short",
+      "status": "closed",
+      "closure": "resolved",
+      "summary": "Naprawa przewężenia w czwartej nitce rozdzielni na Oskrze rozliczona fakturą i zapłatą w naturze — bąbel powietrza w nitce staje się nieformalną miarą czasu dla rozdzielni."
+    },
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "summary": "Rachunek z Varnu przyszedł po raz pierwszy niższy niż poprzedni, o jedną jednostkę, wciąż bez wyjaśnienia; Ebner zapytał, czy obniżka jest jednorazowa."
+    },
+    {
+      "id": "sygnal-spod-oskry",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Odbiornik Hanny, otwarty przez ciągłą nośną zapasowego nadajnika, złapał powtarzające się wezwanie pomocy nadawane spod powierzchni Oskry, gdzie nie ma żadnej infrastruktury nadawczej."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-rachunek-varnu-dni9"
+    }
+  ],
+  "fragments": [],
+  "sketch": "Ebner stoi w niszy rozdzielni na Oskrze, patrząc jak rachmistrzyni wpisuje do księgi termin wygaśnięcia zapłaty powiązany z ruchem bąbla powietrza po grzbiecie księżyca.z"
+}
