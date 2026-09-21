@@ -17,6 +17,10 @@ on:
         description: 'Settings to compare on the writing step, comma separated.'
         required: false
         default: 'high,medium'
+      length:
+        description: 'Force a length band (note, medium, long). Empty draws one.'
+        required: false
+        default: 'long'
 
 # Reads world state and writes nothing, so it does not belong in the state
 # group — but it must not run while a state change is half applied.
@@ -58,6 +62,10 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
+          args=""
+          if [ -n "${{ inputs.length }}" ]; then
+            args="--length ${{ inputs.length }}"
+          fi
           python -m ebner experiment \
             --seed "${{ inputs.seed }}" \
-            --effort "${{ inputs.effort }}"
+            --effort "${{ inputs.effort }}" $args
