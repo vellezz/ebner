@@ -17,6 +17,7 @@ import json
 import re
 import subprocess
 import unicodedata
+from functools import lru_cache
 from pathlib import Path
 
 from .apply import ENTRIES_DIR, STATE_DIR, parse_entry
@@ -262,6 +263,55 @@ def _strip_fence(text: str) -> str:
     return fenced.group(1).strip() if fenced else text.strip()
 
 
+def _fenced(text: str, tag: str) -> str:
+    """The body of the first ```tag block."""
+    found = re.search(rf"```{tag}\r?\n(.*?)```", text, re.DOTALL)
+    return found.group(1) if found else ""
+
+
+@lru_cache(maxsize=1)
+def _calendar_rule() -> tuple[re.Pattern[str] | None, str]:
+    """The forbidden vocabulary and its repair, read from the prompt.
+
+    Both live in `prompts/calendar_pl.md` rather than here: they are the
+    world's vocabulary, so changing the rule should be an edit to Polish text,
+    not to Python.
+    """
+    text = prompt("calendar_pl.md")
+    patterns = [
+        line.strip()
+        for line in _fenced(text, "regex").splitlines()
+        if line.strip() and not line.strip().startswith("#")
+    ]
+    repair = _fenced(text, "text").strip()
+    if not patterns or not repair:
+        return None, ""
+    return re.compile(r"\b(" + "|".join(patterns) + r")\b", re.IGNORECASE), repair
+
+
+def calendar_slips(text: str) -> list[str]:
+    """Fixes for earthly calendar units, found mechanically.
+
+    The writing prompt forbids these and the consistency check is told to
+    catch them, and between them they let `w przyszłym tygodniu` through four
+    times — word for word, as the closing sentence of four separate entries.
+    Two prompts asking twice is where this stops being a wording problem.
+
+    Detection is deterministic; the repair is not, so these join the fix list
+    the edit step applies rather than a guard that would throw the entry away.
+    """
+    pattern, repair = _calendar_rule()
+    if pattern is None:
+        return []
+
+    fixes = []
+    for word in dict.fromkeys(m.group(0) for m in pattern.finditer(text)):
+        sentence = next((l.strip() for l in text.splitlines() if word in l), "")
+        where = f" (w zdaniu: {sentence[:70]}…)" if sentence else ""
+        fixes.append("- " + repair.replace("{slowo}", word) + where)
+    return fixes
+
+
 def normalise_entry(text: str) -> str:
     """Supply the frontmatter keys the writer has no say over.
 
@@ -327,6 +377,12 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     # whole thing, which cost more output tokens than writing it did — for a
     # step that usually changes nothing.
     fixes = [line for line in lines[1:] if line.startswith("-")]
+    # Merged rather than trusted to the checker, which has been told to find
+    # these and does not reliably.
+    for slip in calendar_slips(entry_text):
+        if slip not in fixes:
+            fixes.append(slip)
+            print(f"  kalendarz: {slip[:88]}")
     fixes_text = "\n".join(fixes) if fixes else "Brak — wpis przeszedł bez uwag."
 
     # --- 4. edit ---------------------------------------------------------
