@@ -1,0 +1,36 @@
+{
+  "day": 44,
+  "threads": [
+    {
+      "id": "trzecie-wazenie",
+      "op": "close",
+      "status": "closed",
+      "closure": "resolved",
+      "summary": "Vaul przyszedł z własną ciągarką, próbował przejąć hol, ale zerwał styczność w południe po policzeniu odległości i się poddał; Ebner zbudował drugie ramię korby z kątownika, łącząc oba hole w jeden, rejestrator skreślił deklarację Vaula i uznał sprawę za nierozstrzygalną, bo pozycja jest teraz jedna."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-vaul-holowanie-sporne"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "korba-dwa-ramiona",
+      "kind": "punchline",
+      "content": "Korba ma teraz dwa ramiona. Pański hol i mój hol to ten sam hol. Nikt nie puszcza, nic nie staje, pan kręci.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    },
+    {
+      "id": "vaul-liczy-dystans",
+      "kind": "scene",
+      "content": "Vaul policzył sobie w górnym rzędzie palców, potem w dolnym, ile jeszcze zostało do wrót hali, i po chwili puścił korbę bez słowa.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    }
+  ],
+  "sketch": "Kątownik przykręcony do wału korby jako drugie ramię wciągarki, Vaul i Otha kręcący razem, miska jeździ w kółko."
+}
