@@ -43,6 +43,12 @@ self.addEventListener('fetch', (event) => {
         if (response.ok) {
           const copy = response.clone();
           caches.open(VERSION).then((cache) => cache.put(request, copy));
+        } else if (response.status === 404) {
+          // An entry can be unpublished, and then this URL is gone for good.
+          // Without this the cached copy survives forever and the app still
+          // shows it offline — a removal that is complete everywhere except
+          // on the devices that had read it.
+          caches.open(VERSION).then((cache) => cache.delete(request));
         }
         return response;
       })

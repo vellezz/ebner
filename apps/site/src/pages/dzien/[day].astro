@@ -25,11 +25,68 @@ const { entry, previous, next } = Astro.props;
 <Base title={entry.data.title}>
   <Entry entry={entry} />
 
-  <nav class="neighbours readout">
-    {previous ? <a href={`/dzien/${previous.data.day}`}>&larr; {previous.data.title}</a> : <span />}
-    {next ? <a href={`/dzien/${next.data.day}`}>{next.data.title} &rarr;</a> : <span />}
+  <nav class="neighbours readout" data-neighbours>
+    {previous ? <a href={`/dzien/${previous.data.day}`} rel="prev">&larr; {previous.data.title}</a> : <span />}
+    {next ? <a href={`/dzien/${next.data.day}`} rel="next">{next.data.title} &rarr;</a> : <span />}
   </nav>
 </Base>
+
+<script is:inline>
+  // Swipe between entries, on touch only.
+  //
+  // The links above are the source of truth — the neighbours are already
+  // computed at build time and days are not consecutive, so anything that
+  // worked out a target from the day number would be wrong on every gap.
+  (() => {
+    const nav = document.querySelector('[data-neighbours]');
+    if (!nav || !window.matchMedia('(pointer: coarse)').matches) return;
+
+    const go = (rel) => {
+      const link = nav.querySelector(`a[rel="${rel}"]`);
+      if (link) location.href = link.href;
+    };
+
+    let x = 0;
+    let y = 0;
+    let at = 0;
+    let live = false;
+
+    addEventListener(
+      'touchstart',
+      (event) => {
+        // One finger, and not inside something that scrolls sideways of its
+        // own accord — a wide table or a code block gets its own gesture.
+        live = event.touches.length === 1 && !event.target.closest('table, pre, [data-scroll-x]');
+        if (!live) return;
+        x = event.touches[0].clientX;
+        y = event.touches[0].clientY;
+        at = Date.now();
+      },
+      { passive: true },
+    );
+
+    addEventListener(
+      'touchend',
+      (event) => {
+        if (!live) return;
+        live = false;
+        const touch = event.changedTouches[0];
+        const dx = touch.clientX - x;
+        const dy = touch.clientY - y;
+
+        // Deliberate, horizontal, and quick: a slow drag is a scroll that
+        // wandered, and a shallow angle is a scroll that wandered further.
+        if (Date.now() - at > 700) return;
+        if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2) return;
+        // Someone selecting text is not navigating.
+        if (!getSelection().isCollapsed) return;
+
+        go(dx < 0 ? 'next' : 'prev');
+      },
+      { passive: true },
+    );
+  })();
+</script>
 
 <style>
   .neighbours {

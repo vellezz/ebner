@@ -33,6 +33,45 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
       } catch {}
     </script>
+
+    {/*
+      The ground colour, inline, because the script above only decides which
+      one — the values live in tokens.css, which is a separate request, and
+      until it arrives the browser paints its own white. On a phone that gap is
+      long enough to see, and it is what the flash on reload was.
+
+      These four colours are duplicated from tokens.css on purpose: by
+      definition they cannot come from the file whose arrival they cover. They
+      are --bg and --fg for each scheme and nothing else; everything that can
+      wait, waits.
+    */}
+    <style is:inline>
+      :root {
+        color-scheme: light;
+        --boot-bg: #d3d0c8;
+        --boot-fg: #1e1d1a;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          color-scheme: dark;
+          --boot-bg: #1a1917;
+          --boot-fg: #e6e4dd;
+        }
+      }
+      :root[data-theme='dark'] {
+        color-scheme: dark;
+        --boot-bg: #1a1917;
+        --boot-fg: #e6e4dd;
+      }
+      html {
+        background: var(--boot-bg);
+      }
+      body {
+        margin: 0;
+        background: var(--boot-bg);
+        color: var(--boot-fg);
+      }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -67,9 +106,50 @@ const { title, description = 'Dziennik roboczy Ebnera Gripe.' } = Astro.props;
     <script is:inline>
       // Registered after load so it never competes with rendering the entry,
       // which is the only thing anyone came for.
+      //
+      // Installed apps are the reason for everything below the registration.
+      // A browser tab navigates, and navigating is when the browser looks for
+      // a new service worker; an installed app gets opened and resumed, and
+      // can sit on one version indefinitely. So the app asks on every resume,
+      // and reloads itself when a new worker takes over.
       if ('serviceWorker' in navigator) {
         addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(() => {});
+          navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {
+              const check = () => {
+                if (document.visibilityState === 'visible') {
+                  registration.update().catch(() => {});
+                }
+              };
+              document.addEventListener('visibilitychange', check);
+              check();
+            })
+            .catch(() => {});
+
+          // A page that had no controller gets one the first time a worker
+          // claims it. That is an installation, not an update, and reloading
+          // for it would reload every first visit.
+          const hadController = Boolean(navigator.serviceWorker.controller);
+          let pending = false;
+          let reloading = false;
+          const apply = () => {
+            if (!pending || reloading) return;
+            reloading = true;
+            location.reload();
+          };
+
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!hadController) return;
+            pending = true;
+            // Never mid-sentence. A new version is not worth yanking the page
+            // out from under someone reading it, and network-first fetching
+            // means what they are reading is already current.
+            if (document.visibilityState === 'hidden') apply();
+          });
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') apply();
+          });
         });
       }
     </script>
