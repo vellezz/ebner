@@ -1,0 +1,46 @@
+{
+  "day": 52,
+  "facts_opened": [
+    {
+      "id": "f-terraformer-zada-dowodu",
+      "content": "Terraformer uznał fakturę z dnia 49 warunkowo i zażądał dowodu wpłaty, nie samej faktury, jako dowodu odpłatności.",
+      "subject": "ebner-gripe",
+      "valid_from": 52
+    },
+    {
+      "id": "f-zarzadca-platnosc-prywatna",
+      "content": "Zarządca terraformera zapłacił Ebnerowi jedną jednostkę z własnych środków, prywatnie, żeby opinia techniczna stała się odpłatna i tym samym wiążąca, mimo że jednocześnie dopuszcza Holdmark Serwis do wykonania tańszej, gorszej roboty.",
+      "subject": "ebner-gripe",
+      "valid_from": 52
+    },
+    {
+      "id": "f-zeton-wpisany-trzymacz",
+      "content": "Ebner dopisał żeton od zarządcy do rejestru swojego wynajętego trzymacza za trzy jednostki, bo na Ambracie każdą trzymaną rzecz wpisuje się osobno, niezależnie od jej wartości.",
+      "subject": "ebner-gripe",
+      "valid_from": 52
+    },
+    {
+      "id": "f-ebner-dowod-wplaty-wyslany",
+      "content": "Ebner wysłał terraformerowi dowód wpłaty: wyciąg z konta razem z fotografią żetonu trzymanego przez trzymacza i widoczną kartką od zarządcy w oplocie liny.",
+      "subject": "ebner-gripe",
+      "valid_from": 52
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f52-kartka-zarzadcy",
+      "kind": "document",
+      "content": "»Płacę z własnych środków. Wykonawca wchodzi zgodnie z umową. Proszę zachować pismo.«",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "f52-trzymanie-osobne",
+      "kind": "scene",
+      "content": "Urzędniczka: wartość rzeczy nie wpływa na koszt jej trzymania, bo trzymanie trwa tyle samo niezależnie od tego, co się trzyma.",
+      "threads": []
+    }
+  ],
+  "sketch": "Trzymacz stojący przy Hannie, w dolnym rzędzie palców linka burtowa, w górnym żeton i kartka, skorupa księżyca dygocząca wokół niego."
+}
