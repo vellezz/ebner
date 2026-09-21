@@ -512,6 +512,34 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     )
     report_edit(before_edit, entry_text)
 
+    # Checked again, because the step that was given these fixes rewrites the
+    # prose and can introduce the very thing it was told to remove. Day 36 came
+    # back with `tydzień` in a sentence the writer had not written: the
+    # detector ran before the edit, found nothing, and nothing looked again.
+    #
+    # One further pass, never a loop. If a second editor still cannot say it in
+    # days, that is a sentence worth publishing with the flaw rather than
+    # paying indefinitely to remove one word.
+    remaining = calendar_slips(entry_text)
+    if remaining:
+        print(f"  kalendarz: po redakcji zostało {len(remaining)} — jeszcze raz")
+        entry_text = normalise_entry(
+            _strip_fence(
+                complete(
+                    "edit",
+                    fill(
+                        prompt("edit_pl.md"),
+                        {"wpis": entry_text, "poprawki": "\n".join(remaining)},
+                    ),
+                    "Zredaguj wpis.",
+                )
+            ),
+            {"day": params["day"], "kind": params["kind"]},
+        )
+        still = calendar_slips(entry_text)
+        if still:
+            print(f"  kalendarz: nadal {len(still)}, zostawiam i publikuję")
+
     # --- 5. extract state -------------------------------------------------
     # The prose is finished and paid for by this point. If extraction fails,
     # the entry goes into the error rather than evaporating with the
