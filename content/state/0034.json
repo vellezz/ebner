@@ -1,0 +1,68 @@
+{
+  "day": 34,
+  "entities": [
+    {
+      "id": "ambrat",
+      "kind": "place",
+      "name": "Ambrat",
+      "summary": "Księżyc mieszany od środka przez drugiego olbrzyma, o niskiej grawitacji i ciągłym dygotaniu skorupy, przez co nic postawione nie zostaje na miejscu. Miejscowi mają dwa rzędy długich palców i żyją prawem ciągłego trzymania."
+    },
+    {
+      "id": "tresk",
+      "kind": "person",
+      "name": "Tresk",
+      "summary": "Kapitan frachtowca, który stracił jednostkę na Ambracie po puszczeniu burty w śluzie celnej; utrzymuje prawo do niej trzymając nadajnik awaryjny w rękach dwanaście dni."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "oskra",
+      "to": "ambrat"
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "ambrat-prawo-trzymania",
+      "kind": "world_rule",
+      "content": "Na Ambracie rzecz niedotykana jest rzeczą niczyją i należy do pierwszej dłoni, która ją trzyma; własność trwa tylko przez nieprzerwaną styczność, co wymusza wynajem trzymaczy z urzędu i skomplikowane rytuały przekazywania rzeczy z ręki do ręki.",
+      "subject": "ambrat"
+    },
+    {
+      "id": "f-ebner-obejma-tresk",
+      "content": "Ebner zbudował Treskowi obejmę z odciętego kawałka rury ciśnieniowej, uszczelki kołnierzowej i złączy gwintowanych, mocującą nadajnik awaryjny do jego ręki, co urząd celny uznał za ciągłą styczność wystarczającą do zachowania własności jednostki.",
+      "subject": "tresk"
+    },
+    {
+      "id": "f-ebner-rura-sprzedana-czesciowo",
+      "content": "Ebner sprzedał resztę rury ciśnieniowej na Ambracie za mniej niż czterdzieści dwie jednostki, bo kupiec odjął więcej niż wartość uciętego kawałka; z zapasów w ładowni zostały tylko drobne części.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-ebner-trzymacz-wynajety",
+      "content": "Ebner wynajął na Ambracie trzymacza z urzędu na czas pobytu za dziewięć jednostek, płatne z góry, by móc zachować prawo do jednostki Hanna zgodnie z lokalnym przepisem.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "ambrat-cechy-swiata",
+      "kind": "world_description",
+      "content": "Ambrat to księżyc, którego skorupa drga bez przerwy, więc nic tam nie leży — wszystko odłożone odjeżdża i nie wraca. Miejscowi mają dwa rzędy długich, cienkich palców i bez przerwy nimi coś trzymają, nawet gdy nie trzymają nic.",
+      "threads": []
+    },
+    {
+      "id": "tresk-obejma-scena",
+      "kind": "scene",
+      "content": "Ebner z rury ciśnieniowej, uszczelki kołnierzowej i złączy gwintowanych zbudował obejmę mocującą nadajnik awaryjny do ręki Treska, żeby ten mógł wreszcie puścić i zasnąć, wciąż zachowując prawo do własnej jednostki.",
+      "threads": []
+    },
+    {
+      "id": "ambrat-clo-punchline",
+      "kind": "punchline",
+      "content": "— Rzecz musi być dotykana przez właściciela. — Jest. Przepis pani mówi o styczności, nie o pracy mięśni. Nigdzie nie pisze, że właściciel ma się męczyć.",
+      "threads": []
+    }
+  ],
+  "sketch": "Człowiek z sinymi, spuchniętymi rękami przykuty obejmą z rury do starego nadajnika awaryjnego, siedzący pod ścianą drgającej hali portowej na obcym księżycu."
+}
