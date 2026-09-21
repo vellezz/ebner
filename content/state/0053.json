@@ -1,0 +1,21 @@
+{
+  "day": 53,
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Hol trwa (49 cm od kreski); Ebner spotyka przy wrotach hali znanego z przeszłości człowieka, który odmawia wynajęcia trzymacza z urzędu i próbuje trzymać kufer narzędziowy samodzielnie, bez snu."
+    }
+  ],
+  "fragments": [
+    {
+      "id": "czlowiek-bez-trzymacza",
+      "kind": "scene",
+      "content": "Człowiek z kufrem przyciśniętym do brzucha, budzący się, gdy kufer zaczyna się zsuwać, mówiący, że dziewięć jednostek za trzymacza to rozbój, i idący ostatecznie do urzędu, gdy zobaczył trzymacza Ebnera.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    }
+  ],
+  "sketch": "Wynędzniały mężczyzna przy wrotach metalowej hali, obejmujący kufer narzędziowy obiema rękami, na dygoczącej powierzchni Ambratu."
+}
