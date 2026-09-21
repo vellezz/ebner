@@ -1,0 +1,34 @@
+{
+  "day": 30,
+  "threads": [
+    {
+      "id": "sygnal-spod-oskry",
+      "op": "update",
+      "summary": "Rachmistrzyni ustaliła, że nadawanie sygnału jest zużyciem, więc punkt jest teraz czynny i termin biegnie w tempie zależnym od tego, co odbiorca pobiera; Ebner odmówił zakręcenia zaworu, habitat pyta, czy nadawać rzadziej, żeby odbiorcy zostało więcej czasu."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-oskra-odbiorca-zaleglosc"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "punkt-zuzywa-termin-biegnie",
+      "kind": "scene",
+      "content": "— Zatem punkt zużywa — powiedziała. — Zużycie jest zdarzeniem. Termin czynnego punktu biegnie. Tyle, ile zużyje.",
+      "threads": [
+        "sygnal-spod-oskry"
+      ]
+    },
+    {
+      "id": "habitat-pytanie-nadawac-rzadziej",
+      "kind": "punchline",
+      "content": "„Czy mam nadawać rzadziej, żeby im zostało.” Nie umiem tego rozliczyć. Nie wiem, co mu odpisać.",
+      "threads": [
+        "sygnal-spod-oskry"
+      ]
+    }
+  ],
+  "sketch": "Rachmistrzyni pochylona nad księgą przy burcie, palec na linijce piątego odgałęzienia, w tle habitat placu budowy i pulsujący bąbel powietrza w rurze."
+}
