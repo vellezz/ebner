@@ -1,0 +1,48 @@
+{
+  "day": 33,
+  "threads": [
+    {
+      "id": "sygnal-spod-oskry",
+      "op": "update",
+      "summary": "Ebner poprosił rachmistrzynię o kręcenie zaworem w rytmie odpowiadającym własnej wiadomości nadawcy zamiast zakręcenia lub rozrzedzenia sygnału; sygnał odpowiedział krótszą wiadomością, potem umilkł, a Ebner uznał to za zaprzestanie zużycia, więc termin przestał biec."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-oskra-rytm-odpowiedzi",
+      "content": "Ebner nakazał rachmistrzyni otwierać i zamykać zawór piątego odgałęzienia w rytmie odpowiadającym pauzom własnej wiadomości nadawcy sygnału, traktując to jako komunikat, nie jako dostawę czasu; sygnał odpowiedział krótszą wersją bez prośby o hol, a potem umilkł.",
+      "subject": "oskra",
+      "valid_from": 33
+    },
+    {
+      "id": "f-oskra-milczenie-zapisane",
+      "content": "Rachmistrzyni zapisała milczenie sygnału jako zaprzestanie zużycia, co oznacza, że punkt piątego odgałęzienia znów jest bierny i termin przestał biec; Ebner nie wie, czy oznacza to, że nadawcy wystarczyło powietrza, czy że im się skończyło.",
+      "subject": "oskra",
+      "valid_from": 33
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-oskra-zawor-odkrecony"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "oskra-czas-jako-jezyk",
+      "kind": "scene",
+      "content": "Radiem nie — radio nie schodzi pod tę skorupę. Rurą przychodzi tylko jedno: czas. Więc czasem.",
+      "threads": [
+        "sygnal-spod-oskry"
+      ]
+    },
+    {
+      "id": "oskra-milczenie-dwuznaczne",
+      "kind": "punchline",
+      "content": "Ktoś, kto przestał wołać, żeby starczyło na powietrze, i ktoś, komu już nie starczyło, milczą identycznie.",
+      "threads": [
+        "sygnal-spod-oskry"
+      ]
+    }
+  ],
+  "sketch": "Ebner stoi przy zaworze piątego odgałęzienia, rachmistrzyni kręci nim w rytmicznych taktach, zapisując linijki w księdze pod bąblującą powierzchnią Oskry."
+}
