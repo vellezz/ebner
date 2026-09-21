@@ -1,0 +1,49 @@
+{
+  "day": 40,
+  "entities": [
+    {
+      "id": "otha",
+      "kind": "person",
+      "name": "Otha",
+      "parent": "ambrat",
+      "summary": "Trzymaczka z urzędu na Ambracie, straciła sto dwanaście dni stażu przy zerwaniu styczności podczas wypadku na polu złomu."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ambrat-staz-wartosc",
+      "kind": "general",
+      "content": "Na Ambracie wartość i wiarygodność rzeczy zależy od czasu nieprzerwanego trzymania — im dłużej ktoś trzyma bez przerwy, tym rzecz jest \"czystsza\" i droższa; zerwanie styczności zeruje staż i czyni rzecz wątpliwą.",
+      "subject": "ambrat"
+    },
+    {
+      "id": "f-ebner-katownik",
+      "content": "Ebner zabrał z pola złomu na Ambracie kawałek kątownika, którym podważał blachę przy wypadku; leży teraz nierozliczony w warsztacie Hanny.",
+      "subject": "ebner-gripe",
+      "valid_from": 40
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f40-pole-zlomu",
+      "kind": "world_description",
+      "content": "Pole złomu za trzecią bramą: sterty złomu z tabliczkami liczb dni trzymania, przy każdej człowiek z dłonią na wierzchu, zmieniający się bez odrywania rąk. Rzecz trzymana krótko jest wątpliwa, trzymana długo — czysta jak łza.",
+      "threads": []
+    },
+    {
+      "id": "f40-otha-ratunek",
+      "kind": "scene",
+      "content": "Ebner podważa klinami i kątownikiem płytę przygniatającą rękę Othy, podsuwa jej inną blachę pod prawą dłoń, by mogła puścić przygniecioną — trzymaczka z urzędu, dla której zerwanie styczności oznacza utratę stu dwunastu dni stażu.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    },
+    {
+      "id": "f40-rejestrator",
+      "kind": "punchline",
+      "content": "— Czy rzecz druga należała do sterty? Ebner zeznaje, że blacha leżała osobno, niczyja, zanim Otha ją chwyciła — ratując jej wpis, choć nikt tego nie widział.",
+      "threads": []
+    }
+  ],
+  "sketch": "Kobieta z ręką przygniecioną między dwiema wielkimi płytami blachy na niskograwitacyjnym polu złomu, mężczyzna wbija kliny i kątownik, wokół stoją ludzie z dłońmi na stertach złomu, w tle tabliczki z liczbami dni."
+}
