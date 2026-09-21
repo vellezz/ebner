@@ -84,8 +84,22 @@ def pick_day_step(cfg: dict, kind_id: str, rng: random.Random) -> int:
     return int(_weighted(rng, candidates)["step"])
 
 
-def pick_length(cfg: dict, rng: random.Random) -> dict:
-    return _weighted(rng, cfg["length"], None)
+def pick_length(cfg: dict, rng: random.Random, kind_id: str | None = None) -> dict:
+    """How long the entry runs.
+
+    Some kinds cannot be told in a note. Day 22 drew `travel` at note length
+    and produced a hundred and forty-five words in which nothing travelled —
+    a journey needs room for a departure, a way and an arrival, and given two
+    hundred words the writer drops all three and describes a lift. The bands a
+    kind may not draw are listed in rhythm.yaml, next to the kinds themselves.
+    """
+    options = cfg["length"]
+    forbidden = (cfg.get("length_floor") or {}).get(kind_id or "", [])
+    if forbidden:
+        allowed = [o for o in options if o["id"] not in forbidden]
+        if allowed:
+            options = allowed
+    return _weighted(rng, options, None)
 
 
 def pick_hint(cfg: dict, rng: random.Random) -> tuple[str | None, str | None]:
@@ -117,7 +131,7 @@ def plan_entry(cfg: dict, world: dict, *, seed: int | None = None) -> dict[str, 
 
     kind = pick_kind(cfg, world, rng)
     step = pick_day_step(cfg, kind["id"], rng)
-    length = pick_length(cfg, rng)
+    length = pick_length(cfg, rng, kind["id"])
     hint_pool, hint = pick_hint(cfg, rng)
 
     prefer_known = kind["id"] in cfg["world_growth"]["revisit_pressure"]["prefer_known_for"]

@@ -56,6 +56,15 @@ length:
     words: [900, 1600]
     label: "długi wpis: sceny z dialogiem i konkretną robotą, nie streszczenia"
 
+# Length bands a kind may not draw. A journey needs room for a departure, a way
+# and an arrival; asked for a travel entry in two hundred words, the writer
+# dropped all three and described a lift ride that went nowhere (day 22).
+length_floor:
+  travel: [note]
+  new_job: [note]
+  adventure: [note]
+  resolution: [note]
+
 # Entry kinds. Values must match the enum in content/schema/entry.schema.json.
 kind:
   - id: travel

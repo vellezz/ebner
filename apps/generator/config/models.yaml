@@ -27,9 +27,21 @@ steps:
     effort: low
     max_tokens: 16000
 
-  # Mechanical transformation into JSON. Haiku does not take `effort`.
+  # Called a mechanical transformation into JSON, which is how it was routed to
+  # Haiku, and that description is wrong. The JSON is full of Polish prose —
+  # entity names shown on the site, fact texts fed back into later prompts,
+  # thread summaries — so it is literary content in a structured wrapper.
+  #
+  # Haiku wrote `Stacja glosowania` without its diacritic, `podlegaje` for
+  # `podlega`, and a sketch reading "Wnętrze tandetnej windy na niskiego
+  # księżyca, z zaślepioną przysłonięciem czasową". Broken Polish here does not
+  # stay here: it becomes the premise a later entry is written against.
+  #
+  # Sonnet at low effort costs about $0.014 more an entry, five per cent of a
+  # typical bill, to stop the canon accumulating text nobody would publish.
   state:
-    model: claude-haiku-4-5
+    model: claude-sonnet-5
+    effort: low
     max_tokens: 8000
 
 # USD per million tokens, for reporting what a run actually cost. Estimates
