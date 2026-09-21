@@ -347,6 +347,56 @@ def report_edit(before: str, after: str) -> dict:
     return {"ratio": ratio, "paragraphs_touched": touched, "paragraphs": len(para_after)}
 
 
+@lru_cache(maxsize=1)
+def _register_rule() -> tuple[re.Pattern[str] | None, re.Pattern[str] | None, str]:
+    """The two vocabularies and the repair, read from the prompt."""
+    text = prompt("register_pl.md")
+    blocks = re.findall(r"```regex\r?\n(.*?)```", text, re.DOTALL)
+    repair = _fenced(text, "text").strip()
+    if len(blocks) < 2 or not repair:
+        return None, None, ""
+
+    def compile_block(block: str) -> re.Pattern[str]:
+        patterns = [
+            line.strip()
+            for line in block.splitlines()
+            if line.strip() and not line.strip().startswith("#")
+        ]
+        return re.compile(r"\b(" + "|".join(patterns) + r")\b", re.IGNORECASE)
+
+    return compile_block(blocks[0]), compile_block(blocks[1]), repair
+
+
+# Both must hold: proportion alone means nothing in a short note.
+REGISTER_FLOOR = 10
+REGISTER_RATIO = 2.0
+
+
+def register_slip(text: str) -> list[str]:
+    """A fix when the clerical vocabulary has crowded out the workshop.
+
+    The diary is written by a repairman, and the paperwork is there for the
+    concrete to break against — an invoice lands because a stripped winch is
+    lying next to it. Day 30 had twenty-three clerical words against one from
+    the workshop and nothing anyone could touch; the reader stopped reading
+    there, and this measure independently points at the same entry.
+
+    Not a ban on writing about rules: clerical absurdity is the axis of this
+    world. The requirement is that a tool stands next to the rule.
+    """
+    clerical, workshop, repair = _register_rule()
+    if clerical is None or workshop is None:
+        return []
+
+    abstract = len(clerical.findall(text))
+    concrete = len(workshop.findall(text))
+    if abstract < REGISTER_FLOOR or abstract < concrete * REGISTER_RATIO:
+        return []
+
+    print(f"  rejestr: {abstract} urzędowych na {concrete} warsztatowych")
+    return ["- " + repair.replace("{ile}", str(abstract)).replace("{iles}", str(concrete))]
+
+
 def report_extraction(state: dict) -> list[str]:
     """Say out loud when a delta records suspiciously little.
 
@@ -490,10 +540,9 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     fixes = [line for line in lines[1:] if line.startswith("-")]
     # Merged rather than trusted to the checker, which has been told to find
     # these and does not reliably.
-    for slip in calendar_slips(entry_text):
+    for slip in calendar_slips(entry_text) + register_slip(entry_text):
         if slip not in fixes:
             fixes.append(slip)
-            print(f"  kalendarz: {slip[:88]}")
     fixes_text = "\n".join(fixes) if fixes else "Brak — wpis przeszedł bez uwag."
 
     # --- 4. edit ---------------------------------------------------------

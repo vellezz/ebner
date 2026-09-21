@@ -25,6 +25,7 @@ from ebner.pipeline import (
     normalise_entry,
     normalise_state,
     reconcile_travel,
+    register_slip,
     report_extraction,
 )
 from ebner.rhythm import pick_length
@@ -271,6 +272,37 @@ class Calendar(unittest.TestCase):
     def test_one_fix_per_word_not_per_occurrence(self):
         text = "W tygodniu i w przyszłym tygodniu, i jeszcze raz w tygodniu."
         self.assertEqual(len(calendar_slips(text)), 1)
+
+
+class Register(unittest.TestCase):
+    """The diary is written by a repairman; the paperwork is there for the
+    concrete to break against. Day 30 had twenty-three clerical words against
+    one from the workshop, and the reader stopped reading at exactly the run
+    of entries this measure points at."""
+
+    CLERICAL = (
+        'Rubryka nie przewiduje. Przepis mówi o dostawie, a dostawa ma linijkę '
+        'w księdze. Odbiorca rozlicza się wstecz, termin biegnie od zdarzenia, '
+        'a rejestr zapisuje właściciela. Urzędniczka wpisała aneks i zapis. '
+        'Wniosek przechodzi na taryfę. Deklaracja, procedura, formalność.'
+    )
+    WORKSHOP = (
+        'Rozebrałem wciągarkę: zapadka miała wyrobiony nos, sprężyna zmęczona, '
+        'w gnieździe stary smar. Podciąłem pilnikiem, przetarłem gwint, '
+        'dokręciłem złącza pod kołnierzem i wymieniłem uszczelkę przy zaworze. '
+        'Rura, blacha, kątownik, łożysko, ogniwo.'
+    )
+
+    def test_a_clerical_entry_is_flagged(self):
+        self.assertTrue(register_slip(self.CLERICAL))
+
+    def test_an_entry_with_the_work_in_it_is_not(self):
+        self.assertEqual(register_slip(self.CLERICAL + ' ' + self.WORKSHOP), [])
+        self.assertEqual(register_slip(self.WORKSHOP), [])
+
+    def test_a_short_note_is_never_flagged_on_proportion_alone(self):
+        """Two clerical words and no tools is a sentence, not a protocol."""
+        self.assertEqual(register_slip('Przepis mówi, że rubryka nie przewiduje.'), [])
 
 
 class Travel(unittest.TestCase):

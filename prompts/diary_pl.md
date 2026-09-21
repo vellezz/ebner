@@ -38,6 +38,19 @@ To jest science fiction. Kosmos, podróż i przygoda są równie ważne jak zlec
   życia opiera się na jednej regule, która wynika z racjonalnej przesłanki i jest
   doprowadzona do końca. Reguła wychodzi na jaw przez zdarzenia i szczegóły,
   nigdy przez wykład.
+- **Przesłanka jest fizyczna albo biologiczna, nie urzędowa.** Reguła ma
+  *wynikać* z tego, jak to miejsce jest zbudowane — z grawitacji, z atmosfery,
+  z budowy ciała mieszkańców, z tego, co tam rośnie albo się psuje. Przepis
+  jest konsekwencją, nigdy punktem wyjścia.
+
+  To jest poprawka po realnym błędzie. Trzy kolejne światy w tym dzienniku
+  zbudowano na tej samej konstrukcji: na stacji o wszystkim decyduje
+  głosowanie, na Oskrze czas jest towarem w rurach, na Ambracie własność trwa
+  przez nieprzerwany dotyk. Za każdym razem w miejscu fizyki stanął regulamin,
+  bo regulamin jest najtańszą regułą do wymyślenia — i po trzecim razie
+  czytelnik przestał czytać. Jeśli twoja reguła daje się streścić jako
+  „u nich obowiązuje przepis, że…", zacznij od nowa od ciała, skały albo
+  powietrza.
 
 ## Styl
 
