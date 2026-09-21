@@ -373,14 +373,19 @@ def reconcile_travel(state: dict, location: str | None) -> dict:
     return state
 
 
-def normalise_entry(text: str) -> str:
+def normalise_entry(text: str, known: dict[str, object] | None = None) -> str:
     """Supply the frontmatter keys the writer has no say over.
 
-    `image` is one of them. It is the R2 key of a sketch, set by the sketch
-    step or left null, and never a judgement the prose makes — but the schema
-    requires the key, so an entry that simply omits it is rejected after being
-    written, checked and edited. The writer was being asked to remember a
-    constant.
+    Twice now an entry has been written, checked, edited, paid for and then
+    rejected for a missing frontmatter field. `image` is always null at this
+    point, since the sketch step does not exist; `kind` and `day` were drawn by
+    the randomiser and handed to the prompt, so the pipeline knows both. In
+    every case the writer was being asked to copy back something it had been
+    told, and the schema required it.
+
+    Missing keys are filled in. A key that is present is left alone, even when
+    it disagrees: the writer may have had a reason, the consistency check reads
+    the prose and can judge, and this function cannot.
     """
     match = re.match(r"^﻿?---\r?\n(.*?)\r?\n---\r?\n", text, re.DOTALL)
     if not match:
@@ -389,9 +394,24 @@ def normalise_entry(text: str) -> str:
         return text
 
     block = match.group(1)
-    if re.search(r"^image:", block, re.MULTILINE):
+    defaults: dict[str, object] = {"image": None, **(known or {})}
+
+    added = []
+    for key, value in defaults.items():
+        if re.search(rf"^{re.escape(key)}:", block, re.MULTILINE):
+            continue
+        if value is None:
+            rendered = "null"
+        elif isinstance(value, int):
+            rendered = str(value)
+        else:
+            rendered = str(value)
+        added.append(f"{key}: {rendered}")
+        print(f"  frontmatter: dopisuję `{key}: {rendered}`")
+
+    if not added:
         return text
-    return text[: match.start(1)] + block + "\nimage: null" + text[match.end(1) :]
+    return text[: match.start(1)] + block + "\n" + "\n".join(added) + text[match.end(1) :]
 
 
 def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = False) -> dict:
@@ -457,7 +477,8 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
                 fill(prompt("edit_pl.md"), {"wpis": entry_text, "poprawki": fixes_text}),
                 "Zredaguj wpis.",
             )
-        )
+        ),
+        {"day": params["day"], "kind": params["kind"]},
     )
     report_edit(before_edit, entry_text)
 

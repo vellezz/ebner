@@ -203,6 +203,21 @@ class Frontmatter(unittest.TestCase):
             text = self.BASE.format(extra=value)
             self.assertEqual(normalise_entry(text), text)
 
+    def test_missing_kind_is_supplied_from_the_draw(self):
+        """The second field to be dropped after an entry was paid for. The
+        randomiser chose it and the prompt was told it, so the writer was
+        being asked to copy back something it had already been given."""
+        without = self.BASE.format(extra="").replace("kind: quiet\n", "")
+        out = normalise_entry(without, {"day": 10, "kind": "travel"})
+        self.assertIn("kind: travel", out)
+        self.assertIn("day: 10", out)
+        self.assertEqual(out.count("day:"), 1)
+
+    def test_a_field_that_disagrees_is_left_for_the_check_step(self):
+        """This function reads no prose and cannot judge which is right."""
+        text = self.BASE.format(extra="image: null\n")
+        self.assertEqual(normalise_entry(text, {"day": 99, "kind": "travel"}), text)
+
     def test_body_containing_a_rule_survives(self):
         text = self.BASE.format(extra="").replace("Treść wpisu.", "Treść.\n\n---\n\nDalej.")
         out = normalise_entry(text)
