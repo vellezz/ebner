@@ -96,11 +96,21 @@ def _previous(remote: bool) -> list[dict]:
     Retrieval returns fragments, which are snippets chosen for similarity. They
     are not a substitute for having read yesterday: an entry asked to continue
     something it has never seen will invent the part it is missing.
+
+    Eight rather than four, because four was not enough to see a habit. Both
+    prompts forbid repeating an ending and eight of the first thirteen entries
+    closed on a bill or a debt anyway — four of them on the same sentence about
+    paying next week. A writer shown one previous ending cannot know that.
     """
     return query(
-        "SELECT day, title, kind, body FROM entries ORDER BY day DESC LIMIT 4",
+        "SELECT day, title, kind, body FROM entries ORDER BY day DESC LIMIT 8",
         remote=remote,
     )
+
+
+def _closing_line(body: str) -> str:
+    lines = [line.strip() for line in (body or "").splitlines() if line.strip()]
+    return lines[-1] if lines else ""
 
 
 def _entities(remote: bool) -> list[dict]:
@@ -349,9 +359,20 @@ def render_previous(world: dict) -> str:
         "",
     ]
     if earlier:
-        lines.append("### Wcześniej")
+        lines.append("### Wcześniej — i czym się skończyło")
+        lines.append("")
+        lines.append(
+            "Ostatnie zdania poprzednich wpisów. **Nie kończ dzisiejszego tak samo"
+            " ani podobnie.** Rachunek, faktura, dług i kwota z Varnu były już"
+            " zamknięciem wielu wpisów — jeśli widzisz je poniżej, dziś potrzebny"
+            " jest inny rodzaj końcówki."
+        )
+        lines.append("")
         for entry in earlier:
             lines.append(f"- dzień {entry['day']}: {entry['title']} ({entry['kind']})")
+            closing = _closing_line(entry.get("body", ""))
+            if closing:
+                lines.append(f"  koniec: {closing}")
     return "\n".join(lines).strip()
 
 

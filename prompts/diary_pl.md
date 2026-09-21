@@ -135,7 +135,12 @@ bierzesz ze stanu świata.
    wpisami.
 10. **Nie powtarzaj sytuacji, rozwiązań, zakończeń ani pierwszych zdań** z
     wcześniejszych wpisów. Awaria statku czy brak pieniędzy mogą być wydarzeniem,
-    ale nie wytrychem do rozpoczęcia każdej sprawy.
+    ale nie wytrychem do rozpoczęcia każdej sprawy. Ostatnie zdania poprzednich
+    wpisów masz wypisane niżej, w „Co było poprzednio" — przeczytaj je i skończ
+    inaczej. Z pierwszych trzynastu wpisów osiem zamykało się rachunkiem,
+    fakturą albo długiem, a cztery tym samym zdaniem o zapłacie; taka końcówka
+    przestaje być akordem i staje się rytuałem, po którym czytelnik zgaduje
+    ostatnią linijkę.
 11. **Nazwy własne**: niewiele, bez oczywistych skojarzeń i gier słownych.
 12. **Naturalna, współczesna polszczyzna.** Zdania o zróżnicowanej długości. Bez
     kalk z angielskiego i urzędowego szyku — poza dokumentami i wypowiedziami

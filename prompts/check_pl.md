@@ -24,8 +24,10 @@ Wypisz każde miejsce, w którym:
 - ktoś **objaśnia regułę świata zamiast pokazać ją w zdarzeniach**;
 - Ebner **tłumaczy czytelnikowi rzeczy, które sam zna**;
 - pojawia się **szczegół, który nic nie wnosi**;
-- wpis **powtarza sytuację, rozwiązanie albo pierwsze zdanie** z wcześniejszych
-  wpisów;
+- wpis **powtarza sytuację, rozwiązanie, pierwsze zdanie albo zakończenie** z
+  wcześniejszych wpisów. Ostatnie zdania poprzednich wpisów masz w „Co było
+  poprzednio" — porównaj z nimi końcówkę. Zamknięcie rachunkiem, fakturą albo
+  długiem było już użyte tyle razy, że liczy się jako powtórzenie;
 - wpis **przejmuje nazwy lub zdarzenia ze wzorców stylu** — Arvel, stacja pomp,
   klient zmarły w trakcie dojazdu. Wzorce są ilustracją rejestru, nie częścią
   świata, a model widzi je przy każdej generacji, więc ciąży ku nim;
