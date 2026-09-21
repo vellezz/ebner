@@ -1,0 +1,23 @@
+{
+  "day": 47,
+  "facts_opened": [],
+  "fragments": [
+    {
+      "id": "f47-nizsza-nic-pozniej",
+      "kind": "scene",
+      "content": "— Ta niska jest najmocniejsza. Chcę ją zostawić na później, jak reszta się zmęczy. — Ona ma ciągnąć, nie mieć dobrze.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "f47-pierwszy-obrot",
+      "kind": "scene",
+      "content": "Pierwszy obrót: cała hala odezwała się jednym tonem. Tresk przestał wtedy na chwilę zawodzić i przechylił głowę.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    }
+  ],
+  "sketch": "Otha przy prowizorycznej wciągarce w hali na Ambracie, żebro pałąka nieruchome, napięta żywa nić biegnąca przez krążki, Tresk w tle z głową przechyloną."
+}
