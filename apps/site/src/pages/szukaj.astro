@@ -61,6 +61,26 @@ import Base from '../layouts/Base.astro';
     return !teen && last >= 2 && last <= 4 ? 'wpisy' : 'wpisów';
   };
 
+  /**
+   * The same word, spelled the ways a Polish keyboard makes likely.
+   *
+   * Pagefind folds diacritics by decomposing a letter into a base plus a
+   * combining mark and dropping the mark, so `zawor` finds `zawór` and `babel`
+   * finds `bąbel`. Polish has one letter that does not decompose — `ł` is its
+   * own code point, U+0142, with no base to fall back to — so `glosowanie`
+   * found nothing at all while every other unaccented spelling worked.
+   *
+   * Handled here rather than in the index: the index is Pagefind's and this is
+   * one letter. Both spellings are searched and the results merged.
+   */
+  const spellings = (term: string) => {
+    const forms = new Set([term]);
+    if (/l/i.test(term)) {
+      forms.add(term.replace(/l/g, 'ł').replace(/L/g, 'Ł'));
+    }
+    return [...forms];
+  };
+
   let token = 0;
   const run = async (term: string) => {
     const mine = ++token;
@@ -72,10 +92,16 @@ import Base from '../layouts/Base.astro';
     }
 
     status.textContent = 'szukam…';
-    let found;
+    let hits: any[];
     try {
       const pf = await load();
-      found = await pf.search(term);
+      const runs = await Promise.all(spellings(term).map((form) => pf.search(form)));
+      // Merged by id, so a word that matches under both spellings is one
+      // result, in the order the better-ranked spelling put it.
+      const seen = new Set<string>();
+      hits = runs
+        .flatMap((r) => r.results)
+        .filter((r: any) => !seen.has(r.id) && seen.add(r.id));
     } catch {
       status.textContent = 'wyszukiwarka niedostępna offline';
       return;
@@ -83,13 +109,13 @@ import Base from '../layouts/Base.astro';
     // A slower search for an older term must not overwrite a newer one.
     if (mine !== token) return;
 
-    if (!found.results.length) {
+    if (!hits.length) {
       status.textContent = 'nic nie znaleziono';
       return;
     }
 
-    status.textContent = `${found.results.length} ${plural(found.results.length)}`;
-    const top = await Promise.all(found.results.slice(0, 20).map((r: any) => r.data()));
+    status.textContent = `${hits.length} ${plural(hits.length)}`;
+    const top = await Promise.all(hits.slice(0, 20).map((r: any) => r.data()));
     if (mine !== token) return;
 
     for (const hit of top) {
