@@ -185,7 +185,13 @@ Worse, it would add a gate that only looked like one. A PR opened with `GITHUB_T
 
 The bot therefore commits straight to `main`, which triggers the deploy and `apply-state.yml` exactly as any other push does.
 
-**What a missing entry means.** Something is wrong — the run failed, the model declined, or the guards rejected the entry — and the workflow run says which. There is no innocent explanation for a missing entry, which makes the signal sharp: nothing is ever waiting on a person.
+**What a missing entry means.** Something is wrong — the run failed three times over, the model declined each time, or the guards rejected every attempt — and the workflow run says which. There is no innocent explanation for a missing entry, which makes the signal sharp: nothing is ever waiting on a person.
+
+**Three attempts, because one is not a promise.** A single attempt kept the alert sharp at the cost of the thing being promised. Measured across thirty-eight runs, about a third failed; across the fourteen most recent, four did. At that rate roughly one day in four has no entry at all, which is not a diary published daily.
+
+Every failure here is worth retrying, and for different reasons. A blocked entry contradicted the canon, and the next draw writes something else entirely. A guard rejection is usually one mangled field. An API error is an API error. Nothing survives between attempts: the pipeline writes no files until every step has passed and deletes both again if the guards refuse, so each attempt starts from the same clean state.
+
+The alert survives too — it just now means three failures rather than one, which is a stronger signal, not a weaker one. A dispatch that passes a seed is the exception and does not retry: a seed exists to reproduce one particular draw, and repeating it would only reproduce its failure.
 
 `prompts/edit_pairs/` was meant to collect the differences between generated and merged text, to feed later prompts with examples of the owner's corrections. With no review step there are no such differences, so it stays empty until someone edits an entry by hand after the fact.
 

@@ -63,6 +63,19 @@ jobs:
       - name: Check the generator's own logic
         run: python -m unittest discover -s apps/generator/tests
 
+      # Three attempts, because one entry a day is the promise and a single
+      # attempt does not keep it. Measured over thirty-eight runs, about a
+      # third failed; over the most recent fourteen, four did. A run that
+      # stops there publishes nothing, and the day is simply missing.
+      #
+      # Every failure this sees is worth retrying. A blocked entry contradicted
+      # the canon, and the next draw writes something else; a guard rejection
+      # is usually one mangled field; an API error is an API error. Nothing is
+      # left behind between attempts — the pipeline writes no files until every
+      # step has passed, and deletes both again if the guards refuse.
+      #
+      # A seed is the exception: it exists to reproduce one particular draw, so
+      # repeating it would only reproduce the same failure.
       - name: Generate
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -71,9 +84,20 @@ jobs:
         run: |
           if [ -n "${{ inputs.seed }}" ]; then
             python -m ebner generate --seed "${{ inputs.seed }}"
-          else
-            python -m ebner generate
+            exit $?
           fi
+
+          for attempt in 1 2 3; do
+            echo "::group::próba ${attempt} z 3"
+            if python -m ebner generate; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "::warning::próba ${attempt} nie powiodła się"
+          done
+          echo "::error::trzy próby bez wpisu — dzisiaj nic nie wyjdzie"
+          exit 1
 
       - name: Commit
         run: |
