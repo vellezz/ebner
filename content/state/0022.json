@@ -1,0 +1,50 @@
+{
+  "day": 22,
+  "threads": [
+    {
+      "id": "nowe-zlecenie-czas-siec",
+      "op": "close",
+      "status": "closed",
+      "closure": "resolved",
+      "summary": "Ebner wynegocjował z rachmistrzynią okno robocze zapisane jako zdarzenie w rurze, nie jako czas, wymienił korek na odpowietrznik pływakowy i zamontował kompensator na wstawce bez kompensatora, usuwając siodło i przyczynę bąbla powietrza w czwartej nitce."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "czwarta-nitka-pecherz"
+    },
+    {
+      "id": "f-oskra-korek-znaleziony"
+    },
+    {
+      "id": "oskra-bable-oscylacja"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "rachmistrzyni-okno-zdarzenie",
+      "kind": "scene",
+      "content": "— Zdarzenia w sieci wpisuję — powiedziała. — Sieć jest moja. Proszę wpisać okno robocze na drugie przejście przewężenia przez najwyższy punkt czwartej nitki, licząc od najbliższej dostawy do warsztatu na końcu nitki.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    },
+    {
+      "id": "siodlo-przyczyna",
+      "kind": "document",
+      "content": "Spoina za równa na wstawce bez kompensatora: sieć bezciśnieniowa, napisali w folderze, usuwając kompensator. Rura rozszerzała się i kurczyła bez ujścia cztery lata, wypychając siodło w najwyższym punkcie — tam siadało całe powietrze, jakie wlazło do czwartej nitki, a odpowietrznik zamalowano tym samym pędzlem, co spoinę.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    },
+    {
+      "id": "zwrot-czasu-w-miejscu-poboru",
+      "kind": "punchline",
+      "content": "— Zwrotu nie wydaje się w rurze. Wydaje się w miejscu poboru. Wynieść go pan nie może, bo nie jest pan siecią.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    }
+  ],
+  "sketch": "Ebner siedzi na grzbiecie Oskry, dłoń na rurze, kompensator oparty o kozioł, blaszany licznik-grzyb w kolorze pyłu tuż nad punktem roboczym."
+}
