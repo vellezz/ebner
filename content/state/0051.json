@@ -1,0 +1,37 @@
+{
+  "day": 51,
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Terraformer zakwestionował opinię Ebnera jako nieodpłatną; Ebner antydatował fakturę na 1 jednostkę pod dzień 49, by ją uwiarygodnić, i nie odwołał pisma."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ebner-opinia-antydatowana",
+      "content": "Ebner wystawił fakturę na 1 jednostkę za opinię techniczną w sprawie kolumn wymiennikowych, datowaną wstecz na dzień 49, choć nic wtedy nie wystawił — chce uczynić opinię odpłatną, więc wiążącą.",
+      "subject": "ebner-gripe",
+      "valid_from": 51
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f51-antydatowanie",
+      "kind": "scene",
+      "content": "Wszystko w tym piśmie jest prawdą oprócz tego, że istniało wczoraj. Kolumny pękną albo nie pękną niezależnie od tego, co ja tu podpisuję — ale pęknąć mogą tylko raz, a pismo można odwołać. Nie odwołałem.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "f51-rejestr",
+      "kind": "document",
+      "content": "Dzień 50 — pomiar od kreski: 19 cm, hol trwa; dzień 51 — pomiar od kreski: 12 cm, hol trwa. Otha kręciła wstecz, bo płozy weszły na próg — rejestratorowi to obojętne, liczy odległość, nie kierunek.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    }
+  ],
+  "sketch": "Ebner przy stole w Hannie, wypisujący fakturę z datą sprzed dwóch dni, obok leży pismo z terraformera."
+}
