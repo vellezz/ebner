@@ -1,0 +1,16 @@
+{
+  "day": 50,
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Celnik zgłosił, że pałąki z żywym włóknem w ładowni Hanny są rzeczami osobnymi od statku, bez własnego stażu trzymania, i podlegają zważeniu jako niczyje; Ebner splótł wszystkie dwanaście nici w jedną wiązkę holującą Treska razem z trzynastą już ciągnącą, co przywróciło im status rzeczy w czynności, nie w staniu."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-palaki-w-ladowni"
+    }
+  ],
+  "sketch": "placeholder"
+}
