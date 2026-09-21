@@ -1,0 +1,289 @@
+---
+import Base from '../layouts/Base.astro';
+import { loadWorld, containmentChain } from '../lib/world';
+import { count } from '../lib/plural';
+
+// The map is built from content/, never from D1 — D1 is a projection of the
+// same files, so the site computes the projection itself at build time.
+//
+// It shows route and sequence and deliberately shows no durations. A map that
+// states no times cannot contradict the prose, and the prose is vague about
+// travel times on purpose: every figure that enters the canon binds every
+// entry after it.
+const world = loadWorld();
+
+const name = (id: string) => world.entities.get(id)?.name ?? id.replace(/-/g, ' ');
+const system = (id: string) => {
+  const chain = containmentChain(world, id);
+  return chain.length > 1 ? chain[chain.length - 1].id : id;
+};
+
+// Only places. Day 12 recorded `stacja → hanna → stacja` — boarding his own
+// ship, written down as a journey — and without this the map draws Hanna as
+// somewhere he flew to. The underlying state is wrong and should be corrected
+// at the source; this keeps the map honest meanwhile, and a map of places is
+// what it should be regardless.
+const isPlace = (id: string) => world.entities.get(id)?.kind === 'place';
+
+// One node per place that a journey has actually touched. Places only ever
+// mentioned are not on the map: this is a record of where he has been.
+const visited: string[] = [];
+for (const hop of world.travel) {
+  for (const end of [hop.from, hop.to]) {
+    if (end && isPlace(end) && !visited.includes(end)) visited.push(end);
+  }
+}
+
+// Edges collapse repeats: the same leg flown four times is one line, thicker.
+const legs = new Map<string, { from: string; to: string; days: number[] }>();
+for (const hop of world.travel) {
+  if (!hop.from || !isPlace(hop.from) || !isPlace(hop.to)) continue;
+  const key = [hop.from, hop.to].sort().join('|');
+  const leg = legs.get(key) ?? { from: hop.from, to: hop.to, days: [] };
+  leg.days.push(hop.day);
+  legs.set(key, leg);
+}
+
+const nodes = visited.map((id) => ({
+  id,
+  name: name(id),
+  system: system(id),
+  visits: world.travel.filter((h) => h.to === id).length,
+  firstDay: world.travel.find((h) => h.to === id || h.from === id)?.day ?? 0,
+}));
+
+const where = world.travel.length > 0 ? world.travel[world.travel.length - 1].to : null;
+
+const graph = {
+  nodes,
+  legs: [...legs.values()],
+  current: where,
+};
+---
+
+<Base title="Mapa — ebner.gripe" description="Trasa Ebnera Gripe: miejsca i przeloty, bez czasów.">
+  <header class="head">
+    <h1>Mapa</h1>
+    <p class="readout lead">
+      {count(nodes.length, 'miejsce', 'miejsca', 'miejsc')} &middot;
+      {count(graph.legs.length, 'przelot', 'przeloty', 'przelotów')} &middot; bez czasów
+    </p>
+  </header>
+
+  <figure class="map">
+    <svg data-map viewBox="0 0 800 520" role="img" aria-label="Graf tras między miejscami">
+      <g data-legs stroke="var(--ln)" fill="none"></g>
+      <g data-nodes></g>
+    </svg>
+    <figcaption class="readout">
+      Układ jest topologiczny, nie przestrzenny — pokazuje kolejność i połączenia,
+      nie odległości. Współrzędnych w tym świecie nikt nie prowadzi.
+    </figcaption>
+  </figure>
+
+  <script is:inline define:vars={{ graph }}>
+    // Laid out here rather than at build time so it can settle: the shape is
+    // a few springs, and a few springs are easier to let run than to solve.
+    const svg = document.querySelector('[data-map]');
+    const { nodes, legs, current } = graph;
+    if (svg && nodes.length) {
+      const W = 800;
+      const H = 520;
+      const NS = 'http://www.w3.org/2000/svg';
+
+      // Seeded, so the map is the same on every load and on every device. A
+      // graph that rearranges itself each visit is not a map of anything.
+      let seed = 20260921;
+      const rnd = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+
+      const at = new Map(
+        nodes.map((n, i) => [
+          n.id,
+          {
+            // Start on a ring in visit order, so the settled layout still
+            // reads roughly as a chronology.
+            x: W / 2 + Math.cos((i / nodes.length) * Math.PI * 2) * 180 + rnd() * 20,
+            y: H / 2 + Math.sin((i / nodes.length) * Math.PI * 2) * 140 + rnd() * 20,
+            vx: 0,
+            vy: 0,
+          },
+        ]),
+      );
+
+      const linked = legs.filter((l) => at.has(l.from) && at.has(l.to));
+      for (let step = 0; step < 400; step++) {
+        // Everything pushes everything else apart.
+        for (const a of nodes) {
+          for (const b of nodes) {
+            if (a.id === b.id) continue;
+            const p = at.get(a.id);
+            const q = at.get(b.id);
+            let dx = p.x - q.x;
+            let dy = p.y - q.y;
+            const d2 = Math.max(dx * dx + dy * dy, 400);
+            const f = 24000 / d2;
+            p.vx += (dx / Math.sqrt(d2)) * f;
+            p.vy += (dy / Math.sqrt(d2)) * f;
+          }
+        }
+        // A route pulls its two ends together.
+        for (const leg of linked) {
+          const p = at.get(leg.from);
+          const q = at.get(leg.to);
+          const dx = q.x - p.x;
+          const dy = q.y - p.y;
+          const d = Math.max(Math.hypot(dx, dy), 1);
+          const f = (d - 150) * 0.01;
+          p.vx += (dx / d) * f;
+          p.vy += (dy / d) * f;
+          q.vx -= (dx / d) * f;
+          q.vy -= (dy / d) * f;
+        }
+        for (const n of nodes) {
+          const p = at.get(n.id);
+          p.x = Math.min(W - 90, Math.max(90, p.x + (p.vx *= 0.82)));
+          p.y = Math.min(H - 50, Math.max(50, p.y + (p.vy *= 0.82)));
+        }
+      }
+
+      const legLayer = svg.querySelector('[data-legs]');
+      for (const leg of linked) {
+        const p = at.get(leg.from);
+        const q = at.get(leg.to);
+        const line = document.createElementNS(NS, 'line');
+        line.setAttribute('x1', p.x);
+        line.setAttribute('y1', p.y);
+        line.setAttribute('x2', q.x);
+        line.setAttribute('y2', q.y);
+        line.setAttribute('stroke-width', Math.min(1 + leg.days.length, 5));
+        line.setAttribute('stroke-linecap', 'round');
+        const title = document.createElementNS(NS, 'title');
+        title.textContent = `dni: ${leg.days.join(', ')}`;
+        line.append(title);
+        legLayer.append(line);
+      }
+
+      const nodeLayer = svg.querySelector('[data-nodes]');
+      for (const n of nodes) {
+        const p = at.get(n.id);
+        const g = document.createElementNS(NS, 'g');
+        const link = document.createElementNS(NS, 'a');
+        link.setAttribute('href', `/dni?miejsce=${n.id}`);
+
+        const dot = document.createElementNS(NS, 'circle');
+        dot.setAttribute('cx', p.x);
+        dot.setAttribute('cy', p.y);
+        dot.setAttribute('r', n.id === current ? 9 : 5 + Math.min(n.visits, 4));
+        dot.setAttribute('fill', n.id === current ? 'var(--ac)' : 'var(--f2)');
+
+        const label = document.createElementNS(NS, 'text');
+        // Set here, not in the stylesheet. Astro scopes its CSS by adding an
+        // attribute to elements in the template, and these are built at
+        // runtime — so a `.map text` rule never matches them, and the labels
+        // came out in the browser's default link blue.
+        label.setAttribute('fill', 'var(--f2)');
+        label.setAttribute('font-family', 'var(--font-mono)');
+        label.setAttribute('font-size', '12');
+        // Kept inside the frame: a name at the edge is otherwise half cut off.
+        label.setAttribute('x', Math.min(W - 70, Math.max(70, p.x)));
+        label.setAttribute('y', p.y - 16);
+        label.setAttribute('text-anchor', 'middle');
+        label.textContent = n.name.length > 22 ? n.name.slice(0, 21) + '…' : n.name;
+        const full = document.createElementNS(NS, 'title');
+        full.textContent = n.name;
+        label.append(full);
+
+        link.append(dot, label);
+        g.append(link);
+        nodeLayer.append(g);
+      }
+    }
+  </script>
+
+  <ol class="legend">
+    {
+      nodes
+        .slice()
+        .reverse()
+        .map((n) => (
+          <li class={n.id === graph.current ? 'here' : ''}>
+            <span class="place">{n.name}</span>
+            <span class="readout meta">
+              {n.id === graph.current ? 'tutaj jest teraz' : count(n.visits, 'przylot', 'przyloty', 'przylotów')}
+            </span>
+          </li>
+        ))
+    }
+  </ol>
+</Base>
+
+<style>
+  .head {
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(30px, 6vw, 44px);
+    margin: 0;
+  }
+
+  .lead {
+    margin: 6px 0 0;
+  }
+
+  .map {
+    margin: 0;
+    background: var(--wb);
+    border: 1px solid var(--wl);
+  }
+
+  .map svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .map text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    fill: var(--f2);
+  }
+
+  .map a {
+    cursor: pointer;
+  }
+
+  figcaption {
+    padding: 12px 14px;
+    border-top: 1px solid var(--wl);
+    line-height: 1.5;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .legend {
+    list-style: none;
+    margin: 32px 0 0;
+    padding: 0;
+    max-width: var(--measure);
+  }
+
+  .legend li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-top: 1px solid var(--sp);
+  }
+
+  .legend .place {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+
+  .legend .here .place {
+    color: var(--ac);
+  }
+</style>
