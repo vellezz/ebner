@@ -84,6 +84,17 @@ Pierwszy przeskok w `travel` musi wychodzić **stąd**, a ostatni kończyć się
 gdzie wskazuje `location` we frontmatterze tego wpisu. Jeśli Ebner się nie
 ruszył, nie zapisuj żadnego przeskoku.
 
+**Miejsce w obrębie miejsca to nadal miejsce.** Dni 20 i 21 dostały rodzaj
+`travel`, Ebner pojechał w nich na grzbiet czwartej nitki i zapisane zostało
+zero przeskoków, bo grzbiet nie miał identyfikatora — a w Dniu 27 wrócił tam
+i dalej nie miał. Reguła jest taka: jeśli Ebner **pracuje** gdzieś, **nocuje**
+albo **tam wróci**, to jest byt, nawet jeśli leży wewnątrz miejsca, które już
+istnieje. Wprowadź je w `entities` z `parent` wskazującym na to większe
+miejsce, i zapisz przeskok.
+
+Mijana po drodze sceneria identyfikatora nie potrzebuje. Kryterium nie brzmi
+„czy zostało nazwane", tylko „czy ktoś tam jeszcze wróci".
+
 ## Byty, które już istnieją
 
 Nie wprowadzaj ich ponownie w `entities`. Odwołuj się do nich tym

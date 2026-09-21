@@ -346,6 +346,33 @@ def report_edit(before: str, after: str) -> dict:
     return {"ratio": ratio, "paragraphs_touched": touched, "paragraphs": len(para_after)}
 
 
+def reconcile_travel(state: dict, location: str | None) -> dict:
+    """Make the recorded journey end where the entry says the day ended.
+
+    Two sources disagree here and one of them knows the story. `location` is
+    written by the step that wrote the prose; the hops are read back out of
+    that prose afterwards by a different model. When the last hop lands
+    somewhere else, the hop is what is wrong — and the guard rejects the run
+    for it, which is a whole paid entry lost to a disagreement we can settle.
+
+    Only the final destination is corrected. The route in between is the
+    extractor's to report and there is nothing here that could check it.
+    """
+    hops = state.get("travel") or []
+    if not location or not hops:
+        return state
+
+    hops = sorted(hops, key=lambda h: h.get("seq") or 0)
+    last = hops[-1]
+    if last.get("to") == location:
+        return state
+
+    print(f"  podróż kończy się w `{location}`, nie w `{last.get('to')}` — poprawiam")
+    last["to"] = location
+    state["travel"] = hops
+    return state
+
+
 def normalise_entry(text: str) -> str:
     """Supply the frontmatter keys the writer has no say over.
 
@@ -467,6 +494,10 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
             f"--- the entry was written, and is not lost ---\n{entry_text}"
         ) from error
     state["day"] = params["day"]
+
+    # The entry knows where the day ended; the extractor only read about it.
+    frontmatter = re.search(r"^location:\s*(\S+)\s*$", entry_text, re.MULTILINE)
+    reconcile_travel(state, frontmatter.group(1) if frontmatter else None)
 
     return {"params": params, "entry": entry_text, "state": state}
 

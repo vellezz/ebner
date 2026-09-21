@@ -225,6 +225,22 @@ def cmd_experiment(args: list[str]) -> int:
         args[args.index("--effort") + 1].split(",") if "--effort" in args else ["high", "medium"]
     )
 
+    # Forcing the band matters more than it looks. The first comparison drew a
+    # note, which is the one length where thinking barely happens, and it
+    # answered nothing — a difference of two cents on the question of whether
+    # a third of the bill is earned.
+    if "--length" in args:
+        band = args[args.index("--length") + 1]
+        cfg = rhythm()
+        wanted = [b for b in cfg["length"] if b["id"] == band]
+        if not wanted:
+            print(f"  no such length band: {band}", file=sys.stderr)
+            return 2
+        # The config is cached and shared, so this holds for the process. That
+        # is the intent: both variants must be drawn the same way.
+        cfg["length"] = wanted
+        print(f"  długość wymuszona: {band} {wanted[0]['words']} słów")
+
     results = []
     for effort in efforts:
         llm.reset_usage()
