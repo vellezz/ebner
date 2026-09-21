@@ -28,6 +28,11 @@ class LLMError(RuntimeError):
 USAGE: list[dict] = []
 
 
+def reset_usage() -> None:
+    """Start the accounting over, for a process that runs more than one entry."""
+    USAGE.clear()
+
+
 def cost_report() -> str:
     if not USAGE:
         return "no model calls"
@@ -129,11 +134,27 @@ def schema_for_api(schema: dict) -> dict:
     return walk({k: v for k, v in schema.items() if k != "$defs"})
 
 
+# Per-step overrides for one process, set by the experiment command. Empty in
+# every normal run: models.yaml stays the only place a routing decision lives.
+_OVERRIDES: dict[str, dict] = {}
+
+
+def override(step: str, **fields) -> None:
+    """Change one step's configuration for this process only.
+
+    Exists so an experiment can put the same entry through two settings and
+    compare them, which is the only honest way to decide whether `effort: high`
+    on the writing step earns the third of the bill it costs. Nothing in the
+    daily pipeline calls this.
+    """
+    _OVERRIDES.setdefault(step, {}).update({k: v for k, v in fields.items() if v is not None})
+
+
 def step_config(step: str) -> dict:
     steps = load("models.yaml")["steps"]
     if step not in steps:
         raise LLMError(f"no such step in models.yaml: {step}")
-    return steps[step]
+    return {**steps[step], **_OVERRIDES.get(step, {})}
 
 
 def complete(step: str, system: str, user: str, *, output_schema: dict | None = None) -> str:

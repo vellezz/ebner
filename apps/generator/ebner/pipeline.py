@@ -312,6 +312,40 @@ def calendar_slips(text: str) -> list[str]:
     return fixes
 
 
+def report_edit(before: str, after: str) -> dict:
+    """Say how much the language pass actually changed.
+
+    The edit step regenerates the whole entry to apply a handful of fixes, and
+    on a long entry that is an eighth of the bill. Whether it earns that is a
+    measurable question nobody had measured: a step that rewrites Opus's Polish
+    with Sonnet at low effort might be improving it, or might be flattening it,
+    or might be changing three commas for five cents.
+
+    Reporting rather than deciding. A few runs of this is the evidence the
+    decision needs.
+    """
+    ratio = difflib.SequenceMatcher(None, before, after).ratio()
+    para_before = [p.strip() for p in before.split("\n\n") if p.strip()]
+    para_after = [p.strip() for p in after.split("\n\n") if p.strip()]
+    touched = sum(1 for p in para_after if p not in para_before)
+
+    print(
+        f"  redakcja: podobieństwo {ratio:.3f},"
+        f" akapitów zmienionych {touched}/{len(para_after)},"
+        f" znaków {len(before)} → {len(after)}"
+    )
+    # One example, so a high similarity score can be read rather than trusted.
+    for line in difflib.unified_diff(
+        before.splitlines(), after.splitlines(), n=0, lineterm=""
+    ):
+        if line.startswith(("+++", "---", "@@")):
+            continue
+        print(f"    {line[:150]}")
+        break
+
+    return {"ratio": ratio, "paragraphs_touched": touched, "paragraphs": len(para_after)}
+
+
 def normalise_entry(text: str) -> str:
     """Supply the frontmatter keys the writer has no say over.
 
@@ -388,6 +422,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     # --- 4. edit ---------------------------------------------------------
     # Applies those fixes and passes over the language, so the full text is
     # generated once in the pipeline rather than twice.
+    before_edit = entry_text
     entry_text = normalise_entry(
         _strip_fence(
             complete(
@@ -397,6 +432,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
             )
         )
     )
+    report_edit(before_edit, entry_text)
 
     # --- 5. extract state -------------------------------------------------
     # The prose is finished and paid for by this point. If extraction fails,

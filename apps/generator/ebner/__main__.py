@@ -5,6 +5,9 @@
     python -m ebner status           # what the world currently holds
     python -m ebner plan [--seed N]  # draw an entry's parameters and show the
                                      # context it would be written against
+    python -m ebner experiment --seed N --effort high,medium
+                                     # write the same entry under each setting
+                                     # and compare; saves nothing
 """
 
 from __future__ import annotations
@@ -162,6 +165,54 @@ def cmd_generate(args: list[str]) -> int:
     return 0
 
 
+def cmd_experiment(args: list[str]) -> int:
+    """Write the same entry under different settings and compare the cost.
+
+        python -m ebner experiment --seed 7 --effort high,medium
+
+    Nothing is saved. The same seed draws the same parameters and the same
+    world, so the only difference between the variants is the setting under
+    test — which is what makes the comparison worth anything.
+
+    This exists for one question. `effort: high` on the writing step is about a
+    third of the bill, and whether it buys anything a reader would notice has
+    been an opinion up to now.
+    """
+    from . import llm
+    from .pipeline import PipelineError, generate
+
+    local = "--local" in args
+    seed = int(args[args.index("--seed") + 1]) if "--seed" in args else 1
+    efforts = (
+        args[args.index("--effort") + 1].split(",") if "--effort" in args else ["high", "medium"]
+    )
+
+    results = []
+    for effort in efforts:
+        llm.reset_usage()
+        llm.override("write", effort=effort.strip())
+        print(f"\n{'=' * 70}\n=== effort: {effort.strip()} (seed {seed})\n{'=' * 70}\n")
+        try:
+            result = generate(seed=seed, remote=not local)
+        except PipelineError as error:
+            print(f"  {error}", file=sys.stderr)
+            print(llm.cost_report(), file=sys.stderr)
+            return 1
+        print(result["entry"])
+        print(f"\n--- zużycie ({effort.strip()}) ---")
+        print(llm.cost_report())
+        body = result["entry"].split("---", 2)[-1]
+        results.append((effort.strip(), len(body), llm.cost_report().splitlines()[-1]))
+
+    print(f"\n{'=' * 70}\n=== porównanie\n{'=' * 70}")
+    for effort, chars, total in results:
+        print(f"  {effort:<8} znaków {chars:<7,} {total.strip()}")
+    print("\n  Oba teksty są wyżej. Różnica w cenie jest zmierzona; różnica w")
+    print("  jakości jest do przeczytania i to jest jedyna część, której nie")
+    print("  da się zautomatyzować.")
+    return 0
+
+
 def cmd_extract(args: list[str]) -> int:
     from .pipeline import PipelineError, extract_for
 
@@ -207,6 +258,7 @@ def cmd_notify(args: list[str]) -> int:
 
 COMMANDS = {
     "apply": cmd_apply,
+    "experiment": cmd_experiment,
     "notify": cmd_notify,
     "extract": cmd_extract,
     "status": cmd_status,
