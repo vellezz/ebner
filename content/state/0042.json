@@ -1,0 +1,48 @@
+{
+  "day": 42,
+  "facts_opened": [
+    {
+      "id": "f-hol-czynnosc-nie-stan",
+      "content": "Na Ambracie holowanie jest czynnością, nie stanem prawnym: jednostka holowana musi się mierzalnie przemieszczać między oględzinami, inaczej liczy się jako stojąca i idzie do ważenia.",
+      "subject": "ambrat",
+      "valid_from": 42
+    },
+    {
+      "id": "f-tresk-tempo-holu",
+      "content": "Frachtowiec Treska przesuwany jest ręczną wciągarką na płozach wyciętych z blachy Othy; tempo to kilkanaście–dwadzieścia kilka centymetrów dziennie przy stu czterdziestu metrach do wrót hali, więc przy obecnym tempie droga zajmie bliżej stu dni niż dziesięciu.",
+      "subject": "frachtowiec-zeszli",
+      "valid_from": 42
+    },
+    {
+      "id": "f-otha-korba-zaplata",
+      "content": "Otha kręci korbą wciągarki holującej Treska za cztery jednostki dziennie, co uznała za lepsze niż sto dwanaście dni stania przy stercie złomu bez zapłaty; nie potrzebuje wpisu urzędowego trzymacza, bo hol jest czynnością, nie posiadaniem rzeczy.",
+      "subject": "otha",
+      "valid_from": 42
+    },
+    {
+      "id": "f-vaul-holowanie-sporne",
+      "content": "Vaul zgłosił gotowość przejęcia holu Treska i wyprowadzenia go z hali w ciągu doby, nazywając hol Ebnera holem pozornym; rejestrator zapisał obie deklaracje w jednej linii bez rozstrzygnięcia.",
+      "subject": "vaul",
+      "valid_from": 42
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f42-lina-zwisa",
+      "kind": "scene",
+      "content": "— Lina zwisa. Zwisająca lina nie holuje. Holuje lina napięta. — Holuje wtedy, kiedy ciągnę. — Pan nie ciągnie. Pan stoi.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    },
+    {
+      "id": "f42-palec-dalej",
+      "kind": "punchline",
+      "content": "Przy każdym obrocie korby Tresk jest o palec dalej niż był.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    }
+  ],
+  "sketch": "Hala na Ambracie: frachtowiec na podporach i płozach z blachy, luźna lina holownicza łukiem na dygoczącej posadzce, Otha przy ręcznej wciągarce, urzędnik z rejestratorem mierzący kreskę miarką."
+}
