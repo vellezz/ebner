@@ -8,6 +8,8 @@
     python -m ebner experiment --seed N --effort high,medium
                                      # write the same entry under each setting
                                      # and compare; saves nothing
+    python -m ebner rebuild          # clear the projection and replay every
+                                     # state file; leaves subscriptions alone
 """
 
 from __future__ import annotations
@@ -165,6 +167,42 @@ def cmd_generate(args: list[str]) -> int:
     return 0
 
 
+def cmd_rebuild(args: list[str]) -> int:
+    """Rebuild the whole projection from content/state/.
+
+        python -m ebner rebuild
+
+    Empties the world tables and replays every state file in filename order.
+    This is what makes D1 a projection rather than a second source of truth,
+    and it is the second half of unpublishing: delete an entry's two files and
+    replay, and everything it introduced is gone.
+
+    Subscriptions are not touched. They are the one thing in that database
+    which nothing in the repository could put back.
+
+    Self-checking by construction: a later entry that depends on something no
+    longer there fails its guards during replay and names itself.
+    """
+    from .apply import apply_state_file, reset_world, state_files
+
+    local = "--local" in args
+    remote = not local
+
+    files = state_files()
+    print(f"  clearing the projection ({len(files)} state files to replay)")
+    reset_world(remote=remote)
+
+    total = 0
+    for path in files:
+        result = apply_state_file(path, remote=remote)
+        total += result["statements"]
+        print(f"    {result['file']}: {result['statements']} statements")
+    print(f"  replayed {len(files)} files, {total} statements")
+
+    print("  re-embedding fragments")
+    return cmd_index(["--all"] + (["--local"] if local else []))
+
+
 def cmd_experiment(args: list[str]) -> int:
     """Write the same entry under different settings and compare the cost.
 
@@ -259,6 +297,7 @@ def cmd_notify(args: list[str]) -> int:
 COMMANDS = {
     "apply": cmd_apply,
     "experiment": cmd_experiment,
+    "rebuild": cmd_rebuild,
     "notify": cmd_notify,
     "extract": cmd_extract,
     "status": cmd_status,

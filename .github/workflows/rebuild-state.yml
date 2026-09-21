@@ -1,0 +1,68 @@
+name: Rebuild state
+
+# Clears the projection and replays every state file from 0000.json upward,
+# then re-embeds the fragments.
+#
+# This is the escape hatch the whole design rests on: D1 holds nothing that
+# cannot be reconstructed from content/state/, which is what lets an entry be
+# unpublished completely rather than approximately. `unpublish.yml` does this
+# as one of its steps; this workflow exists for the other cases — a bad apply,
+# a schema change, a database restored from elsewhere.
+#
+# Subscriptions survive. They are the one thing in that database which nothing
+# in the repository could put back.
+#
+# Self-checking: a state file that depends on something no longer there fails
+# during replay and names itself, so a half-rebuild is not a state this can end
+# in quietly.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ebner-state
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: apps/site/pnpm-lock.yaml
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        run: |
+          pnpm --dir apps/site install --frozen-lockfile
+          pip install -e apps/generator
+
+      # Replaying a corpus the guard rejects would write the rejection into the
+      # database, so it runs first.
+      - name: Guard
+        run: node apps/site/scripts/check-state.mjs
+
+      - name: Rebuild
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: python -m ebner rebuild
+
+      - name: What the world holds now
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: python -m ebner status

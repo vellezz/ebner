@@ -217,3 +217,29 @@ def apply_state_file(path: Path, *, remote: bool = True) -> dict:
 def state_files() -> list[Path]:
     """Every state file in replay order — which is filename order."""
     return sorted(STATE_DIR.glob("*.json"))
+
+
+# Everything D1 holds that is a projection of content/state/, in an order that
+# clears children before parents.
+#
+# `push_subscriptions` is deliberately absent. It is the one table here that is
+# not derived from anything in the repository — a browser endpoint someone gave
+# us — so a rebuild that emptied it would silently unsubscribe every reader and
+# no replay could put them back.
+WORLD_TABLES = (
+    "fragment_threads",
+    "entry_threads",
+    "fragments",
+    "travel",
+    "facts",
+    "threads",
+    "entries",
+    "entities",
+)
+
+
+def reset_world(*, remote: bool = True) -> int:
+    """Empty the projection, leaving anything that is not one alone."""
+    statements = [f"DELETE FROM {table}" for table in WORLD_TABLES]
+    execute(statements, remote=remote)
+    return len(statements)

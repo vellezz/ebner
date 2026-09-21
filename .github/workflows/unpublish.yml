@@ -1,0 +1,111 @@
+name: Unpublish entry
+
+# Takes one entry out of the canon: deletes its two files, rebuilds the
+# projection from what remains, and redeploys.
+#
+# Publication is unattended, so being able to undo it afterwards is what makes
+# that safe. This is the undo, and it is deliberately the one workflow here
+# that asks a person to confirm — by typing the day a second time. Everything
+# else in this repository is designed never to need a human; a deletion is the
+# exception, because nothing downstream can tell an unwanted entry from a good
+# one.
+#
+# What it does NOT do is rewrite prose. A later entry that *mentions* the
+# removed events still mentions them. The replay will name any entry that
+# structurally depends on what went — a thread that no longer opens, a place
+# that no longer exists — and stop; deciding what to do about that is the
+# owner's, and is why the run fails loudly rather than tidying up.
+on:
+  workflow_dispatch:
+    inputs:
+      day:
+        description: 'Day number to remove, e.g. 22'
+        required: true
+      confirm:
+        description: 'The same number again. They must match.'
+        required: true
+
+concurrency:
+  group: ebner-state
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  unpublish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: apps/site/pnpm-lock.yaml
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        run: |
+          pnpm --dir apps/site install --frozen-lockfile
+          pip install -e apps/generator
+
+      # Before anything is deleted: the two inputs must agree and the files
+      # must exist. A typo here removes the wrong day.
+      - name: Check
+        id: check
+        run: |
+          day="${{ inputs.day }}"
+          confirm="${{ inputs.confirm }}"
+          if [ "$day" != "$confirm" ]; then
+            echo "::error::day ($day) and confirmation ($confirm) do not match"
+            exit 1
+          fi
+          case "$day" in ''|*[!0-9]*) echo "::error::not a number: $day"; exit 1;; esac
+          padded=$(printf '%04d' "$day")
+          if [ ! -f "content/entries/${padded}.md" ]; then
+            echo "::error::no entry at content/entries/${padded}.md"
+            exit 1
+          fi
+          echo "padded=$padded" >> "$GITHUB_OUTPUT"
+          echo "title=$(sed -n 's/^title: "\(.*\)"$/\1/p' "content/entries/${padded}.md" | head -1)" >> "$GITHUB_OUTPUT"
+
+      - name: Remove
+        run: |
+          padded="${{ steps.check.outputs.padded }}"
+          git rm --quiet "content/entries/${padded}.md" "content/state/${padded}.json"
+
+      # The guard reads the whole corpus, so this is where a later entry that
+      # cannot stand without the removed one says so — before anything is
+      # pushed, while the removal is still only local.
+      - name: Guard
+        run: node apps/site/scripts/check-state.mjs
+
+      - name: Commit
+        run: |
+          git config user.name  'ebner-bot'
+          git config user.email 'bot@ebner.gripe'
+          git commit -m "Unpublish day ${{ inputs.day }}: ${{ steps.check.outputs.title }}"
+          git push
+
+      # D1 holds nothing that is not derived from content/state/, so replaying
+      # what remains is a complete removal rather than a best effort.
+      - name: Rebuild the projection
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: python -m ebner rebuild
+
+      # The push above was made with GITHUB_TOKEN, which triggers nothing.
+      - name: Hand off the deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-site.yml --repo "${{ github.repository }}"
