@@ -1,0 +1,57 @@
+{
+  "day": 55,
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Ebner odkrył, że oddychająca skorupa Ambratu okresowo znosi ciężar Treska do zera; napiął nić wznoszącą jako wskaźnik rytmu, a Otha zaczęła kręcić korbą w takt uniesień, przez co hol przesunął się najdalej ze wszystkich dni — mimo rannej ręki Ebnera i braku jego udziału przy korbie."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ambrat-skorupa-oddech",
+      "content": "Skorupa Ambratu podnosi się i opada długim, powolnym cyklem; przy uniesieniu ciężar jednostki na płozach spada niemal do zera, przy opadnięciu rośnie i unieruchamia hol — dygot skorupy nie liczy się jako ruch jednostki, o ile jednostka podnosi się razem z kreską, ale wychylenie ponad nią liczy się jako lot, nie hol.",
+      "subject": "ambrat",
+      "valid_from": 55
+    },
+    {
+      "id": "f-otha-technika-rytmiczna",
+      "content": "Otha kręci korbą wciągarki w rytmie podpowiadanym przez napiętą nić wznoszącą (trzy szarpnięcia, przerwa), zamiast równomiernie, co dało największy dzienny postęp holu Treska od początku akcji.",
+      "subject": "otha",
+      "valid_from": 55
+    },
+    {
+      "id": "f-otha-obawa-tempo",
+      "content": "Otha zaniepokoiła się przyspieszeniem holu, bo dostaje cztery jednostki dziennie za kręcenie korbą — szybszy hol oznacza dla niej szybszy koniec zarobku.",
+      "subject": "otha",
+      "valid_from": 55
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f55-skorupa-oddech",
+      "kind": "scene",
+      "content": "Skorupę tu mieszają od środka i ona nie drży równo — ona się podnosi i opada, długo, leniwie, jak coś, co oddycha za głęboko. Kiedy podnosi, ciężar na płozie schodzi prawie do zera.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "f55-otha-zle",
+      "kind": "punchline",
+      "content": "— To źle — powiedziała. — Cztery jednostki dziennie.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "f55-rejestrator-lot",
+      "kind": "scene",
+      "content": "— A jeśli jednostka podnosi się wyżej niż kreska? — Wtedy zmierzę to jako ruch w pionie i zapiszę, że jednostka lata. Lot to nie hol. Radzę nie.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    }
+  ],
+  "sketch": "Ebner leży na drgającej skorupie Ambratu obok napiętej nici wznoszącej przymocowanej do wciągarki i kątownika, Otha kręci korbą w rytm uniesień skorupy."
+}
