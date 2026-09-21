@@ -1,0 +1,54 @@
+{
+  "day": 43,
+  "facts_opened": [
+    {
+      "id": "f-ambrat-czas-pobytu-rozliczenie",
+      "content": "Czas pobytu Ebnera na Ambracie stał się nieokreślony, bo zdarzenie zamykające (trzecie ważenie) nie nastąpi wobec trwającego holu; rozliczany jest dziennie wstecz od dnia zapisania holu, dwie jednostki dziennie.",
+      "subject": "ebner-gripe",
+      "valid_from": 43
+    },
+    {
+      "id": "f-wciagarka-tempo-obrotow",
+      "content": "Przełożenie wciągarki holującej Treska wynosi między dziesięć a dwanaście obrotów korby na centymetr przesuwu liny, potwierdzone pomiarem bębna i przeliczeniem oraz zliczeniem obrotów na odcinku.",
+      "subject": "frachtowiec-zeszli",
+      "valid_from": 43
+    },
+    {
+      "id": "f-varnu-cisza",
+      "content": "Varnu przestało odpowiadać Ebnerowi po tym, jak zapytał, czy obniżka rachunku o jedną jednostkę jest jednorazowa — po raz pierwszy od dawna to Varnu milczy, nie Ebner.",
+      "subject": "ebner-gripe",
+      "valid_from": 43
+    },
+    {
+      "id": "f-ebner-oferta-odrzucona",
+      "content": "Ebner odrzucił ofertę pracy na terraformerze na nieznanym księżycu (wymiana kolumn wymiennikowych, dwukrotność zapłaty ze stacji głosowania, termin zgłoszenia dwadzieścia dni) bez podania przyczyny w odpowiedzi.",
+      "subject": "ebner-gripe",
+      "valid_from": 43
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-wciagarka-obroty",
+      "kind": "scene",
+      "content": "Zmierzyłem bęben, sprawdziłem przełożenie, przeliczyłem przez linę. Wyszło gdzieś między dziesięć a dwanaście obrotów korby na centymetr przesuwu. Sto czterdzieści metrów. Podzieliłem, pomnożyłem.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    },
+    {
+      "id": "frag-czas-pobytu-nieokreslony",
+      "kind": "document",
+      "content": "Zdarzenie nie nastąpi, więc czas pobytu jest nieokreślony. Pobyt nieokreślony rozlicza się dziennie, wstecz, od dnia, w którym stał się nieokreślony.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    },
+    {
+      "id": "frag-oferta-odrzucona",
+      "kind": "punchline",
+      "content": "Odpisałem, że nie przyjmuję. Nie napisałem dlaczego, bo nie umiałem tego zmieścić w trzech zdaniach, a w więcej mi się nie chciało. Nie pamiętam, kiedy ostatnio odmówiłem robocie, która płaci.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner klęczy przy rozłożonej na płótnie wciągarce, wokół rozsypane kupki złączy gwintowanych, w tle Otha z korbą i frachtowiec Treska na płozach w hali."
+}
