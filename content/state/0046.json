@@ -1,0 +1,98 @@
+{
+  "day": 46,
+  "entities": [
+    {
+      "id": "system-nici",
+      "kind": "place",
+      "name": "Układ z nićmi wznoszącymi",
+      "summary": "Mały pomarańczowy układ dwa skoki od szlaku za Ambratem, bez planet nadających się do niczego poza jedną: gęsta, gorąca, bez tlenu atmosfera, w której nad szczelinami rosną żywe nici napięcia — źródło włókna do lin, cenionego przez tych, którzy holują na poważnie."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "ambrat",
+      "to": "system-nici"
+    },
+    {
+      "seq": 2,
+      "from": "system-nici",
+      "to": "ambrat"
+    }
+  ],
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Lina wciągarki pękła przy fali dygotania, frachtowiec zsunął się o cztery centymetry do tyłu, ale rejestrator uznał to za przemieszczenie i wpisał, że hol trwał. Ebner wyprawił się do odległego układu po nowe włókno u istot zbierających nici wznoszące się nad szczelinami, wymienił zapasy (rozpuszczalnik, smar) na dwanaście pałąków z napiętym włóknem i wrócił ranny w rękę."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-hol-liczy-sie-mimo-kierunku",
+      "kind": "general",
+      "content": "Na Ambracie rejestrator uznaje ruch frachtowca za \"hol trwający\" niezależnie od kierunku przemieszczenia — liczy się odległość od kreski, nie to, czy jednostka posunęła się do przodu czy do tyłu.",
+      "subject": "ambrat"
+    },
+    {
+      "id": "f-nic-wznoszaca-zasada",
+      "kind": "world_rule",
+      "content": "W układzie z nićmi wznoszącymi żywe włókno rośnie tylko wtedy, gdy jest napięte przez prąd wznoszący nad szczeliną — zwiotczałe kurczy się w bezużyteczną grudę, więc mieszkańcy nigdy nie zwijają nici, tylko trzymają je napięte na wygiętych żebrach z gruzu, i oceniają wartość włókna po tonie, jaki wydaje, nie po wyglądzie.",
+      "subject": "system-nici"
+    },
+    {
+      "id": "f-ebner-rana-reki",
+      "kind": "general",
+      "content": "Ebner rozciął rękę nad nadgarstkiem żywą nicią z układu z nićmi wznoszącymi; rana jest wąska, głęboka i czysta, zaklejona od środka, i musiał wracać do Hanny bardzo wolno, żeby nie zebrać na siebie kolejnych nici.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-ebner-palaki-w-ladowni",
+      "kind": "general",
+      "content": "W ładowni Hanny stoi teraz dwanaście pałąków z żywym włóknem z układu z nićmi wznoszącymi, każdy napięty na własnym żebrze z gruzu; nici odzywają się dźwiękiem przy każdej zmianie ciągu, różnymi tonami, i cichną po chwili.",
+      "subject": "hanna"
+    },
+    {
+      "id": "f-ebner-zapasy-po-wymianie",
+      "kind": "general",
+      "content": "Ebner wymienił na targu w układzie z nićmi cały posiadany rozpuszczalnik i jedną tubę smaru łożyskowego na dwanaście pałąków włókna; złącza gwintowane pozostały niechciane, bo w tamtym świecie nie ma po co kręcić śrub.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-zapasy-przeglad"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "lina-pekla-scena",
+      "kind": "scene",
+      "content": "Lina puściła przed południem, przy trzeciej czy czwartej fali. Nie rozplotła się grzecznie — pękła jednym pasmem, potem resztą, i wolny koniec przeszedł przez halę na wysokości pasa.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "hol-trwal-punchline",
+      "kind": "punchline",
+      "content": "— Przemieszczenie jest — powiedział rejestrator. — W złą stronę. — Ja mierzę odległość od kreski, nie kierunek. — Wpisał. — Hol trwał.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "nic-wznoszaca-opis",
+      "kind": "world_description",
+      "content": "Z orbity wygląda to jak mgła. Z bliska jest to nić: wyrasta z brzegu szczeliny, prąd wznoszący ciągnie ją do góry i ona rośnie w tym ciągu — dopóki ciągnie, żyje, a jak zwiotczeje, kurczy się i skleja sama ze sobą w twardą grudę.",
+      "threads": []
+    },
+    {
+      "id": "targ-palakow-scena",
+      "kind": "scene",
+      "content": "Włókna nikt tu nie zwija, bo zwinięte przestaje być włóknem. Targ to las pałąków: każdy odcinek napięty na wygiętym żebrze z gruzu; handlarz podnosi pałąk, brzdąka w nić i słucha, bo ton mówi, ile w niej naciągu.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner idzie wolno przez las pionowych, błyszczących nici zawieszonych w pomarańczowym powietrzu, z pałąkami z włóknem pod jedną ręką i zakrwawionym rękawem przy drugiej."
+}
