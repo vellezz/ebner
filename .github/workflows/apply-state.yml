@@ -47,12 +47,29 @@ jobs:
           pnpm --dir apps/site install --frozen-lockfile
           pip install -e apps/generator
 
-      # Replaying every file is idempotent and cheap — D1 only, no model calls.
+      # Only what this push changed. Replaying every file is idempotent, which
+      # is why it was done that way, and it is not cheap: each file rewrites
+      # the whole of `entities` and `threads` to recompute their counters, so
+      # one run cost about three and a half thousand written rows across
+      # forty-five files. Twenty-five pushes in a day reached three quarters of
+      # D1's daily free allowance, and exceeding it would have stopped
+      # generation altogether.
+      #
+      # `rebuild-state.yml` is where replaying everything belongs, and it
+      # exists.
       - name: Apply to D1
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: python -m ebner apply
+        run: |
+          files=$(git diff --name-only HEAD~1 HEAD -- content/state/ \
+                  | sed -n 's#content/state/##p' | tr '\n' ' ')
+          if [ -z "$files" ]; then
+            echo "no state file changed; nothing to apply"
+          else
+            echo "applying: $files"
+            python -m ebner apply $files
+          fi
 
       - name: Index new fragments
         env:
