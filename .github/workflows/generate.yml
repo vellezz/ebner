@@ -87,7 +87,21 @@ jobs:
           git config user.email 'bot@ebner.gripe'
           git add content/
           git commit -m "${title}"
-          git push
+
+          # Anything pushed to main while this run was writing leaves the
+          # branch behind, and a plain push is then rejected — which throws
+          # away an entry that is finished and paid for over a collision that
+          # rebasing settles. The entry only touches content/, so it never
+          # conflicts with work on the code.
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "push rejected, rebasing (attempt ${attempt})"
+            git pull --rebase --quiet origin main || exit 1
+          done
+          echo "::error::could not push after three attempts"
+          exit 1
 
       # A push made with GITHUB_TOKEN does not trigger other workflows —
       # GitHub's guard against recursion, the same one that makes a bot PR's

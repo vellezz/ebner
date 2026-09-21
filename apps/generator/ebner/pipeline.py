@@ -26,6 +26,7 @@ from .context import (
     load_world,
     render_entities,
     render_location,
+    render_opinions,
     render_places,
     render_previous,
     render_state,
@@ -424,6 +425,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
         "poprzedni": render_previous(world),
         "miejsce": render_location(world),
         "zapomniane": render_places(world),
+        "oceny": render_opinions(world),
         "rag": render_recall(fragments),
         "dzien": params["day"],
         # The bare id, because this also lands in the frontmatter, where the

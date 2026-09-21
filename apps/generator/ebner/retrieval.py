@@ -53,7 +53,11 @@ def recall(world: dict, params: dict, *, remote: bool = True) -> list[dict]:
         "WHEN 'do_not_touch' THEN 0 WHEN 'mention' THEN 1 "
         "WHEN 'may_return' THEN 2 ELSE 3 END), 3) AS policy_rank, "
         "MAX(COALESCE(t.last_used_day, -1)) AS thread_last_used, "
-        "MAX(COALESCE(t.cooldown_days, 0)) AS cooldown "
+        "MAX(COALESCE(t.cooldown_days, 0)) AS cooldown, "
+        # Readers' verdicts on the entry this fragment came from. Only the
+        # negative count is read: see the penalty below.
+        "(SELECT COUNT(*) FROM opinions o "
+        " WHERE o.entry_day = f.entry_day AND o.verdict = 'nok') AS nok "
         f"FROM fragments f "
         "LEFT JOIN fragment_threads ft ON ft.fragment_id = f.id "
         "LEFT JOIN threads t ON t.id = ft.thread_id "
@@ -79,6 +83,20 @@ def recall(world: dict, params: dict, *, remote: bool = True) -> list[dict]:
         cooldown = int(row["cooldown"])
         if last_used >= 0 and cooldown and (last_day - last_used) < cooldown:
             score *= 0.5
+
+        # A scene from an entry readers said did not work is pushed down, and
+        # a scene from one they liked is not pushed up. The asymmetry is the
+        # whole design: a signal that rewards creates a gradient to climb, and
+        # this diary has already shown what it does with one — it found an
+        # ending that worked and used it in eight entries of thirteen with no
+        # reward at all. Penalising a miss steers away from one scene;
+        # rewarding a hit steers towards a formula.
+        #
+        # Bounded, never zero: an entry can be disliked and still be the only
+        # place a thread was opened.
+        nok = int(row["nok"] or 0)
+        if nok:
+            score *= max(1.0 - 0.2 * nok, 0.4)
 
         kept.append(
             {

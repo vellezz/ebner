@@ -90,6 +90,23 @@ def _facts(remote: bool) -> list[dict]:
     )
 
 
+def _opinions(remote: bool) -> list[dict]:
+    """How recent entries landed with readers, by the day they belong to.
+
+    Counts only: the buttons carry no text, and that is deliberate, because
+    this reaches the prompt that writes the canon and anything a stranger
+    could type would be untrusted input arriving at a model.
+    """
+    return query(
+        "SELECT e.day, e.kind, "
+        "SUM(CASE WHEN o.verdict = 'ok' THEN 1 ELSE 0 END) AS ok, "
+        "SUM(CASE WHEN o.verdict = 'nok' THEN 1 ELSE 0 END) AS nok "
+        "FROM opinions o JOIN entries e ON e.day = o.entry_day "
+        "GROUP BY e.day ORDER BY e.day DESC LIMIT 12",
+        remote=remote,
+    )
+
+
 def _previous(remote: bool) -> list[dict]:
     """The last few entries, most recent first, the newest one in full.
 
@@ -168,6 +185,7 @@ def load_world(*, remote: bool = True) -> dict:
         "facts": _facts(remote),
         "entities": _entities(remote),
         "previous": _previous(remote),
+        "opinions": _opinions(remote),
         "location": _location(remote),
         "places": _places(remote, last_day),
     }
@@ -374,6 +392,49 @@ def render_previous(world: dict) -> str:
             if closing:
                 lines.append(f"  koniec: {closing}")
     return "\n".join(lines).strip()
+
+
+KIND_LABEL_PL = {
+    "travel": "podróż",
+    "new_job": "nowe zlecenie",
+    "continuation": "ciąg dalszy",
+    "resolution": "rozstrzygnięcie",
+    "adventure": "przygoda",
+    "quiet": "cisza",
+    "note": "notatka",
+    "documents": "dokumenty",
+    "stopover": "postój",
+}
+
+
+def render_opinions(world: dict) -> str:
+    """What readers made of recent entries — as information, not as a target.
+
+    The framing in the prompt matters more than the numbers. A signal like
+    this is read by something very good at finding what scores well, and this
+    diary has already demonstrated the failure mode without any signal at all:
+    it found an ending that worked and closed eight entries of thirteen with
+    it. So the block says what did not land and says explicitly that a quiet
+    entry scoring low is expected.
+    """
+    rows = world.get("opinions") or []
+    if not rows:
+        return "Brak ocen — jeszcze nikt nie głosował."
+
+    lines = [
+        "Oceny czytelników. **To nie jest cel.** Niska ocena mówi, że coś nie",
+        "zagrało, i tyle — nie mówi, co powtórzyć. Wpis typu `cisza` z niską",
+        "oceną jest oczekiwany: ciche dni są tkanką tego dziennika i to one",
+        "sprawiają, że przygody trafiają. Nie pisz pod ocenę.",
+        "",
+    ]
+    for row in rows:
+        kind = KIND_LABEL_PL.get(row.get("kind"), row.get("kind") or "?")
+        lines.append(
+            f"- dzień {row['day']} ({kind}): {row.get('ok') or 0} na tak,"
+            f" {row.get('nok') or 0} na nie"
+        )
+    return "\n".join(lines)
 
 
 def render_places(world: dict) -> str:

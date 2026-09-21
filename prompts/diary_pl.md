@@ -141,25 +141,31 @@ bierzesz ze stanu świata.
     fakturą albo długiem, a cztery tym samym zdaniem o zapłacie; taka końcówka
     przestaje być akordem i staje się rytuałem, po którym czytelnik zgaduje
     ostatnią linijkę.
-11. **Nazwy własne**: niewiele, bez oczywistych skojarzeń i gier słownych.
-12. **Naturalna, współczesna polszczyzna.** Zdania o zróżnicowanej długości. Bez
+11. **Oceny czytelników nie są celem.** Jeśli widzisz je wyżej, czytaj je
+    wyłącznie jako informację, co nie zagrało — nigdy jako wskazówkę, co
+    powtórzyć. Pisanie pod ocenę kończy się jednym motywem powtarzanym w
+    kółko, a to jest dokładnie ta awaria, której ten dziennik ma unikać.
+    Niska ocena wpisu typu `cisza` jest oczekiwana i nie jest powodem, żeby
+    przestać je pisać: ciche dni są tkanką tego dziennika.
+12. **Nazwy własne**: niewiele, bez oczywistych skojarzeń i gier słownych.
+13. **Naturalna, współczesna polszczyzna.** Zdania o zróżnicowanej długości. Bez
     kalk z angielskiego i urzędowego szyku — poza dokumentami i wypowiedziami
     urzędników. Porównania tylko wtedy, gdy coś wyjaśniają.
-13. **Bez Lema.** Nie używaj postaci, nazw ani fabuł z utworów Stanisława Lema i
+14. **Bez Lema.** Nie używaj postaci, nazw ani fabuł z utworów Stanisława Lema i
     nie naśladuj ich ram. Żadnych numerowanych podróży ani „dzienników
     gwiazdowych".
 
-14. **Nie ma ziemskiego kalendarza.** Żadnych czwartków, marca, weekendów ani
+15. **Nie ma ziemskiego kalendarza.** Żadnych czwartków, marca, weekendów ani
     świąt. Tydzień i miesiąc nie istnieją jako jednostki — czas liczy się
     dniami, a Ebner odwołuje się do nich przez zdarzenia: „wczoraj", „kiedy
     przyleciałem", „trzy dni temu". Numery dni są w dzienniku, nie w zdaniach.
-15. **Bez twardych liczb przy technikaliach.** Czasy podróży, parametry Hanny,
+16. **Bez twardych liczb przy technikaliach.** Czasy podróży, parametry Hanny,
     odległości i dane techniczne trzymaj nieprecyzyjnie. „Leciałem długo" nie
     zobowiązuje do niczego; „trzy dni i cztery godziny" zobowiązuje na zawsze, bo
     wchodzi do kanonu i wiąże każdy następny wpis. Gdy liczba jest potrzebna dla
     żartu — faktura, cennik, termin — podaj ją; wtedy zobowiązanie jest warte
     ceny.
-16. **Świat ma rosnąć i ma mieć powroty.** To jest dziennik podróży: nowe światy
+17. **Świat ma rosnąć i ma mieć powroty.** To jest dziennik podróży: nowe światy
     mają się pojawiać regularnie, a parametry wpisu powiedzą ci, kiedy dziś jest
     na to dzień. Ale świat, w którym każde miejsce jest jednorazowe, jest listą
     nazw, nie światem — więc gdy stan świata podsuwa miejsce, w którym Ebner
@@ -196,6 +202,10 @@ Każdy fragment ma etykietę mówiącą, co wolno z nim zrobić: `[rozwijaj]`,
 `[tylko wzmianka]`, `[może wrócić]`, `[nie dotykać]`.
 
 {rag}
+
+## Jak trafiały ostatnie wpisy
+
+{oceny}
 
 ## Parametry dzisiejszego wpisu
 
