@@ -1,0 +1,84 @@
+{
+  "day": 19,
+  "entities": [
+    {
+      "id": "oskra",
+      "kind": "place",
+      "name": "Oskra",
+      "summary": "Księżyc poruszający się w nieprzewidywalny sposób, bez wewnętrznego rytmu czasowego. Mieszkańcy to niscy, szercy istoty bez wewnętrznych zegarów. Czas rozprowadzany rurami z centralnej rozdzielni."
+    },
+    {
+      "id": "dolna-rozdzielnia",
+      "kind": "place",
+      "name": "Dolna Rozdzielnia",
+      "parent": "oskra",
+      "summary": "Centralna rozdzielnia na Oskrze, która rozprowadza czas mieszkańcom rurami w zamkniętym obiegu z cieczą nośną."
+    },
+    {
+      "id": "czwarta-nitka",
+      "kind": "place",
+      "name": "Czwarta nitka",
+      "parent": "dolna-rozdzielnia",
+      "summary": "Czwarte odgałęzienie systemu rozprowadzania czasu, biegnące od rozdzielni przez grzbiet skalny do mieszkań."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "szlak-za-hoonem",
+      "to": "oskra"
+    }
+  ],
+  "threads": [
+    {
+      "id": "nowe-zlecenie-czas-siec",
+      "op": "open",
+      "type": "short",
+      "status": "active",
+      "summary": "Usunięcie pęcherzyka powietrza z czwartej nitki systemu rozprowadzania czasu na Oskrze. Pęcherz powstał przy przebudowie i siedzi w najwyższym punkcie, powodując nieregularne dostawy czasu dla odbiorców."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "oskra-kat-czasowy",
+      "kind": "world_rule",
+      "content": "Na Oskrze czas nie płynie z natury — mieszkańcy nie mają wewnętrznych zegarów, a księżyc nie obraca się regularnie. Czas jest towarem rozprowadzanym rurami z rozdzielni i sprzedawany odbiorcom. Kto nie zapłaci, temu zakręcają dostęp, a wtedy żyje dalej, ale już nie wie, ile.",
+      "subject": "oskra"
+    },
+    {
+      "id": "czwarta-nitka-pecherz",
+      "content": "W czwartej nitce systemu rozprowadzania czasu siedzi bąbel powietrza w najwyższym punkcie nad grzbietem. Pęcherz powoduje nieregularne dostawy — raz odbiorcy nic nie dostają, raz dostają za dużo. Powstał przy przebudowie, gdy korkiem zamalowano króciec odpowietrznika.",
+      "subject": "czwarta-nitka"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-oskra-opis",
+      "kind": "world_description",
+      "content": "Oskra jest mała, złapana i chodzi krzywo. Nie obraca się porządnie, tylko kiwa, więc słońce wychodzi zza grzbietu, kiedy mu się podoba — raz po kilku godzinach, raz po kilkudziesięciu."
+    },
+    {
+      "id": "frag-mieszkancy-oskry",
+      "kind": "world_description",
+      "content": "Mieszkańcy są niscy, szerocy, mokrzy w dotyku — skóra jak u czegoś, co wyszło ze szczeliny i nie do końca zdecydowało, czy chce zostać na zewnątrz. Oczy bez powiek, przemywane co jakiś czas z bocznego kanalika. Nie mają zegara w środku. Nie mają złego — nie mają żadnego."
+    },
+    {
+      "id": "frag-monter-jedno-zdanie",
+      "kind": "punchline",
+      "content": "Monter, który przyszedł po mnie na płytę, zaczął zdanie »Rozdzielnia jest po tej stronie grzbietu, a nitka czwarta idzie...« i zamilkł. Stał. Poprawił rękawicę. Poszedł przodem. Skończył to zdanie dobre pół godziny później, przy śluzie, dokładnie od tego samego miejsca: »...górą, bo dołem była skała.«"
+    },
+    {
+      "id": "frag-pecherz-diagnoza",
+      "kind": "scene",
+      "content": "Przyłożyłem sondę do rury poniżej garbu i posłuchałem. Idzie równo, ciągnie. Przeszedłem na szczyt i przyłożyłem tam. Pusto. Puknąłem kluczem. Dźwięk podskoczył o pół tonu w górę i wrócił. — Macie tu pęcherz — powiedziałem. — Wielkości mniej więcej takiej, że raz na jakiś czas przechodzi przez łuk i przez chwilę wasi odbiorcy nie dostają nic.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    },
+    {
+      "id": "frag-pasazera-brak-papieru",
+      "kind": "scene",
+      "content": "Przy zejściu zatrzymał nas urzędnik od przyłączy i chciał ją zapisać. Powiedziała, że nie ma papieru. On odpowiedział, że papier go nie interesuje, interesuje go licznik. Licznika też nie ma. Wpisał ją więc do rejestru jako odbiorcę niepodłączonego i wyjaśnił uprzejmie, że wobec tego jej pobyt na Oskrze trwa zero, niezależnie od tego, jak długo tu będzie, i nie podlega opłacie."
+    }
+  ]
+}
