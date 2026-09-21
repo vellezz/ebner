@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Entry from '../../components/Entry.astro';
+import Verdict from '../../components/Verdict.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('entries');
@@ -25,6 +26,8 @@ const { entry, previous, next } = Astro.props;
 <Base title={entry.data.title}>
   <span hidden data-day={entry.data.day}></span>
   <Entry entry={entry} />
+
+  <Verdict day={entry.data.day} />
 
   <nav class="neighbours readout" data-neighbours>
     {previous ? <a href={`/dzien/${previous.data.day}`} rel="prev">&larr; {previous.data.title}</a> : <span />}

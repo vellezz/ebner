@@ -1,0 +1,127 @@
+---
+interface Props {
+  day: number;
+}
+
+const { day } = Astro.props;
+---
+
+{/*
+  Two buttons and nothing else.
+
+  No free text on purpose: this signal is read back into the prompt that
+  writes the canon, and anything a stranger could type there would be
+  untrusted input arriving at a model. A day number and one of two words
+  cannot carry an instruction.
+*/}
+<div class="verdict" data-verdict={day}>
+  <span class="readout">Wyszło?</span>
+  <button type="button" data-vote="ok" aria-pressed="false">tak</button>
+  <button type="button" data-vote="nok" aria-pressed="false">nie</button>
+  <span class="readout note" data-note aria-live="polite"></span>
+</div>
+
+<script>
+  const box = document.querySelector('[data-verdict]') as HTMLElement | null;
+  if (box) {
+    const day = Number(box.dataset.verdict);
+    const note = box.querySelector('[data-note]') as HTMLElement;
+    const buttons = [...box.querySelectorAll('[data-vote]')] as HTMLButtonElement[];
+
+    // An id this browser made up for itself. Not identity and not an account:
+    // it exists so changing your mind replaces a verdict instead of adding
+    // another one.
+    const voterId = () => {
+      try {
+        let id = localStorage.getItem('ebner-voter');
+        if (!id) {
+          id = Array.from(crypto.getRandomValues(new Uint8Array(12)))
+            .map((b) => b.toString(36).padStart(2, '0'))
+            .join('')
+            .slice(0, 24);
+          localStorage.setItem('ebner-voter', id);
+        }
+        return id;
+      } catch {
+        return null;
+      }
+    };
+
+    const KEY = `ebner-verdict-${day}`;
+    const show = (verdict: string | null) => {
+      for (const b of buttons) b.setAttribute('aria-pressed', String(b.dataset.vote === verdict));
+    };
+
+    try {
+      show(localStorage.getItem(KEY));
+    } catch {}
+
+    for (const button of buttons) {
+      button.addEventListener('click', async () => {
+        const voter = voterId();
+        if (!voter) {
+          note.textContent = 'bez pamięci przeglądarki się nie da';
+          return;
+        }
+        const verdict = button.dataset.vote;
+        for (const b of buttons) b.disabled = true;
+        try {
+          const response = await fetch('/api/opinion', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ day, verdict, voter }),
+          });
+          if (!response.ok) throw new Error(String(response.status));
+          try {
+            localStorage.setItem(KEY, verdict!);
+          } catch {}
+          show(verdict!);
+          note.textContent = 'zapisane';
+        } catch {
+          note.textContent = 'nie udało się zapisać';
+        } finally {
+          for (const b of buttons) b.disabled = false;
+        }
+      });
+    }
+  }
+</script>
+
+<style>
+  .verdict {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid var(--sp);
+    max-width: var(--measure);
+  }
+
+  .verdict button {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border: 1px solid var(--wl);
+    background: var(--pl);
+    color: var(--f2);
+    cursor: pointer;
+  }
+
+  .verdict button[aria-pressed='true'] {
+    background: var(--ts);
+    color: var(--tf);
+    border-color: var(--ts);
+  }
+
+  .verdict button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .note {
+    color: var(--ls);
+  }
+</style>

@@ -222,10 +222,11 @@ def state_files() -> list[Path]:
 # Everything D1 holds that is a projection of content/state/, in an order that
 # clears children before parents.
 #
-# `push_subscriptions` is deliberately absent. It is the one table here that is
-# not derived from anything in the repository — a browser endpoint someone gave
-# us — so a rebuild that emptied it would silently unsubscribe every reader and
-# no replay could put them back.
+# `push_subscriptions` and `opinions` are deliberately absent. They are the
+# tables here not derived from anything in the repository — an endpoint a
+# browser gave us, and what readers thought of an entry — so a rebuild that
+# emptied them would silently unsubscribe everyone and erase every verdict,
+# and no replay could put either back.
 WORLD_TABLES = (
     "fragment_threads",
     "entry_threads",
