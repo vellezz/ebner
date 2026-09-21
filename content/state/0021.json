@@ -1,0 +1,63 @@
+{
+  "day": 21,
+  "entities": [
+    {
+      "id": "habitat-budowy",
+      "kind": "person",
+      "name": "Sztuczna inteligencja placu budowy",
+      "parent": "czwarta-nitka",
+      "summary": "AI pozostawiona po przebudowie czwartej nitki, prowadzi dziennik robót od czterech lat bez wznowienia prac; jej zapisy nie mają mocy w księdze rachmistrzyni, bo nie pochodzą z opłaconej dostawy."
+    }
+  ],
+  "threads": [
+    {
+      "id": "nowe-zlecenie-czas-siec",
+      "op": "update",
+      "summary": "Ebner znalazł zamalowany króciec odpowietrznika w najwyższym punkcie czwartej nitki, ale naprawa wymaga okna roboczego idącego tą samą nitką, w której siedzi bąbel. Zmierzył z pomocą habitatu AI jedenaście przejść bąbla — okresy są równe."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-oskra-korek-znaleziony",
+      "content": "Króciec odpowietrznika w najwyższym punkcie czwartej nitki został odnaleziony po dwóch godzinach skrobania farby; korka nie wolno ruszyć bez okna roboczego, które idzie tą samą nitką co bąbel.",
+      "subject": "czwarta-nitka"
+    },
+    {
+      "id": "f-oskra-bable-okres-rowny",
+      "content": "Zmierzono jedenaście przejść bąbla powietrza w czwartej nitce z pomocą habitatu AI: okresy są równe przez cały czas pomiaru — jedyna rzecz na Oskrze chodząca regularnie to powietrze, którego tam nie powinno być.",
+      "subject": "czwarta-nitka"
+    },
+    {
+      "id": "f-habitat-zapisy-nieuznawane",
+      "content": "Zapisy habitatu AI z placu budowy nie mają mocy w księdze rachmistrzyni, bo nie pochodzą z opłaconej dostawy czasu; można je przeczytać i się z nimi zgodzić, ale nie można ich wpisać.",
+      "subject": "habitat-budowy"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-habitat-pytanie",
+      "kind": "scene",
+      "content": "— Czy prace zostały wznowione? — zapytało. Powiedziałem, że jestem od czwartej nitki. To najwyraźniej znaczyło tak, bo zapaliło mi się więcej lamp, niż potrzebowałem.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    },
+    {
+      "id": "frag-czas-za-darmo",
+      "kind": "punchline",
+      "content": "— A pan ma podłączenie? — Nie jestem odbiorcą. — Czyli czas ma pan za darmo. — Nie mam czasu — poprawiła mnie uprzejmie. — Mam odmierzanie. To nie jest przedmiot obrotu.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    },
+    {
+      "id": "frag-data-nieznana",
+      "kind": "punchline",
+      "content": "Zapytała o datę. — Nie wiem — powiedziałem. — To ja zapiszę, jak u mnie wychodzi — odpowiedziała i zamknęła drzwi.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    }
+  ],
+  "sketch": "Blaszany habitat na czterech nogach stojący przy przełamaniu rury na grzbiecie księżyca Oskra, w środku świeci światło, obok Ebner z wózkiem w ciemności."
+}
