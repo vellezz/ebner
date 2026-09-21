@@ -1,0 +1,25 @@
+{
+  "day": 49,
+  "facts_opened": [
+    {
+      "id": "f-ebner-opinia-holdmark",
+      "content": "Ebner odpisał bezpłatnie zarządcy terraformera, że przewiercenie zarośniętych kolumn wymiennikowych zamiast ich wymiany jest technicznie możliwe, ale osłabi ścianki kolumn i doprowadzi do pęknięcia kilku naraz przy pierwszym skoku ciśnienia po rozruchu; Holdmark Serwis ma wykonać tę tańszą robotę.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f49-opinia",
+      "kind": "scene",
+      "content": "Napisałem to w czterech zdaniach, bez rysunku. Nie policzyłem sobie za to nic, bo nie ma pozycji na odpowiedź na pytanie, którego nikt nie zamówił.",
+      "threads": []
+    },
+    {
+      "id": "f49-otha-rachunek",
+      "kind": "scene",
+      "content": "Otha: „To czemu im to napisałeś?” — „Bo zapytali mnie, a nie jego.”",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner pisze krótką wiadomość przy pulpicie Hanny, w tle przez luk widać Othę kręcącą korbą wciągarki w hali."
+}
