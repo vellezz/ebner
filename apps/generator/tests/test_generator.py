@@ -25,6 +25,7 @@ from ebner.pipeline import (
     normalise_entry,
     normalise_state,
     reconcile_travel,
+    report_extraction,
 )
 from ebner.rhythm import pick_length
 
@@ -294,6 +295,41 @@ class Travel(unittest.TestCase):
         self.assertEqual(reconcile_travel(copy.deepcopy(agreed), None), agreed)
         self.assertEqual(reconcile_travel({"travel": []}, "a"), {"travel": []})
         self.assertEqual(reconcile_travel({}, "a"), {})
+
+
+class EmptyDelta(unittest.TestCase):
+    """Three entries in a row recorded no facts and nothing said so.
+
+    One of them was entirely about measuring how often a signal arrives. The
+    gap surfaced only when a later entry contradicted a figure that had never
+    been written down, and a reader noticed.
+    """
+
+    def test_an_empty_delta_is_reported(self):
+        notes = report_extraction({"day": 30})
+        self.assertEqual(len(notes), 3)
+        self.assertTrue(any("faktów" in n for n in notes))
+
+    def test_a_full_delta_is_silent(self):
+        notes = report_extraction(
+            {
+                "facts_opened": [{"id": "f-a", "content": "c", "subject": "hanna"}],
+                "fragments": [{"id": "x", "kind": "scene", "content": "c"}],
+                "threads": [{"id": "t", "op": "update"}],
+            }
+        )
+        self.assertEqual(notes, [])
+
+    def test_each_gap_is_named_separately(self):
+        notes = report_extraction(
+            {
+                "facts_opened": [{"id": "f-a", "content": "c", "subject": "hanna"}],
+                "fragments": [],
+                "threads": [{"id": "t", "op": "update"}],
+            }
+        )
+        self.assertEqual(len(notes), 1)
+        self.assertIn("fragment", notes[0])
 
 
 class Facts(unittest.TestCase):

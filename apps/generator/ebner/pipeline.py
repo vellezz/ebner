@@ -347,6 +347,34 @@ def report_edit(before: str, after: str) -> dict:
     return {"ratio": ratio, "paragraphs_touched": touched, "paragraphs": len(para_after)}
 
 
+def report_extraction(state: dict) -> list[str]:
+    """Say out loud when a delta records suspiciously little.
+
+    Days 28, 29 and 30 each opened no facts at all, and nothing said so. Three
+    entries in a row added nothing to the canon — including the one whose whole
+    subject was measuring how often the signal arrives — and the gap only
+    surfaced when day 33 contradicted a figure that had never been written
+    down, and a reader noticed.
+
+    A warning rather than a refusal: a genuinely uneventful day can legitimately
+    record nothing, and throwing away a finished entry over a judgement call is
+    the wrong trade. But an empty delta looked exactly like a quiet one, and
+    that is the property worth removing — every silent failure in this project
+    has cost more than the loud ones.
+    """
+    notes = []
+    if not (state.get("facts_opened") or []):
+        notes.append("żadnych faktów — czy wpis na pewno niczego nie ustalił?")
+    if not (state.get("fragments") or []):
+        notes.append("żadnych fragmentów — nic nie trafi do wyszukiwania")
+    if not (state.get("threads") or []):
+        notes.append("żadnej operacji na sprawach")
+
+    for note in notes:
+        print(f"  uwaga: {note}")
+    return notes
+
+
 def reconcile_travel(state: dict, location: str | None) -> dict:
     """Make the recorded journey end where the entry says the day ended.
 
@@ -521,6 +549,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     # The entry knows where the day ended; the extractor only read about it.
     frontmatter = re.search(r"^location:\s*(\S+)\s*$", entry_text, re.MULTILINE)
     reconcile_travel(state, frontmatter.group(1) if frontmatter else None)
+    report_extraction(state)
 
     return {"params": params, "entry": entry_text, "state": state}
 
