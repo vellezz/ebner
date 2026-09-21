@@ -23,6 +23,7 @@ const { entry, previous, next } = Astro.props;
 ---
 
 <Base title={entry.data.title}>
+  <span hidden data-day={entry.data.day}></span>
   <Entry entry={entry} />
 
   <nav class="neighbours readout" data-neighbours>
@@ -30,6 +31,16 @@ const { entry, previous, next } = Astro.props;
     {next ? <a href={`/dzien/${next.data.day}`} rel="next">{next.data.title} &rarr;</a> : <span />}
   </nav>
 </Base>
+
+<script>
+  import { markRead } from '../../lib/read';
+
+  // Reading it is opening it. A dwell timer would be more accurate and would
+  // also mean an entry you opened, read and closed in twenty seconds stays
+  // unread — which is the wrong error to make.
+  const day = Number(document.querySelector('[data-day]')?.getAttribute('data-day'));
+  markRead(day);
+</script>
 
 <script is:inline>
   // Swipe between entries, on touch only.

@@ -59,7 +59,7 @@ const title = page.currentPage === 1 ? 'Wszystkie dni' : `Wszystkie dni — ${pa
   <ol class="days">
     {
       page.data.map(({ entry, gap }) => (
-        <li>
+        <li data-entry={entry.data.day}>
           <a href={`/dzien/${entry.data.day}`}>
             <span class="n">{String(entry.data.day).padStart(4, '0')}</span>
             <span class="body">
@@ -158,5 +158,44 @@ const title = page.currentPage === 1 ? 'Wszystkie dni' : `Wszystkie dni — ${pa
 
   .pager .off {
     color: var(--p2);
+  }
+</style>
+
+<script>
+  import { readDays } from '../../lib/read';
+
+  // Marking what is read rather than what is unread: a browser with no marks
+  // at all is someone arriving for the first time, and lighting up twenty
+  // rows to tell them they have read nothing is not information.
+  const seen = readDays();
+  if (seen.size > 0) {
+    for (const row of document.querySelectorAll('[data-entry]')) {
+      const day = Number((row as HTMLElement).dataset.entry);
+      if (seen.has(day)) row.classList.add('seen');
+    }
+    document.querySelector('.days')?.classList.add('marked');
+  }
+</script>
+
+<style>
+  /* Only ever applied once something has been read, so the first visit shows
+     a clean list rather than twenty identical markers. */
+  .days.marked li[data-entry]::before {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 1.15em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ac);
+  }
+
+  .days.marked li.seen::before {
+    background: none;
+  }
+
+  .days li[data-entry] {
+    position: relative;
   }
 </style>

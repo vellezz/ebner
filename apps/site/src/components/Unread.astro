@@ -1,0 +1,75 @@
+---
+interface Props {
+  /** Every day that exists, so the browser can work out what is missing. */
+  days: number[];
+  /** The day shown in full on this page, which reading it counts as reading. */
+  current?: number;
+}
+
+const { days, current } = Astro.props;
+---
+
+{/*
+  What has not been read yet, and nothing more.
+
+  The alternative — opening the app on the oldest unread entry — was
+  considered and rejected: it fights the notification, which exists to say
+  something new arrived, and it turns catching up on five entries into five
+  separate visits. The newest entry stays the front page; this says what is
+  behind it.
+*/}
+<p
+  class="unread readout"
+  data-unread={JSON.stringify(days)}
+  data-current={current ?? ''}
+  hidden></p>
+
+<script>
+  import { markRead, readDays, unread } from '../lib/read';
+  import { count } from '../lib/plural';
+
+  const box = document.querySelector('[data-unread]') as HTMLElement | null;
+  if (box) {
+    // The entry printed in full above this line has been read by anyone who
+    // scrolled past it, and counting it as unread while they look at it is
+    // the kind of wrong a reader notices immediately.
+    const current = Number(box.dataset.current);
+    if (Number.isInteger(current)) markRead(current);
+
+    const all = JSON.parse(box.dataset.unread || '[]') as number[];
+    const missing = unread(all);
+
+    // Someone arriving for the first time has read nothing, and telling them
+    // they are twenty entries behind is not a welcome. The count is for
+    // people who have fallen behind, which requires having been here.
+    const started = readDays().size > (Number.isInteger(current) ? 1 : 0);
+
+    // One unread entry is the one you just got a notification about.
+    if (started && missing.length > 1) {
+      const link = document.createElement('a');
+      link.href = `/dzien/${missing[0]}`;
+      link.textContent = `zacznij od dnia ${missing[0]}`;
+      box.append(
+        document.createTextNode(
+          `${count(missing.length, 'nieprzeczytany wpis', 'nieprzeczytane wpisy', 'nieprzeczytanych wpisów')} — `,
+        ),
+        link,
+      );
+      box.hidden = false;
+    }
+  }
+</script>
+
+<style>
+  .unread {
+    margin: 0 0 28px;
+    padding: 8px 12px;
+    background: var(--wb);
+    border-left: 2px solid var(--ac);
+    color: var(--f2);
+  }
+
+  .unread a {
+    color: var(--ac);
+  }
+</style>

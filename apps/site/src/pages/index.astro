@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Entry from '../components/Entry.astro';
+import Unread from '../components/Unread.astro';
 
 // The home page is the most recent day in full. `day` is monotonic but not
 // consecutive, so "most recent" is the highest day, never a count.
@@ -11,6 +12,7 @@ const older = entries.sort((a, b) => b.data.day - a.data.day).slice(1, 9);
 ---
 
 <Base title={latest ? latest.data.title : 'ebner.gripe'}>
+  <Unread days={entries.map((e) => e.data.day)} current={latest?.data.day} />
   {latest ? <Entry entry={latest} /> : <p>Brak wpisów.</p>}
 
   {
