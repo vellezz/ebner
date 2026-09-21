@@ -1,0 +1,37 @@
+{
+  "day": 54,
+  "entities": [
+    {
+      "id": "nuhr",
+      "kind": "place",
+      "name": "Nuhr",
+      "summary": "Dwie bryły zrośnięte szyjką pod olbrzymem, z portem na przewężu gdzie ciągnienie się znosi; im dalej od przewęża, tym mocniej naciąga i tańsza rzecz."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "ambrat",
+      "to": "nuhr"
+    },
+    {
+      "seq": 2,
+      "from": "nuhr",
+      "to": "ambrat"
+    }
+  ],
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Ebner wyprawił się na Nuhr po blachę na nowe płozy dla Treska; stracił cztery z pięciu zakupionych arkuszy przy zejściu, wrócił z jednym i zranioną ręką, podczas gdy Otha kręciła korbą bez niego, przesuwając hol o siedemdziesiąt jeden centymetrów łącznie."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-rana-reki"
+    }
+  ],
+  "fragments": [],
+  "sketch": "Ebner leży płasko na wąskiej pochylni na Nuhr, arkusze blachy ślizgają się od niego w dół, przyciągane wzdłuż osi."
+}
