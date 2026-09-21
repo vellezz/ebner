@@ -46,6 +46,21 @@ najszerszy worek i celowo:
 Każdy fakt w `facts_opened` **musi mieć treść i podmiot**. Fakt bez treści to
 pusta skorupa: nic nie wnosi do świata, a wygląda, jakby wnosił.
 
+**Zmierzona wielkość, tempo albo okres są faktem — i to najważniejszym.**
+Jeśli wpis ustala, ile czegoś jest, jak często coś przychodzi albo ile trwa
+cykl, to jest dokładnie ta rzecz, którą następne wpisy muszą znać, bo inaczej
+jej zaprzeczą. Dni 28, 29 i 30 nie zapisały **ani jednego faktu**, a ustaliły:
+że doba Ebnera na Oskrze ma osiem przejść bąbla, że jego wieczór to siódme
+przejście, i — w Dniu 30, który jest w całości o tym pomiarze — że sygnał
+przychodzi raz na jeden bąbel. Żadna z tych rzeczy nie weszła do kanonu, więc
+Dzień 33 napisał „czekaliśmy sześć bąbli" w świecie, w którym sześć bąbli to
+sześć wezwań, i nikt nie miał tego z czym porównać.
+
+Wpis, który czegoś dowiódł, zmierzył albo policzył, **nie może wyjść bez
+faktu**. Brak faktów jest sygnałem, że coś przeoczyłeś, a nie że dzień był
+spokojny — spokojny dzień też zmienia stan Hanny, zapasy albo nastrój
+rachunków.
+
 Fakt, który **przestał obowiązywać**, wymieniasz w `facts_closed` — tam wystarczy
 sam identyfikator. Faktów się nie edytuje: naprawa, spłata czy zmiana
 okoliczności **zamyka stary fakt i otwiera nowy**.
