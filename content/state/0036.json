@@ -1,0 +1,55 @@
+{
+  "day": 36,
+  "entities": [
+    {
+      "id": "vaul",
+      "kind": "person",
+      "name": "Vaul",
+      "parent": "ambrat",
+      "summary": "Portowy z opaską, dowodzący ludźmi trzymającymi frachtowiec Treska jako czynność ratowniczą; próbuje przejąć jednostkę, wykorzystując przepisy o samodzielności zasilania."
+    }
+  ],
+  "threads": [
+    {
+      "id": "trzecie-wazenie",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "reference_policy": "develop",
+      "planned_entries": 3,
+      "summary": "Frachtowiec Treska przechodzi trzy ważenia na Ambracie: po trzecim ważeniu bez sygnału jednostka staje się rzeczą leżącą. Ebner naprawił nadajnik awaryjny, przerywając ciszę i zerując licznik, ale Vaul próbuje przejąć jednostkę jako holowaną, a Ebner ogłosił się holownikiem, by utrzymać sprawę ratowniczą otwartą."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-ogniwo-grzewcze"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "trzecie-wazenie-spor-vaul",
+      "kind": "scene",
+      "content": "— Jednostka zasilana z zewnątrz nie jest jednostką samodzielną — powiedział Vaul. — Jednostka niesamodzielna jest jednostką holowaną. Wezwanie wygasa. — To znaczy, że jestem holownikiem — powiedziałem. — Hol jest czynnością ratowniczą. Dopóki hol trwa, sprawa jest otwarta.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    },
+    {
+      "id": "trzecie-wazenie-ogniwo-poswiecone",
+      "kind": "scene",
+      "content": "Zasilanie wziąłem z ogniwa grzewczego, tego, które od trzynastu dni grzało mi kabinę. Rozebrałem je, odmierzyłem drut, spiralę wpiąłem szeregowo. Kabina jest zimna, tak jak była wcześniej. Człowiek się przyzwyczaja w jeden wieczór, a odzwyczaja przez pół nocy.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    },
+    {
+      "id": "trzecie-wazenie-linijka-urzedniczki",
+      "kind": "punchline",
+      "content": "Urzędniczka wysunęła oba rzędy palców i przejechała nimi po przewodzie od ogniwa do obejmy. — Linia holownicza — powiedziała. — Przyjmuję. Holownik trzyma linę. Nieprzerwanie.",
+      "threads": [
+        "trzecie-wazenie"
+      ]
+    }
+  ],
+  "sketch": "Rozdygotana hala wagowa na Ambracie: pięcioro miejscowych z rękami trzymanymi nisko stoi półkolem nad śpiącym Treskiem, obok waga, urzędniczka z linijką i wielki Vaul z opaską portową patrzą na przewód biegnący od ogniwa grzewczego do obejmy nadajnika."
+}
