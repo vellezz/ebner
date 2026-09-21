@@ -1,0 +1,36 @@
+{
+  "day": 20,
+  "facts_opened": [
+    {
+      "id": "ebner-kolnierz-kupiony",
+      "content": "Ebner kupił kołnierz kompensacyjny w magazynie po drugiej stronie grzbietu, płacąc dodatkowo za godzinę czasu potrzebną magazynierowi do formalnego wydania towaru, po taryfie warsztatowej z własnej kieszeni.",
+      "subject": "ebner-gripe",
+      "valid_from": 20
+    },
+    {
+      "id": "oskra-bable-oscylacja",
+      "content": "Ebner zlokalizował bąbel powietrza w czwartej nitce: kołysze się tam i z powrotem po grzbiecie, a jeden przebieg trwa tyle, ile trwa jedno jego przejście wzdłuż rury.",
+      "subject": "czwarta-nitka",
+      "valid_from": 20
+    }
+  ],
+  "fragments": [
+    {
+      "id": "czas-jako-towar-wydanie",
+      "kind": "scene",
+      "content": "— Kołnierz mam. Czasu nie mam. Jak wydam bez czasu, to w księdze nie będzie wiadomo, po czym to było. Ebner kupił godzinę po taryfie warsztatowej, żeby magazynier mógł wpisać wydanie.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    },
+    {
+      "id": "bable-wyczuwalny-w-rurze",
+      "kind": "scene",
+      "content": "Rura na moment robi się głucha pod dłonią, potem wraca — bąbel chodzi tam i z powrotem, wyczuwalnie, najporządniejsza rzecz w całej instalacji.",
+      "threads": [
+        "nowe-zlecenie-czas-siec"
+      ]
+    }
+  ],
+  "sketch": "Ebner idzie wzdłuż długiej rury na jałowym, kamienistym zboczu księżyca, w oślepiającym nagłym świetle słońca wschodzącego zza grzbietu, z ręką opartą na rurze."
+}
