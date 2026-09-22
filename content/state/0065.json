@@ -1,0 +1,21 @@
+{
+  "day": 65,
+  "facts_opened": [
+    {
+      "id": "f-ebner-nadajnik-srubowanie",
+      "content": "Sześć śrub montażu nadajnika na zewnętrznym pokładzie Hanny poluzowało się o pół gwintu, siódma wypadła i zaginęła; Ebner dokręcił je pudełkiem niesortowanych złączy, trzymając każdą odkręconą śrubę w zębach, by nie uznano jej za rzecz niczyją zgodnie z prawem trzymania.",
+      "subject": "hanna",
+      "valid_from": 65
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f65-sruby-w-zebach",
+      "kind": "scene",
+      "content": "Odkręcałem po jednej i każdą odkręconą trzymałem w zębach, aż wróciła na miejsce. Trzymacz powiedział, że akurat to jest trzymanie najczystsze, jakie widział.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    }
+  ]
+}
