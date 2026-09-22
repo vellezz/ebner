@@ -1,0 +1,66 @@
+{
+  "day": 58,
+  "threads": [
+    {
+      "id": "spor-kolumny-wymiennikowe",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Terraformer żąda od Ebnera usunięcia skutków zniszczenia czterech kolumn wymiennikowych po przewierceniu wykonanym przez Holdmark Serwis na podstawie jego opłaconej opinii technicznej, która dopuszczała tę metodę jako możliwą, choć ostrzegała o pęknięciu."
+    },
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Do wrót hali pozostało sto trzydzieści siedem metrów; Ebner podał termin usunięcia skutków w metrach zamiast w dniach, bo hol nie ma zdarzenia zamykającego."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-kolumny-zniszczone-terraformer",
+      "content": "Cztery kolumny wymiennikowe terraformera (nr 2, 4, 5, 9) uległy całkowitemu rozerwaniu ścianek przy pierwszym skoku ciśnienia po rozruchu, zgodnie z ostrzeżeniem zawartym w opinii Ebnera; terraformer żąda wskazania terminu usunięcia skutków.",
+      "subject": "ebner-gripe",
+      "valid_from": 58
+    },
+    {
+      "id": "f-holdmark-przerzuca-odpowiedzialnosc",
+      "content": "Holdmark Serwis oświadczył terraformerowi, że przewiercenie kolumn wykonał zgodnie z opinią techniczną Ebnera dopuszczającą tę metodę jako możliwą, przerzucając na niego odpowiedzialność za skutki; jednocześnie zaoferował wykonanie usunięcia skutków bez zwłoki.",
+      "subject": "holdmark-serwis",
+      "valid_from": 58
+    },
+    {
+      "id": "f-ebner-termin-w-metrach",
+      "content": "Ebner odpisał terraformerowi, że nie może podać terminu usunięcia skutków w dniach, bo znajduje się na Ambracie w trakcie holowania, które jest czynnością bez zdarzenia zamykającego; podał termin w metrach do wrót hali (sto trzydzieści siedem), a terraformer zażądał przeliczenia na dni według aktualnego tempa.",
+      "subject": "ebner-gripe",
+      "valid_from": 58
+    }
+  ],
+  "fragments": [
+    {
+      "id": "d58-opinia-technicznie-mozliwe",
+      "kind": "document",
+      "content": "Kolumny wymiennikowe nr 2, 4, 5 i 9 uległy rozerwaniu ścianek przy pierwszym skoku ciśnienia po rozruchu. Wykonawca (Holdmark Serwis) oświadczył, że przewiercenie zostało wykonane zgodnie z opinią techniczną dopuszczającą tę metodę jako technicznie możliwą, sporządzoną przez Ebnera Gripe.",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    },
+    {
+      "id": "d58-termin-w-metrach",
+      "kind": "punchline",
+      "content": "Przystąpię do usunięcia skutków. Wskazanie terminu w dniach nie jest możliwe. Do wrót pozostaje sto trzydzieści siedem metrów. Termin podaję w metrach.",
+      "threads": [
+        "hol-frachtowca-ambrat",
+        "spor-kolumny-wymiennikowe"
+      ]
+    },
+    {
+      "id": "d58-nie-jego-opinia",
+      "kind": "scene",
+      "content": "— To jego opinia — powiedziała Otha i zrobiła trzy szarpnięcia. Nie jest jego. Odpłatność szła od niego, treść ode mnie, a w treści stało czarno na białym, że przewiercenie jest technicznie możliwe.",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    }
+  ],
+  "sketch": "Ebner siedzi pod wciągarką w hali na Ambracie, trzyma dwie koperty, w tle Otha kręci korbą, a Tresk zawodzi w mroku nad skorupą."
+}
