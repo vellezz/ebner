@@ -8,6 +8,8 @@ This is not a production system. The owner reads every entry; a missing entry is
 
 **Fully autonomous.** Nothing in the daily loop waits on a person. Entries publish without review, and no asset — sketch, document or anything else — is ever supplied by hand. A step that needs a human is the wrong step.
 
+**Published prose is never hand-corrected, and that includes whoever is working on the pipeline.** When an entry is wrong, the fix goes into the mechanism and the entry is regenerated or removed — the text itself is not edited to hide the fault. Two reasons, and the second is the one that bites. The corpus is source material for later entries, so an edit quietly makes the canon something the generator did not write. And the entries are the only measurement of whether any of this works: an entry patched by hand reads as a success and was a failure, which is the one outcome that cannot be allowed to look good. Amending an entry's text is the owner's call, named in *Unpublishing*, and nobody else's.
+
 The whole stack is **serverless and free-tier**: GitHub (repo, Actions) + Cloudflare (Workers, D1, Vectorize, Workers AI, R2). The only paid items are LLM API usage and the domain.
 
 ## Language rules (strict)
