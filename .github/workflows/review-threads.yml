@@ -1,0 +1,101 @@
+name: Review threads
+
+# Abandons threads nothing has touched for a long time, as a state file.
+#
+# The cap on active threads is five, and it fills with corpses. Three threads
+# sat active and untouched for forty-eight, thirty-six and twenty in-world
+# days, holding three of the five slots — so nothing new could open, every
+# entry had to develop the one living thread, and the entries went eventless.
+# A reader noticed that before any measure did.
+#
+# Pressure alone did not do it. A stale thread already got a line in the prompt
+# saying to close or abandon it, and the writer ignored it fifteen entries
+# running. Closing has to be something the machinery does, not something it
+# asks for.
+#
+# What it writes is an ordinary state file, applied down the ordinary path, so
+# D1 stays a projection of the repository and the decision is as reversible as
+# deleting the file.
+on:
+  schedule:
+    # Sunday, well away from the daily run's window.
+    - cron: '41 3 * * 0'
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Only report what would be abandoned.'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ebner-state
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: apps/site/pnpm-lock.yaml
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        run: |
+          pnpm --dir apps/site install --frozen-lockfile
+          pip install -e apps/generator
+
+      - name: Review
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ "${{ inputs.dry-run }}" = "true" ]; then
+            python -m ebner review --dry-run
+          else
+            python -m ebner review
+          fi
+
+      # The guard reads the whole corpus, so a review that broke something
+      # stops here rather than after it is pushed.
+      - name: Guard
+        run: node apps/site/scripts/check-state.mjs
+
+      - name: Commit
+        run: |
+          if [ -z "$(git status --porcelain content/state/)" ]; then
+            echo "nothing to abandon"
+            exit 0
+          fi
+          git config user.name  'ebner-bot'
+          git config user.email 'bot@ebner.gripe'
+          git add content/state/
+          git commit -m "Porzucenie spraw, których nikt nie tknął"
+          for attempt in 1 2 3; do
+            git push && break
+            git pull --rebase --quiet origin main || exit 1
+          done
+
+      # The push was made with GITHUB_TOKEN, which triggers nothing.
+      - name: Hand off
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -n "$(git log origin/main~1..origin/main --oneline -- content/state/ 2>/dev/null)" ]; then
+            gh workflow run apply-state.yml --repo "${{ github.repository }}"
+          fi

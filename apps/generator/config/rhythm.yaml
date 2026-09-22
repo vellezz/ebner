@@ -56,6 +56,22 @@ length:
     words: [900, 1600]
     label: "długi wpis: sceny z dialogiem i konkretną robotą, nie streszczenia"
 
+# Thread discipline. The ceilings are in CLAUDE.md; this is when a thread stops
+# counting as alive.
+#
+# The pressure that existed before was advisory: a thread past its time got a
+# line in the prompt saying "close or abandon soon", and the writer ignored it.
+# Three threads sat active and untouched for forty-eight, thirty-six and twenty
+# in-world days, holding three of the five slots, so nothing new could open and
+# every entry had to develop the one living thread — a tow explicitly a hundred
+# days from arriving. The entries went eventless, and that is what a reader
+# noticed first.
+threads:
+  max_active: 5
+  # Untouched for this many in-world days and the review abandons it. Not a
+  # judgement at this distance: forty-eight days is not a pause.
+  abandon_after_idle_days: 30
+
 # Length bands a kind may not draw. A journey needs room for a departure, a way
 # and an arrival; asked for a travel entry in two hundred words, the writer
 # dropped all three and described a lift ride that went nowhere (day 22).

@@ -10,6 +10,8 @@
                                      # and compare; saves nothing
     python -m ebner rebuild          # clear the projection and replay every
                                      # state file; leaves subscriptions alone
+    python -m ebner review           # abandon threads nothing has touched in
+                                     # a long time, as a state file
 """
 
 from __future__ import annotations
@@ -167,6 +169,74 @@ def cmd_generate(args: list[str]) -> int:
     return 0
 
 
+def cmd_review(args: list[str]) -> int:
+    """Abandon threads nothing has touched for a long time.
+
+        python -m ebner review [--dry-run]
+
+    Writes `content/state/NNNN_review.json`, an ordinary state file applied
+    down the ordinary path, so D1 stays a projection of the repository and the
+    decision is as reversible as deleting a file.
+
+    This exists because the pressure that came before it was advisory. A stale
+    thread got a line in the prompt saying to close or abandon it, and the
+    writer ignored it: three threads sat active and untouched for forty-eight,
+    thirty-six and twenty in-world days, holding three of the five slots. With
+    the cap full, nothing new could open, so every entry had to develop the one
+    living thread — a tow a hundred days from arriving. The entries went
+    eventless, and a reader noticed that before any measure did.
+
+    Only abandonment is mechanical. Closing a thread *well* — resolved, or
+    merged into another — is a judgement about the story and stays out of here.
+    """
+    import json
+
+    from .apply import STATE_DIR
+    from .config import rhythm
+    from .context import load_world
+
+    local = "--local" in args
+    dry = "--dry-run" in args
+
+    cfg = (rhythm().get("threads") or {})
+    ceiling = cfg.get("abandon_after_idle_days", 30)
+
+    world = load_world(remote=not local)
+    last_day = world["last_day"]
+
+    stale = [t for t in world["threads"] if t.get("idle_days", 0) > ceiling]
+    if not stale:
+        print(f"  nothing idle beyond {ceiling} days; {len(world['threads'])} active")
+        return 0
+
+    for thread in stale:
+        print(f"  abandoning `{thread['id']}` — idle {thread['idle_days']} days")
+    if dry:
+        return 0
+
+    state = {
+        "day": last_day,
+        "threads": [
+            {
+                "id": t["id"],
+                "op": "close",
+                "status": "closed",
+                "closure": "abandoned",
+                "summary": (t.get("summary") or "").strip()
+                or "Sprawa porzucona: nikt do niej nie wrócił.",
+            }
+            for t in stale
+        ],
+    }
+
+    # The underscore is load-bearing: replay order is filename order, and
+    # `0055_review.json` must sort after `0055.json` and before `0056.json`.
+    path = STATE_DIR / f"{last_day:04d}_review.json"
+    path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"  wrote {path.name}: {len(stale)} abandoned")
+    return 0
+
+
 def cmd_rebuild(args: list[str]) -> int:
     """Rebuild the whole projection from content/state/.
 
@@ -314,6 +384,7 @@ COMMANDS = {
     "apply": cmd_apply,
     "experiment": cmd_experiment,
     "rebuild": cmd_rebuild,
+    "review": cmd_review,
     "notify": cmd_notify,
     "extract": cmd_extract,
     "status": cmd_status,
