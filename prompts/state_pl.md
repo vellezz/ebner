@@ -61,6 +61,19 @@ faktu**. Brak faktów jest sygnałem, że coś przeoczyłeś, a nie że dzień b
 spokojny — spokojny dzień też zmienia stan Hanny, zapasy albo nastrój
 rachunków.
 
+**Ale zapisujesz pomiar, nie wniosek z pomiaru.** Nie licz, nie dziel, nie
+szacuj, ile to potrwa — wpisz wielkości tak, jak padły, i na tym skończ. Jeśli
+wpis podaje odległość i dzienny przesuw, fakt ma zawierać odległość i dzienny
+przesuw; czas przejścia wynika z nich i policzy go ten, kto będzie go
+potrzebował.
+
+Tu jest realna szkoda, nie przestroga. Dzień 42 zapisał „sto czterdzieści
+metrów, kilkanaście do dwudziestu kilku centymetrów dziennie" i dołożył wniosek:
+„droga zajmie bliżej stu dni niż dziesięciu". Wynosi siedemset. Przez szesnaście
+wpisów wniosek jechał w stanie świata obok danych, które mu przeczyły, aż
+Dzień 58 wziął go za dobrą monetę i napisał „mniej niż sto dni" w tekście,
+który czyta czytelnik. Pomiar sam sobie nie zaprzeczy. Wniosek zaprzeczy.
+
 Fakt, który **przestał obowiązywać**, wymieniasz w `facts_closed` — tam wystarczy
 sam identyfikator. Faktów się nie edytuje: naprawa, spłata czy zmiana
 okoliczności **zamyka stary fakt i otwiera nowy**.
