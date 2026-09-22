@@ -1,0 +1,97 @@
+{
+  "day": 67,
+  "entities": [
+    {
+      "id": "netla",
+      "kind": "place",
+      "name": "Netla",
+      "summary": "Mały, słabo trzymający księżyc terraformowany nie w powietrze, lecz w ciężki gaz leżący jak ciecz w rowach i kraterach; mieszkańcy mają worek pod żebrami, mówienie na górze jest wydatkiem liczonym w łykach."
+    },
+    {
+      "id": "hesp",
+      "kind": "person",
+      "name": "Hesp",
+      "parent": "netla",
+      "summary": "Zarządca terraformera na Netli, komunikuje się z odległości przez chłopca z tabliczką, bo mówienie na górze kosztuje łyki."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "ambrat",
+      "to": "netla"
+    }
+  ],
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Ebner opuścił Ambrat, ale pobyt i naliczanie dwóch jednostek dziennie trwają dalej, bo hol jest czynnością bez zdarzenia zamykającego; trzymacz wpisany jako trzymający pętlę, staż nabija się mimo nieobecności jednostki."
+    },
+    {
+      "id": "spor-kolumny-wymiennikowe",
+      "op": "update",
+      "summary": "Ebner obejrzał na miejscu cztery rozerwane kolumny wymiennikowe terraformera na Netli: ślady przewiercenia w dziesięciu miejscach na okrąg, wypalone wiertło, wióry sprzątnięte ale niewyniesione oraz zarost odrastający w kanałach wiertła — dowody wskazujące na pośpiech przy pracy Holdmark Serwis."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ambrat-podwojna-obecnosc",
+      "content": "Rejestrator Ambratu uznał, że Ebner pozostaje obecny na Ambracie w rozumieniu rejestru nawet po odlocie, bo pobyt kończy tylko zdarzenie zamykające (trzecie ważenie), którego hol nie dopuszcza; nie istnieje przepis zakazujący obecności w dwóch miejscach naraz.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-otha-piec-dni-zaplata",
+      "content": "Ebner zostawił Othy pieniądze na pięć dni z góry, z warunkiem, że hol Treska musi się w tym czasie mierzalnie przemieszczać, inaczej jednostka idzie do ważenia; Otha przy ostatnich obrotach korby szła wyraźnie leniwiej niż dzień wcześniej.",
+      "subject": "otha"
+    },
+    {
+      "id": "f-netla-cena-pracy-lyki",
+      "content": "Na Netli praca i mowa mierzone są w łykach ciężkiego gazu z worka pod żebrami: zdjęcie jednego kołpaka kosztuje sto dwadzieścia łyków dla dwóch pracowników, z których jeden musi patrzeć na drugiego, bo kto przetrzyma dłużej, mdleje i spada w powietrze.",
+      "subject": "netla"
+    },
+    {
+      "id": "f-netla-kolumny-stan",
+      "content": "Cztery kolumny wymiennikowe terraformera na Netli (nr 2, 4, 5, 9) są rozerwane wzdłuż od miejsca wiercenia; w kopczyku wiórów przy kolumnie piątej Ebner znalazł końcówkę wiertła z wypaloną krawędzią, świadczącą o zbyt szybkim wierceniu.",
+      "subject": "netla"
+    },
+    {
+      "id": "f-netla-metr-tajemniczy",
+      "content": "Do mieszkańców Netli dotarł metr żądający przeliczenia terminu z metrów na dni; Hesp napisał na tabliczce jedno słowo wskazujące kto tego żądał i natychmiast je starł, zanim Ebner zdążył przeczytać.",
+      "subject": "hesp"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-netla-lustro",
+      "kind": "world_description",
+      "content": "Netla nie robi nieba, tylko ciecz: ciężki gaz, który leży w rowach i kraterach z gładką, lustrzaną powierzchnią, przez którą drabina wchodzi jak w wodę.",
+      "threads": []
+    },
+    {
+      "id": "frag-netla-lyki",
+      "kind": "scene",
+      "content": "Trzy pytania wyszły mnie na dziewięć łyków. Mówiłem w skafandrze, więc nie kosztowały mnie nic, i dopiero po trzecim zauważyłem, że Hesp liczy je sobie na palcach, jak wydatek.",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    },
+    {
+      "id": "frag-ambrat-petla",
+      "kind": "punchline",
+      "content": "— Pętlę. — Pętla to rzecz. — To niech pan trzyma pętlę.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "frag-netla-zarost",
+      "kind": "scene",
+      "content": "Wszedłem ręką w rozerwanie na drugiej. Zarost jest w środku dalej — ciepły, mokry, ustępuje pod naciskiem, a w miejscu wyłamania robi się przejrzysty śluz, który po chwili przestaje być przejrzysty.",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    }
+  ],
+  "sketch": "Ebner w skafandrze schodzi po drabinie w lustrzaną powierzchnię ciężkiego gazu wypełniającego rów na Netli, w tle rząd rozerwanych kolumn wymiennikowych wystających ponad powierzchnię."
+}
