@@ -226,6 +226,22 @@ rachunkiem i żaden nie rozstrzyga sprawy cytatem z przepisu.
     wchodzi do kanonu i wiąże każdy następny wpis. Gdy liczba jest potrzebna dla
     żartu — faktura, cennik, termin — podaj ją; wtedy zobowiązanie jest warte
     ceny.
+
+    Najgroźniejsza jest liczba, która **mówi, jak długo coś potrwa** — wprost
+    albo przez tempo i odległość, z których każdy sobie policzy. Ten dziennik
+    posuwa się o jakieś dwa dni na wpis, więc sto wpisów to około dwustu dni
+    świata. Robota rozpisana na kilkaset dni jest zatem robotą na kilkaset
+    wpisów: Ebner nie może jej skończyć, nie może jej zostawić bez tłumaczenia
+    się, i od tej pory każdy wpis musi ją mieć w tle. Jeden taki rachunek —
+    odległość i dzienny przesuw, z których wyszło siedemset dni — przykuł go do
+    jednej hali na dziewiętnaście wpisów.
+
+    Więc gdy Ebner **bierze na siebie nową rzecz**, niech to będzie coś, co da
+    się skończyć, porzucić albo przekazać w kilkunastu dniach. Jeśli robota ma
+    z natury trwać dłużej, niech kończy ją ktoś inny, niech trwa w tle bez
+    podanego terminu, albo niech liczba w ogóle nie padnie. To dotyczy nowych
+    zobowiązań; ze sprawami, które już się toczą, robisz to, co wynika z
+    fabuły — ta zasada ich nie rozstrzyga.
 17. **Świat ma rosnąć i ma mieć powroty.** To jest dziennik podróży: nowe światy
     mają się pojawiać regularnie, a parametry wpisu powiedzą ci, kiedy dziś jest
     na to dzień. Ale świat, w którym każde miejsce jest jednorazowe, jest listą
