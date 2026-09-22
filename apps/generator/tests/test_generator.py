@@ -17,6 +17,7 @@ shape of mistake.
 from __future__ import annotations
 
 import copy
+import random
 import unittest
 
 from ebner.context import FACT_LIMIT, select_facts
@@ -28,7 +29,7 @@ from ebner.pipeline import (
     register_slip,
     report_extraction,
 )
-from ebner.rhythm import pick_length
+from ebner.rhythm import pick_kind, pick_length, stay_multipliers
 
 
 KNOWN_THREADS = {"nowe-zlecenie-glosowanie", "dlug-z-varnu"}
@@ -454,3 +455,49 @@ class Length(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class StayPressure(unittest.TestCase):
+    """The draw tilts toward leaving the longer he stays — and only tilts."""
+
+    def setUp(self):
+        self.cfg = {
+            "kind": [
+                {"id": "travel", "weight": 16, "label": ""},
+                {"id": "continuation", "weight": 16, "label": ""},
+                {"id": "quiet", "weight": 8, "label": ""},
+            ],
+            "stay_pressure": {
+                "after_entries": 6,
+                "per_entry": 0.15,
+                "cap": 3.0,
+                "departure": ["travel"],
+                "settled": ["continuation", "quiet"],
+            },
+        }
+
+    def test_short_stay_is_untouched(self):
+        for stay in (0, 1, 6):
+            self.assertEqual(stay_multipliers(self.cfg, {"entries_in_location": stay}), {})
+
+    def test_pressure_grows_with_the_stay(self):
+        ten = stay_multipliers(self.cfg, {"entries_in_location": 10})
+        twenty = stay_multipliers(self.cfg, {"entries_in_location": 20})
+        self.assertAlmostEqual(ten["travel"], 1.6)
+        self.assertGreater(twenty["travel"], ten["travel"])
+        self.assertLess(ten["continuation"], 1.0)
+
+    def test_pressure_is_capped(self):
+        self.assertEqual(stay_multipliers(self.cfg, {"entries_in_location": 500})["travel"], 3.0)
+
+    def test_it_never_decides_the_draw(self):
+        """A settled kind must stay reachable: a forced departure is an
+        instruction wearing a weight's clothes."""
+        world = {"entries_in_location": 500, "threads": [{"reference_policy": "develop"}],
+                 "threads_active": 1, "threads_due_for_closure": 0}
+        drawn = {pick_kind(self.cfg, world, random.Random(i))["id"] for i in range(400)}
+        self.assertIn("continuation", drawn)
+        self.assertIn("travel", drawn)
+
+    def test_missing_config_is_no_pressure(self):
+        self.assertEqual(stay_multipliers({}, {"entries_in_location": 99}), {})

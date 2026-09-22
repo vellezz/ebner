@@ -111,6 +111,33 @@ kind:
     weight: 8
     label: "cisza: nic się nie wydarzyło — naprawił, zjadł, policzył, co zostało"
 
+# Staying put.
+#
+# Nineteen entries and thirty-two in-world days in one hall, and nine in another
+# before it: the last twenty-eight entries are in exactly two places, with one
+# travel entry among them. The schedule above was supposed to prevent that and
+# could not, because its counter read three — it measured when a place was last
+# *named*, and day 54 named a moon he has never been to. A working counter alone
+# would not have been enough either, since the four kinds that dominate the draw
+# veto a new destination outright.
+#
+# So the pressure goes on the draw rather than into the prompt. Nothing here
+# names a thread or dictates how a stay ends; it makes a departure-shaped entry
+# likelier the longer he sits, and the writer finds the reason in the world —
+# which usually already holds one, because a man who has been somewhere for a
+# month has accumulated reasons to leave.
+stay_pressure:
+  # A diary is allowed to sit somewhere. Nothing happens before this.
+  after_entries: 6
+  # Per entry beyond that. Multiplies the departure kinds and divides the ones
+  # that keep him where he is.
+  per_entry: 0.15
+  # It tilts the draw; it never decides it. A forced departure would be the
+  # same mistake as an instruction, only harder to see.
+  cap: 3.0
+  departure: [travel, new_job, stopover]
+  settled: [continuation, quiet, documents]
+
 # When something is already running, lean into it rather than starting again.
 kind_bias:
   when_open_thread_due:

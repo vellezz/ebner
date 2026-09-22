@@ -58,7 +58,37 @@ def pick_kind(cfg: dict, world: dict, rng: random.Random) -> dict:
         weights = bias.get("when_no_open_threads")
     else:
         weights = None
-    return _weighted(rng, options, weights)
+    return _weighted(rng, options, _combine(weights, stay_multipliers(cfg, world)))
+
+
+def _combine(*layers: dict[str, float] | None) -> dict[str, float] | None:
+    """Multiply several id → factor layers into one."""
+    combined: dict[str, float] = {}
+    for layer in layers:
+        for key, value in (layer or {}).items():
+            combined[key] = combined.get(key, 1.0) * float(value)
+    return combined or None
+
+
+def stay_multipliers(cfg: dict, world: dict) -> dict[str, float]:
+    """How much the current stay tilts the draw toward leaving.
+
+    A tilt, never a decision: the machinery makes a departure-shaped entry
+    likelier the longer he sits, and the writer supplies the reason. Forcing
+    the kind would dictate how a stay ends, which is the story's business.
+    """
+    rules = cfg.get("stay_pressure")
+    if not rules:
+        return {}
+
+    over = (world.get("entries_in_location") or 0) - int(rules["after_entries"])
+    if over <= 0:
+        return {}
+
+    factor = min(1.0 + float(rules["per_entry"]) * over, float(rules["cap"]))
+    multipliers = {kind: factor for kind in rules.get("departure", [])}
+    multipliers.update({kind: 1.0 / factor for kind in rules.get("settled", [])})
+    return multipliers
 
 
 def pick_day_step(cfg: dict, kind_id: str, rng: random.Random) -> int:

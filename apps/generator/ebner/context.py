@@ -43,9 +43,27 @@ def _summary(remote: bool) -> dict:
         "(SELECT COUNT(*) FROM threads WHERE status = 'active') AS threads_active, "
         "(SELECT COUNT(*) FROM threads WHERE status = 'active' AND type = 'recurring') "
         "AS threads_recurring, "
+        # Places Ebner actually went to. The obvious form of this counts every
+        # place *entity*, and a place becomes an entity the moment the prose
+        # names one — a moon mentioned in a letter, a system he is billed from.
+        # That reset the travelogue's growth clock without him moving: sixteen
+        # entries into one hall the counter read three, because day 54 had
+        # named a moon he has never seen, and the new-destination schedule
+        # never fired once.
         "(SELECT COUNT(*) FROM entries WHERE day > COALESCE("
-        "(SELECT MAX(first_entry) FROM entities WHERE kind = 'place'), 0)) "
-        "AS entries_since_new_place",
+        "(SELECT MAX(e.first_entry) FROM entities e WHERE e.kind = 'place'"
+        " AND EXISTS (SELECT 1 FROM entries en WHERE en.location = e.id)), 0)) "
+        "AS entries_since_new_place, "
+        # How long the current stay is. Not the same question: returning
+        # somewhere known is movement too, and this project wants returns.
+        "(SELECT COUNT(*) FROM entries WHERE day > COALESCE("
+        "(SELECT MAX(day) FROM entries WHERE location <> "
+        "(SELECT location FROM entries ORDER BY day DESC LIMIT 1)), 0)) "
+        "AS entries_in_location, "
+        "(SELECT COALESCE(MAX(day), 0) FROM entries) - COALESCE("
+        "(SELECT MAX(day) FROM entries WHERE location <> "
+        "(SELECT location FROM entries ORDER BY day DESC LIMIT 1)), 0) "
+        "AS days_in_location",
         remote=remote,
     )
     return rows[0]
@@ -361,7 +379,17 @@ def render_location(world: dict) -> str:
     here = chain[0]
     where = " ← ".join(part["name"] for part in chain)
     summary = f"\n{here['summary']}" if here.get("summary") else ""
-    return f"**{here['name']}** (`{here['id']}`)\n{where}{summary}"
+
+    # Stated as a measurement, not as an instruction. How long he has been
+    # somewhere is a fact about the world that the writer had no way of
+    # knowing: each entry saw the place and never the length of the stay.
+    entries = world.get("entries_in_location") or 0
+    days = world.get("days_in_location") or 0
+    counted = ""
+    if entries > 1:
+        counted = f"\nJest tu od {entries} wpisów, czyli od {days} dni."
+
+    return f"**{here['name']}** (`{here['id']}`)\n{where}{summary}{counted}"
 
 
 def render_previous(world: dict) -> str:
