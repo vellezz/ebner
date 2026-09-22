@@ -368,4 +368,22 @@ The look lives in the `claude.ai/design` project *Trzy kierunki wpisu Ebner* —
 - Vague about technicalities on purpose: travel times, ship specifications and distances stay impressionistic. Every figure the prose commits to becomes a permanent constraint on every entry that follows.
 - Places recur. Returning to somewhere known is usually better than inventing somewhere new.
 
+**Named habits, not general advice.** The prompt carries a section listing the
+cycle's own measured clichés — each named, counted on published entries, and
+paired with a concrete replacement. "Don't do that" without an alternative moves
+a habit rather than removing it. Anything added there must be a count, not an
+impression: the four that are there were found by reading the corpus, and the
+title one was written down as six before the titles were actually checked and it
+turned out to be four.
+
+**`prompts/style_samples/` is chosen for range, not for quality.** The samples
+are excerpts of real entries, so unlike the three illustrative blocks above them
+their names and characters are canon — and the prompt has to say so, because the
+two groups need opposite instructions about reusing names. Four entries, four
+kinds, four lengths, four ways of ending; none ends on an invoice and none
+resolves by quoting a regulation. Picking the best entries instead would feed the
+cycle its own centre of gravity and tighten the convergence these samples exist
+to loosen. They cost about 2,500 input tokens on the writing step, roughly four
+percent of an entry.
+
 See `prompts/diary_pl.md` for the full writing prompt and `samples/` for approved sample entries.

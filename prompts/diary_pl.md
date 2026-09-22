@@ -41,16 +41,52 @@ To jest science fiction. Kosmos, podróż i przygoda są równie ważne jak zlec
 - **Przesłanka jest fizyczna albo biologiczna, nie urzędowa.** Reguła ma
   *wynikać* z tego, jak to miejsce jest zbudowane — z grawitacji, z atmosfery,
   z budowy ciała mieszkańców, z tego, co tam rośnie albo się psuje. Przepis
-  jest konsekwencją, nigdy punktem wyjścia.
+  jest konsekwencją, nigdy punktem wyjścia. Patrz niżej, „Nawyki tego
+  dziennika": to jedna z czterech rzeczy, które już poszły źle.
 
-  To jest poprawka po realnym błędzie. Trzy kolejne światy w tym dzienniku
-  zbudowano na tej samej konstrukcji: na stacji o wszystkim decyduje
-  głosowanie, na Oskrze czas jest towarem w rurach, na Ambracie własność trwa
-  przez nieprzerwany dotyk. Za każdym razem w miejscu fizyki stanął regulamin,
-  bo regulamin jest najtańszą regułą do wymyślenia — i po trzecim razie
-  czytelnik przestał czytać. Jeśli twoja reguła daje się streścić jako
-  „u nich obowiązuje przepis, że…", zacznij od nowa od ciała, skały albo
-  powietrza.
+## Nawyki tego dziennika, których masz nie powtarzać
+
+To nie są ogólne rady o pisaniu. To cztery rzeczy, które ten dziennik **już
+robił za często** — policzone na gotowych wpisach, nie przeczuwane. Przy każdej
+stoi zamiennik, bo „nie rób tak" bez alternatywy przesuwa problem, a nie usuwa
+go: wyparty nawyk wraca w przebraniu.
+
+**Rozstrzygnięcie przez wygraną na interpretacji przepisu.** Ebner znajduje w
+regulaminie lukę, wypowiada rozróżnienie, druga strona je przyjmuje i sprawa
+się kończy. Tak wyglądały kolejno: darmowa opinia, która nie jest opinią;
+jednostka, która musi być trzymana; człowiek, który nie chciał wynajmować rąk.
+Robota stała w tle, a rozstrzygało zdanie.
+*Zamiast tego:* niech rozwiązanie wyjdzie z **roboty albo z obserwacji** —
+Ebner rozumie, jak coś jest zbudowane albo co robi, i to zrozumienie *jest*
+rozwiązaniem. Wolno też nie rozstrzygnąć: sprawa może zostać otwarta, przegrana
+albo załatwiona przez kogoś innego nie po myśli Ebnera.
+
+**Zakończenie rachunkiem.** Faktura, dług, kwota, dopisana pozycja, „zapłacili".
+Osiem z pierwszych trzynastu wpisów kończyło się tak, cztery tym samym zdaniem
+o zapłacie. Taka końcówka przestaje być akordem i staje się rytuałem, po którym
+czytelnik zgaduje ostatnią linijkę, zanim do niej dojdzie.
+*Zamiast tego:* skończ zdaniem z warsztatu, cudzym zdaniem, obserwacją bez
+komentarza albo urwij w pół sprawy. Rachunek zostaw na wpis, w którym pieniądze
+są wydarzeniem, a nie interpunkcją.
+
+**Świat, którego regułą jest regulamin.** Na stacji o wszystkim decyduje
+głosowanie, na Oskrze czas jest towarem w rurach, na Ambracie własność trwa
+przez nieprzerwany dotyk. Trzy światy z rzędu, za każdym razem w miejscu fizyki
+przepis — bo przepis jest najtańszą regułą do wymyślenia. Po trzecim razie
+czytelnik przestał czytać.
+*Zamiast tego:* zacznij od ciała, skały, powietrza, światła albo pogody, a
+przepis niech będzie **konsekwencją** — czymś, co mieszkańcy musieli wymyślić,
+bo inaczej się tam nie da żyć. Jeśli twoja reguła daje się streścić jako
+„u nich obowiązuje przepis, że…", zacznij od nowa.
+
+**Tytuł w kształcie „rzecz, której nie wolno…".** „Lina, której nie wolno
+zwinąć", „Jednostka, która musi być trzymana", „Człowiek, który nie chciał
+wynajmować rąk", „Blacha, której nie wolno obejrzeć z drugiej strony" — cztery
+z ostatnich dziesięciu, a obok nich dwa tytuły-definicje tego samego rodzaju.
+Każdy inny co do znaku, wszystkie identyczne co do kształtu; na spisie dni
+wygląda to jak jeden wpis powtórzony sześć razy.
+*Zamiast tego:* nazwij, co się tego dnia stało, albo weź krótkie zdanie z
+wpisu. „Kiedy skorupa podnosi", „Trzecie ważenie", „Miska w lewej ręce".
 
 ## Styl
 
@@ -92,12 +128,15 @@ je swobodnie, tak jak zmienia się nastrój piszącego.
 
 ### Wzorce stylu
 
-To samo zdarzenie w trzech rejestrach. Naśladuj sposób pisania, nie treść.
+Naśladuj sposób pisania, nie treść. Wzorce są dwojakiego rodzaju i różnią się
+tym, skąd pochodzą — przeczytaj obie uwagi, bo mówią przeciwne rzeczy o nazwach.
 
-Nazwy, miejsca i zdarzenia ze wzorców są **ilustracyjne i nie należą do świata**.
-Nie używaj ich: ani Arvela, ani stacji pomp, ani klienta, który umarł w trakcie
-dojazdu. Wzorce pokazują rytm zdania i sposób relacjonowania — wszystko poza tym
-bierzesz ze stanu świata.
+#### Trzy rejestry na jednym zdarzeniu
+
+Nazwy, miejsca i zdarzenia z tych trzech bloków są **ilustracyjne i nie należą
+do świata**. Nie używaj ich: ani Arvela, ani stacji pomp, ani klienta, który
+umarł w trakcie dojazdu. Pokazują rytm zdania i sposób relacjonowania —
+wszystko poza tym bierzesz ze stanu świata.
 
 > Zlecenie przyszło w nocy. Stacja pomp na księżycu Arvel, usterka nieokreślona,
 > klient płaci za dojazd. Dojazd trwał sześć dni. Na miejscu okazało się, że
@@ -118,6 +157,18 @@ bierzesz ze stanu świata.
 > zaprowadziła mnie do nich i długo stała obok, słuchając. Powiedziała, że
 > ojciec przychodził tu co wieczór, bo twierdził, że coś w nich stuka. Stałem z
 > nią do końca świtu. Niczego nie słyszałem. Nie powiedziałem jej tego.
+
+#### Fragmenty z kanonu
+
+Poniższe fragmenty to **prawdziwe wpisy tego dziennika**, więc odwrotnie niż
+wyżej: te nazwy i te postacie istnieją i obowiązują. Ale zdarzenia już się
+wydarzyły i **nie wolno ich powtórzyć** — nie wyrzucaj drugi raz pudełka
+z nadajnikiem, nie znajduj drugiego pasażera na gapę w ładowni. Bierzesz stąd
+prowadzenie sceny, długość zdania i sposób kończenia.
+
+Wybrano je pod **rozpiętość**, nie pod jakość: cztery różne rodzaje wpisu,
+cztery różne długości i cztery różne sposoby skończenia. Żaden nie kończy się
+rachunkiem i żaden nie rozstrzyga sprawy cytatem z przepisu.
 
 {style_samples}
 
@@ -150,10 +201,7 @@ bierzesz ze stanu świata.
     wcześniejszych wpisów. Awaria statku czy brak pieniędzy mogą być wydarzeniem,
     ale nie wytrychem do rozpoczęcia każdej sprawy. Ostatnie zdania poprzednich
     wpisów masz wypisane niżej, w „Co było poprzednio" — przeczytaj je i skończ
-    inaczej. Z pierwszych trzynastu wpisów osiem zamykało się rachunkiem,
-    fakturą albo długiem, a cztery tym samym zdaniem o zapłacie; taka końcówka
-    przestaje być akordem i staje się rytuałem, po którym czytelnik zgaduje
-    ostatnią linijkę.
+    inaczej.
 11. **Oceny czytelników nie są celem.** Jeśli widzisz je wyżej, czytaj je
     wyłącznie jako informację, co nie zagrało — nigdy jako wskazówkę, co
     powtórzyć. Pisanie pod ocenę kończy się jednym motywem powtarzanym w
@@ -274,8 +322,9 @@ Tytuł nazywa **ten dzień**, nie współrzędne. Samo miejsce wystarczy tylko
 wtedy, gdy przybycie tam jest wydarzeniem — czyli zwykle przy pierwszym
 wpisie z danego miejsca. Ebner siedzi na jednej stacji tydzień, więc tytuł
 powtarzający nazwę stacji siedem razy nie mówi czytelnikowi niczego i na
-spisie dni wygląda jak usterka. Zobacz tytuły poprzednich wpisów wyżej i nie
-powtarzaj ostatniego.
+spisie dni wygląda jak usterka. Zobacz tytuły poprzednich wpisów wyżej — nie
+powtarzaj ostatniego i nie powtarzaj jego **kształtu** (patrz „Nawyki tego
+dziennika").
 
 Dobrze: „Dzień 12. Sprawa holu", „Dzień 16. Co zbiera zbieracz",
 „Dzień 18. Czterysta osiemdziesiąt trzy potwierdzenia".
