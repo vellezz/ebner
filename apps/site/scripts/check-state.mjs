@@ -71,9 +71,20 @@ for (const f of readdirSync(stateDir).filter((n) => n.endsWith('.json')).sort())
     continue;
   }
 
-  if (s.day <= prevDay) problems.push(`${f}: day ${s.day} does not exceed ${prevDay}`);
-  if (prevDay >= 1 && s.day - prevDay > 7)
-    problems.push(`${f}: day step ${s.day - prevDay} exceeds the cap of 7`);
+  // A thread review attaches to the entry it follows and carries that entry's
+  // day on purpose — `0055_review.json` sorts after `0055.json` and before
+  // `0056.json`, which is the whole reason for the underscore. Chronology is
+  // about entries, so a review is exempt from it rather than an exception to
+  // it: it advances no day and must not be required to.
+  const isReview = /_review\.json$/.test(f);
+
+  if (!isReview) {
+    if (s.day <= prevDay) problems.push(`${f}: day ${s.day} does not exceed ${prevDay}`);
+    if (prevDay >= 1 && s.day - prevDay > 7)
+      problems.push(`${f}: day step ${s.day - prevDay} exceeds the cap of 7`);
+  } else if (s.day !== prevDay) {
+    problems.push(`${f}: review is for day ${s.day}, but follows day ${prevDay}`);
+  }
 
   for (const e of s.entities ?? []) {
     if (knownEntities.has(e.id)) problems.push(`${f}: entity ${e.id} already exists`);
@@ -145,7 +156,7 @@ for (const f of readdirSync(stateDir).filter((n) => n.endsWith('.json')).sort())
     }
     prevLocation = entry.location;
   }
-  prevDay = s.day;
+  if (!isReview) prevDay = s.day;
 }
 
 // --- every entry needs its state file ------------------------------------
