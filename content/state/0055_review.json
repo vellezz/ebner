@@ -1,0 +1,19 @@
+{
+  "day": 55,
+  "threads": [
+    {
+      "id": "utrzymanie-w-spoczynku",
+      "op": "close",
+      "status": "closed",
+      "closure": "abandoned",
+      "summary": "Zlecenie utrzymania wiertła rdzeniowego platformy w stanie pośrednim — ani sprawnym, ani złomem — za pomocą protokołu, plomby i pieczęci."
+    },
+    {
+      "id": "nowe-zlecenie-glosowanie",
+      "op": "close",
+      "status": "closed",
+      "closure": "abandoned",
+      "summary": "Naprawienie systemu powietrznego w trzecim pierścieniu stacji głosowania poprzez rozdzielenie sprawy na odrębne sprawy techniczne i finansowe; Ebner przeprowadził procedurę głosowania na trzy sprawy (pomiar, weryfikacja lotu, zatwierdzenie kosztów), a system stacji oddał głos w każdej, przechodzą zwagą jednego głosu."
+    }
+  ]
+}
