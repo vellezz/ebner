@@ -48,28 +48,32 @@ world_growth:
 # nothing above 1,600. So this block is the whole of the length decision, and
 # the only one.
 #
-# Within a band the writer sits low. `long` was 900 to 1,600 and produced a mean
-# of 1,087 with a longest-ever of 1,178 — the top half of that band was never
-# used, so lowering the ceiling would have changed nothing and lowering the floor
-# changes everything. The bands below cut the corpus mean from 653 words to
-# roughly 500.
+# Within a band the writer sits low, so the floor decides and the ceiling is
+# nearly decoration. `long` began at 900 to 1,600 and produced a mean of 1,087
+# with a longest-ever of 1,178: the top half was never used.
 #
-# Length is the largest thing in the bill after effort, because output is what
-# costs: a 1,100-word entry spends around 8,500 output tokens on the writing
-# step against 3,000 for a 500-word one. Shortening is therefore a budget change
-# as much as a rhythm one, and both were wanted.
+# Cut twice. The first pass took the corpus mean from 653 words to about 500 by
+# moving `long` to 700–1,100, and the next entry came out at 884 — the middle of
+# that band, and still too long to read. So the bands move again rather than the
+# weights doing the work alone: nothing may now pass 900 words, which is shorter
+# than sixteen of the forty-six entries published so far.
+#
+# Expected mean is about 390. Below roughly 500 words the bill stops falling
+# much: a 400-word entry spends some 2,500 output tokens on the writing step,
+# against 25,000 of input on that step alone, so what remains is the context and
+# the other three steps rather than the prose.
 length:
   - id: note
-    weight: 20
+    weight: 25
     words: [50, 200]
     label: "notatka: kilka zdań, jedna obserwacja, jedno zdarzenie"
   - id: medium
     weight: 55
-    words: [300, 600]
+    words: [250, 500]
     label: "średni wpis"
   - id: long
-    weight: 25
-    words: [700, 1100]
+    weight: 20
+    words: [600, 900]
     label: "długi wpis: sceny z dialogiem i konkretną robotą, nie streszczenia"
 
 # Thread discipline. The ceilings are in CLAUDE.md; this is when a thread stops
