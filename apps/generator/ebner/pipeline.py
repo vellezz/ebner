@@ -591,6 +591,20 @@ def normalise_entry(text: str, known: dict[str, object] | None = None) -> str:
 def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = False) -> dict:
     world = load_world(remote=remote)
     params = plan_entry(rhythm(), world, seed=seed)
+
+    # Printed before anything is spent, and before anything can fail, because
+    # every judgement about an entry afterwards is a judgement about the draw
+    # that produced it. The tone in particular was invisible: it had to be
+    # guessed from the prose, which is exactly how the funny requirement managed
+    # to die unnoticed in the first place.
+    print(
+        f"  losowanie: dzień {params['day']} (+{params['day_step']}), "
+        f"{params['kind']}, {params['length']} {params['length_words']}, "
+        f"ton {params['tone'] or '—'}, "
+        f"nowy świat {'tak' if params['new_destination'] else 'nie'}, "
+        f"pobyt {world.get('entries_in_location') or 0} wpisów"
+    )
+
     fragments = recall(world, params, remote=remote)
 
     common = {
