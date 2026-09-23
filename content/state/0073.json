@@ -1,0 +1,75 @@
+{
+  "day": 73,
+  "threads": [
+    {
+      "id": "spor-kolumny-wymiennikowe",
+      "op": "update",
+      "summary": "Merza pyta, kto będzie mierzył oscylację lustra gęstwy o grubość dziennej warstwy — potrzebny ktoś stojący na dole i patrzący na kreskę; Hesp zareagował workiem pod żebrami w sposób, który Merza odczytała, a Ebner nie."
+    },
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Varnu, nie doczekawszy się odpowiedzi na boję, wysłało zapieczętowaną kopertę do trzymacza Ebnera na Ambracie; doręczenie skuteczne mimo nieobecności Ebnera. Otwarcie koperty rozdzieliłoby ją na dwie rzeczy, każda wymagająca osobnego wpisu za trzy jednostki, a zawartość miałaby staż zerowy i była rzeczą wątpliwą."
+    },
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "summary": "Terraformer zażądał tempa holu przy dwóch założeniach (wbrew interesowi Othy i zgodnie z nim); Ebner odpisał, że przy założeniu zgodnym z interesem tempo dąży do zera, i zaproponował średnią jako połowę wartości."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-netla-rozliczenie-lyki-73",
+      "content": "Zestawienie Merzy: 1044 łyków do odpracowania (56 oddech pod lustrem wczoraj, 14 rozmowa o żelazie, 40 rozmowa o niewiedzy, 71 oddech dzisiaj do tej pory, 823 przeniesione z poprzednich dni). Stawka za wyczyszczone i sprawdzone gniazdo zaworu — 22 łyki. Ebner wyczyścił jedenaście gniazd, zostało trzydzieści siedem.",
+      "subject": "ebner-gripe",
+      "valid_from": 73
+    },
+    {
+      "id": "f-otha-dni-konczy-sie",
+      "content": "Z pięciu dni zapłaconych Osze z góry zostały już trzy albo dwa, zależnie jak liczyć drogę; Otha przy ostatnich obrotach korby szła wyraźnie leniwiej.",
+      "subject": "otha",
+      "valid_from": 73
+    },
+    {
+      "id": "f-ladownia-stan-73",
+      "content": "Stan ładowni Hanny: pół uszczelki kołnierzowej, jedna tuba smaru łożyskowego, puste pudełko po złączach (złącza rozsypane po dnie rowu na Netli), pół metra linki ze stalowym oplotem, szczypce trzymające jedną szczęką, jedno ogniwo grzewcze zapasowe (drugie u pasażerki), kątownika brak.",
+      "subject": "hanna",
+      "valid_from": 73
+    },
+    {
+      "id": "f-terraformer-tempo-zalozenia",
+      "content": "Terraformer zażądał podania tempa holu Ambrat przy dwóch założeniach: osoba działa wbrew własnemu interesowi albo zgodnie z nim, przyjmując wartość pośrednią jako termin roboczy; Ebner odpisał, że przy działaniu zgodnym z interesem tempo dąży do zera, więc średnia to połowa poprzedniej wartości metrów (sto trzydzieści siedem).",
+      "subject": "ebner-gripe",
+      "valid_from": 73
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-kalkulacja-wydatki"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "koperta-paradoks",
+      "kind": "scene",
+      "content": "Czyli za sześć jednostek mogę się dowiedzieć czegoś niewiarygodnego, albo za darmo dalej nie wiedzieć czegoś, co z każdym dniem jest solidniejsze.",
+      "threads": [
+        "hol-frachtowca-ambrat",
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "jeszcze-trzydziesci-siedem",
+      "kind": "punchline",
+      "content": "Hesp policzył jedenaście wyczyszczonych gniazd, poukładał je grzybkami do góry, żeby się nie toczyły, i dopiero wtedy podniósł tabliczkę. JESZCZE TRZYDZIEŚCI SIEDEM.",
+      "threads": []
+    },
+    {
+      "id": "pol-gniazda",
+      "kind": "scene",
+      "content": "Policzyłem to dwa razy, bo pierwszy raz wyszło mi czterdzieści osiem gniazd, a drugi raz czterdzieści osiem i połowa, i przez chwilę się zastanawiałem, jak się oddaje połowę gniazda.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner jedną ręką skrobie drewnianym patyczkiem osad z mosiężnego gniazda zaworu, obok skrzynka redukcji i tabliczka z liczbą."
+}
