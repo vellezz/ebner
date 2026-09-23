@@ -633,9 +633,19 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
 
     entry_text, skipped = apply_edits(entry_text, edits)
     entry_text = normalise_entry(entry_text, {"day": params["day"], "kind": params["kind"]})
-    print(f"  redakcja: {len(edits) - len(skipped)}/{len(edits)} zamian naniesionych")
+    applied = len(edits) - len(skipped)
+    print(f"  redakcja: {applied}/{len(edits)} zamian naniesionych na {len(fixes)} poprawek")
     for note in skipped:
         print(f"    pominięte — {note}")
+    # The old step rewrote the entry, so a fix it was handed got applied whether
+    # or not it reported doing so. A replacement list can come back empty, and
+    # then a consistency fix disappears with nothing to show it ever existed.
+    # Said out loud rather than enforced: these are the soft fixes, and the hard
+    # contradictions already block the entry a step earlier.
+    if fixes and not applied:
+        print(f"  uwaga: {len(fixes)} poprawek kontroli nie zostało naniesionych")
+        for fix in fixes:
+            print(f"    {fix}")
     report_edit(before_edit, entry_text)
 
     # No second editing pass. It existed because the old step rewrote the whole
