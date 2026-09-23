@@ -22,10 +22,13 @@ steps:
   # Language only, no judgement about content. Low effort is the point: a
   # thorough editor here would start rewriting, which is exactly what the
   # prompt forbids.
+  # Returns replacements, not the entry, so the ceiling no longer has to hold a
+  # whole rewritten entry. Sixteen thousand was sized for prose it used to give
+  # back; a long list of corrections is a couple of thousand.
   edit:
     model: claude-sonnet-5
     effort: low
-    max_tokens: 16000
+    max_tokens: 4000
 
   # Called a mechanical transformation into JSON, which is how it was routed to
   # Haiku, and that description is wrong. The JSON is full of Polish prose —

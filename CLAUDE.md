@@ -74,6 +74,8 @@ Across days it is worse: a cache write costs 1.25× input and lives an hour at m
 
 **Set `effort` deliberately.** Opus 5 runs adaptive thinking by default at `effort: high`, and thinking tokens bill as output. That one inherited default is the largest line in the bill, roughly two thirds of it. Choose the level on purpose in `models.yaml`.
 
+**No step returns the entry it was given.** The consistency check and the language edit both return instructions — a list of contradictions, a list of literal replacements — and code applies them. Measured on day 67: the edit changed one paragraph of thirty-four, twenty characters in sixty-five hundred, and spent 3,321 output tokens giving the prose back, which was eight percent of the entry. The saving is the smaller half of it. A step that regenerates the text can also restyle a sentence nobody asked it about, and it is a cheaper model than the one that wrote it; replacements make that impossible instead of forbidding it in a prompt. It closed a guard too: an editor can only introduce text through a replacement's own value, so scanning those covers every way a banned word can enter, and the second editing pass that used to watch for one is gone.
+
 **Budget: measure it, do not estimate it.** Every run reports what it actually consumed per step, priced from the `prices` block in `models.yaml`, and a failed run reports it too — a run that dies at extraction has already paid for the prose.
 
 The first estimate here was $0.23 an entry, built from assumed context sizes before the prompts existed. A run of seven entries generated back to back measured what it actually is:

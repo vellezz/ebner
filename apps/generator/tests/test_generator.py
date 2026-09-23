@@ -22,6 +22,8 @@ import unittest
 
 from ebner.context import FACT_LIMIT, select_facts
 from ebner.pipeline import (
+    apply_edits,
+    split_frontmatter,
     calendar_slips,
     normalise_entry,
     normalise_state,
@@ -501,3 +503,75 @@ class StayPressure(unittest.TestCase):
 
     def test_missing_config_is_no_pressure(self):
         self.assertEqual(stay_multipliers({}, {"entries_in_location": 99}), {})
+
+
+class ApplyEdits(unittest.TestCase):
+    """Replacements are applied literally, or not at all."""
+
+    ENTRY = (
+        "---\n"
+        "day: 70\n"
+        'title: "Dzień 70. Próba"\n'
+        "kind: quiet\n"
+        "---\n"
+        "\n"
+        "Pierwszy akapit z kalką z angielskiego.\n"
+        "\n"
+        "Drugi akapit. Powtórzone zdanie. Powtórzone zdanie.\n"
+    )
+
+    def test_it_applies_a_replacement(self):
+        out, skipped = apply_edits(self.ENTRY, [{"szukaj": "kalką z angielskiego", "zamien": "naleciałością"}])
+        self.assertIn("naleciałością", out)
+        self.assertEqual(skipped, [])
+
+    def test_an_empty_replacement_deletes(self):
+        out, skipped = apply_edits(self.ENTRY, [{"szukaj": " z kalką z angielskiego", "zamien": ""}])
+        self.assertIn("Pierwszy akapit.", out)
+        self.assertEqual(skipped, [])
+
+    def test_a_repeated_sentence_needs_a_longer_needle(self):
+        """The needle that fixes a repetition must reach past the repetition."""
+        short = {"szukaj": "Powtórzone zdanie.", "zamien": ""}
+        long = {"szukaj": "zdanie. Powtórzone zdanie.", "zamien": "zdanie."}
+        _, skipped = apply_edits(self.ENTRY, [short])
+        self.assertIn("występuje 2 razy", skipped[0])
+        out, skipped = apply_edits(self.ENTRY, [long])
+        self.assertEqual(out.count("Powtórzone zdanie."), 1)
+        self.assertEqual(skipped, [])
+
+    def test_a_needle_that_is_not_there_is_skipped(self):
+        out, skipped = apply_edits(self.ENTRY, [{"szukaj": "zdania, którego nie ma", "zamien": "cokolwiek"}])
+        self.assertEqual(out, self.ENTRY)
+        self.assertEqual(len(skipped), 1)
+        self.assertIn("nie ma go w tekście", skipped[0])
+
+    def test_an_ambiguous_needle_is_skipped(self):
+        """Two matches means the entry would change somewhere nobody chose."""
+        out, skipped = apply_edits(self.ENTRY, [{"szukaj": "Powtórzone zdanie.", "zamien": "Inne."}])
+        self.assertEqual(out, self.ENTRY)
+        self.assertIn("występuje 2 razy", skipped[0])
+
+    def test_the_frontmatter_is_out_of_reach(self):
+        out, skipped = apply_edits(self.ENTRY, [{"szukaj": "quiet", "zamien": "adventure"}])
+        self.assertIn("kind: quiet", out)
+        self.assertEqual(len(skipped), 1)
+
+    def test_a_replacement_may_not_smuggle_in_a_calendar(self):
+        """The only way the editor can introduce text is through `zamien`, so
+        scanning those closes the hole the second pass used to watch for."""
+        out, skipped = apply_edits(
+            self.ENTRY, [{"szukaj": "Pierwszy akapit", "zamien": "W czwartek akapit"}]
+        )
+        self.assertNotIn("czwartek", out)
+        self.assertIn("wnosi", skipped[0])
+
+    def test_no_replacements_leaves_the_entry_alone(self):
+        out, skipped = apply_edits(self.ENTRY, [])
+        self.assertEqual(out, self.ENTRY)
+        self.assertEqual(skipped, [])
+
+    def test_frontmatter_split_survives_an_entry_without_one(self):
+        head, body = split_frontmatter("Sam tekst, bez frontmattera.\n")
+        self.assertEqual(head, "")
+        self.assertEqual(body, "Sam tekst, bez frontmattera.\n")

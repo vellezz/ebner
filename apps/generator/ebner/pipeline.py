@@ -313,18 +313,85 @@ def calendar_slips(text: str) -> list[str]:
     return fixes
 
 
-def report_edit(before: str, after: str) -> dict:
-    """Say how much the language pass actually changed.
+EDIT_SCHEMA: dict = {
+    "type": "object",
+    "additionalProperties": False,
+    "required": ["zamiany"],
+    "properties": {
+        "zamiany": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": ["szukaj", "zamien"],
+                "properties": {
+                    "szukaj": {"type": "string", "minLength": 1},
+                    "zamien": {"type": "string"},
+                    "powod": {"type": "string"},
+                },
+            },
+        }
+    },
+}
 
-    The edit step regenerates the whole entry to apply a handful of fixes, and
-    on a long entry that is an eighth of the bill. Whether it earns that is a
-    measurable question nobody had measured: a step that rewrites Opus's Polish
-    with Sonnet at low effort might be improving it, or might be flattening it,
-    or might be changing three commas for five cents.
 
-    Reporting rather than deciding. A few runs of this is the evidence the
-    decision needs.
+def split_frontmatter(text: str) -> tuple[str, str]:
+    """Separate the frontmatter block from the prose.
+
+    The edit step may not touch the frontmatter, and the cheapest way to
+    enforce that is to keep it out of reach rather than to ask.
     """
+    if not text.startswith("---"):
+        return "", text
+    end = text.find("\n---", 3)
+    if end == -1:
+        return "", text
+    cut = text.find("\n", end + 1)
+    if cut == -1:
+        return text, ""
+    return text[: cut + 1], text[cut + 1 :]
+
+
+def apply_edits(text: str, replacements: list[dict]) -> tuple[str, list[str]]:
+    """Apply literal replacements to the prose, and say what could not be.
+
+    Mechanical on purpose. The edit step used to return the whole entry, which
+    put a second full generation of the prose in the bill and let a step meant
+    to fix six commas quietly restyle a paragraph it was not asked about. It
+    now returns what to swap, and swapping is code's work.
+
+    A replacement is applied only if its needle appears **exactly once**: zero
+    means the editor paraphrased instead of quoting, several means the entry
+    would change in a place nobody chose. Both are skipped and reported rather
+    than guessed at, because a wrong guess edits prose that was correct.
+    """
+    head, body = split_frontmatter(text)
+    skipped: list[str] = []
+
+    for item in replacements:
+        needle = item.get("szukaj") or ""
+        if not needle:
+            continue
+        found = body.count(needle)
+        if found != 1:
+            reason = "nie ma go w tekście" if found == 0 else f"występuje {found} razy"
+            skipped.append(f"{needle[:60]!r}: {reason}")
+            continue
+        replacement = item.get("zamien") or ""
+        # Anything the editor introduces is caught here, exhaustively, because
+        # this string is the only way it can reach the entry. That is why one
+        # further editing pass over the finished text is no longer needed.
+        slips = calendar_slips(replacement) + register_slip(replacement)
+        if slips:
+            skipped.append(f"{needle[:60]!r}: poprawka wnosi {len(slips)} usterek")
+            continue
+        body = body.replace(needle, replacement, 1)
+
+    return head + body, skipped
+
+
+def report_edit(before: str, after: str) -> dict:
+    """Say how much the language pass actually changed."""
     ratio = difflib.SequenceMatcher(None, before, after).ratio()
     para_before = [p.strip() for p in before.split("\n\n") if p.strip()]
     para_after = [p.strip() for p in after.split("\n\n") if p.strip()]
@@ -546,48 +613,34 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     fixes_text = "\n".join(fixes) if fixes else "Brak — wpis przeszedł bez uwag."
 
     # --- 4. edit ---------------------------------------------------------
-    # Applies those fixes and passes over the language, so the full text is
-    # generated once in the pipeline rather than twice.
+    # Returns replacements; the code applies them. The prose is therefore
+    # generated exactly once in the pipeline.
     before_edit = entry_text
-    entry_text = normalise_entry(
-        _strip_fence(
-            complete(
-                "edit",
-                fill(prompt("edit_pl.md"), {"wpis": entry_text, "poprawki": fixes_text}),
-                "Zredaguj wpis.",
-            )
-        ),
-        {"day": params["day"], "kind": params["kind"]},
-    )
+    edits = json.loads(
+        complete(
+            "edit",
+            fill(prompt("edit_pl.md"), {"wpis": entry_text, "poprawki": fixes_text}),
+            "Zredaguj wpis.",
+            output_schema=EDIT_SCHEMA,
+        )
+    ).get("zamiany", [])
+
+    entry_text, skipped = apply_edits(entry_text, edits)
+    entry_text = normalise_entry(entry_text, {"day": params["day"], "kind": params["kind"]})
+    print(f"  redakcja: {len(edits) - len(skipped)}/{len(edits)} zamian naniesionych")
+    for note in skipped:
+        print(f"    pominięte — {note}")
     report_edit(before_edit, entry_text)
 
-    # Checked again, because the step that was given these fixes rewrites the
-    # prose and can introduce the very thing it was told to remove. Day 36 came
-    # back with `tydzień` in a sentence the writer had not written: the
-    # detector ran before the edit, found nothing, and nothing looked again.
-    #
-    # One further pass, never a loop. If a second editor still cannot say it in
-    # days, that is a sentence worth publishing with the flaw rather than
-    # paying indefinitely to remove one word.
+    # No second editing pass. It existed because the old step rewrote the whole
+    # entry and could introduce the very thing it was told to remove — day 36
+    # came back with `tydzień` in a sentence the writer had not written. A
+    # replacement can only introduce text through its own `zamien`, and every
+    # one of those is scanned before it is applied, so the hole is closed
+    # rather than watched.
     remaining = calendar_slips(entry_text)
     if remaining:
-        print(f"  kalendarz: po redakcji zostało {len(remaining)} — jeszcze raz")
-        entry_text = normalise_entry(
-            _strip_fence(
-                complete(
-                    "edit",
-                    fill(
-                        prompt("edit_pl.md"),
-                        {"wpis": entry_text, "poprawki": "\n".join(remaining)},
-                    ),
-                    "Zredaguj wpis.",
-                )
-            ),
-            {"day": params["day"], "kind": params["kind"]},
-        )
-        still = calendar_slips(entry_text)
-        if still:
-            print(f"  kalendarz: nadal {len(still)}, zostawiam i publikuję")
+        print(f"  kalendarz: {len(remaining)} nietkniętych, zostawiam i publikuję")
 
     # --- 5. extract state -------------------------------------------------
     # The prose is finished and paid for by this point. If extraction fails,
