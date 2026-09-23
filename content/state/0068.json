@@ -1,0 +1,64 @@
+{
+  "day": 68,
+  "entities": [
+    {
+      "id": "merza",
+      "kind": "person",
+      "name": "Merza",
+      "parent": "netla",
+      "summary": "Głos obsługi rowu na Netli, rozdziela racje i poziom; mówi bez kosztu, bo nie ma worka pod żebrami."
+    }
+  ],
+  "threads": [
+    {
+      "id": "spor-kolumny-wymiennikowe",
+      "op": "update",
+      "summary": "Ebner ustalił, że zarost rośnie dokładnie na granicy ciężkiego i rzadkiego gazu, którą kolumna trzyma nieruchomo; zaproponował Merzy oscylowanie granicy o grubość dziennej warstwy, żeby zarost nie zdążył się zaczepić — wniosek przyjęty do rozpatrzenia razem z racją."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-netla-mechanizm-zarost",
+      "kind": "general",
+      "content": "Zarost na kolumnach terraformera rośnie wyłącznie na nieruchomej granicy między ciężkim a rzadkim gazem, dokładając warstwę grubości dziennej na obwodzie; kawałek trzymany w czystym gazie twardnieje, w czystym ciężkim rozłazi się, tylko na granicy przyrasta.",
+      "subject": "netla"
+    },
+    {
+      "id": "f-ebner-wniosek-oscylacja",
+      "kind": "general",
+      "content": "Ebner zaproponował Merzy, że oscylowanie granicy wewnątrz kolumny (i tym samym poziomu w rowie) o grubość jednej dziennej warstwy zarostu, w górę i w dół codziennie, uniemożliwi zarostowi zaczepienie się na nowych kolumnach; Merza przyjęła to jako wniosek techniczny do rozpatrzenia razem z podziałem racji.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-ebner-rozliczenie-lyki",
+      "kind": "general",
+      "content": "Merza doliczyła Ebnerowi dwieście dwanaście łyków za wczoraj i sto osiemdziesiąt za dzisiaj za oddychanie miejscową racją po zdjęciu hełmu; Ebner może spłacić robotą, bo praca liczy się w łykach tak samo jak oddech.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "netla-granica-wzrostu",
+      "kind": "scene",
+      "content": "To rośnie na granicy. Nie w ciężkim, nie w rzadkim, tylko w tej jednej linii, gdzie jedno styka się z drugim. A kolumna to urządzenie, które robi taką granicę i trzyma ją w jednym miejscu przez okrągły rok.",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    },
+    {
+      "id": "netla-kloctnie-tansze-na-dole",
+      "kind": "punchline",
+      "content": "Na górze pisze się to, co bezsporne, bo pisanie nic nie kosztuje, a stanie na górze kosztuje. Wszystko, co wymaga drugiego zdania, schodzi pod lustro. Kłótnie są tańsze na dole.",
+      "threads": []
+    },
+    {
+      "id": "netla-merza-glos",
+      "kind": "scene",
+      "content": "— Nie podam, bo jak podam, to będzie obowiązywać. — powiedziała Merza, kiedy Ebner poprosił o długość cyklu skorupy.",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    }
+  ],
+  "sketch": "Ebner bez hełmu, stojący pod lustrem ciężkiego gazu wśród leżących mieszkańców, obok trzech kredowych kresek na kolumnach terraformera."
+}
