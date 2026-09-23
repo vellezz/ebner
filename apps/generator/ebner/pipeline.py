@@ -416,7 +416,13 @@ def report_edit(before: str, after: str) -> dict:
 
 @lru_cache(maxsize=1)
 def _register_rule() -> tuple[re.Pattern[str] | None, re.Pattern[str] | None, str]:
-    """The two vocabularies and the repair, read from the prompt."""
+    """The vocabularies and the repair, read from the prompt.
+
+    The first block is the clerical register; **every** block after it counts
+    as concrete. Reading them that way rather than by position means a further
+    list of concrete words is an edit to Polish text, which is where this
+    project keeps its vocabularies.
+    """
     text = prompt("register_pl.md")
     blocks = re.findall(r"```regex\r?\n(.*?)```", text, re.DOTALL)
     repair = _fenced(text, "text").strip()
@@ -431,7 +437,7 @@ def _register_rule() -> tuple[re.Pattern[str] | None, re.Pattern[str] | None, st
         ]
         return re.compile(r"\b(" + "|".join(patterns) + r")\b", re.IGNORECASE)
 
-    return compile_block(blocks[0]), compile_block(blocks[1]), repair
+    return compile_block(blocks[0]), compile_block("\n".join(blocks[1:])), repair
 
 
 # Both must hold: proportion alone means nothing in a short note.

@@ -17,11 +17,16 @@ shape of mistake.
 from __future__ import annotations
 
 import copy
+import pathlib
 import random
 import unittest
 
 from ebner.context import FACT_LIMIT, select_facts
 from ebner.pipeline import (
+    REGISTER_FLOOR,
+    REGISTER_RATIO,
+    _register_rule,
+    register_slip,
     apply_edits,
     split_frontmatter,
     calendar_slips,
@@ -43,6 +48,12 @@ def normalise(state: dict) -> dict:
     return normalise_state(
         copy.deepcopy(state), KNOWN_THREADS, KNOWN_FACTS, KNOWN_ENTITIES
     )
+
+
+def _body(day: int) -> str:
+    """The prose of a published entry, for measures calibrated on real text."""
+    path = pathlib.Path(__file__).resolve().parents[3] / "content" / "entries" / f"{day:04d}.md"
+    return path.read_text(encoding="utf-8").split("---", 2)[2]
 
 
 class References(unittest.TestCase):
@@ -575,3 +586,37 @@ class ApplyEdits(unittest.TestCase):
         head, body = split_frontmatter("Sam tekst, bez frontmattera.\n")
         self.assertEqual(head, "")
         self.assertEqual(body, "Sam tekst, bez frontmattera.\n")
+
+
+class RegisterMeasure(unittest.TestCase):
+    """The measure must read concreteness, not one ship's inventory."""
+
+    def test_the_abandoned_entries_are_still_caught(self):
+        """Days 27, 29, 30 and 33 are the four a reader gave up on. Widening
+        the concrete vocabulary must not cost the only true positives there
+        are."""
+        clerical, concrete, _ = _register_rule()
+        for day in (27, 29, 30, 33):
+            body = _body(day)
+            abstract, solid = len(clerical.findall(body)), len(concrete.findall(body))
+            self.assertGreaterEqual(abstract, REGISTER_FLOOR, f"dzień {day}")
+            self.assertGreaterEqual(abstract, solid * REGISTER_RATIO, f"dzień {day}")
+
+    def test_a_strong_entry_on_a_new_world_is_not_flagged(self):
+        """Day 68 cuts a sample, sets three pieces in three environments and
+        measures where the growth is thickest, and scored two on the tool list
+        alone — it names no flange, no gasket and no winch because it is not on
+        the ship."""
+        self.assertEqual(register_slip(_body(68)), [])
+        self.assertEqual(register_slip(_body(67)), [])
+
+    def test_actions_are_counted_where_things_are_not(self):
+        _, concrete, _ = _register_rule()
+        alien = "Wyciąłem próbkę, zmierzyłem warstwę i podważyłem krawędź, potem zszorowałem osad."
+        self.assertGreaterEqual(len(concrete.findall(alien)), 5)
+
+    def test_every_block_after_the_first_counts_as_concrete(self):
+        """Position must not be load-bearing: a further list is a text edit."""
+        _, concrete, _ = _register_rule()
+        self.assertTrue(concrete.search("uszczelka"))
+        self.assertTrue(concrete.search("wywierciłem"))
