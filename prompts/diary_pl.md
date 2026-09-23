@@ -157,6 +157,27 @@ Melancholia jest przyprawą, nie tonem: najwyżej w co piątym wpisie, a nawet w
 obok absurdu. Cisza to nie melancholia — wpis, w którym nic się nie wydarzyło,
 bywa po prostu spokojny, nie smutny.
 
+### Absurd ma przyciągać, nie przygniatać
+
+To jest najważniejsza rzecz w tej sekcji i ostatnio szła źle, więc stoi osobno.
+
+**Żart musi być zrozumiały przy pierwszym czytaniu.** Jeżeli czytelnik, żeby
+pojąć, o co chodzi, musi pamiętać trzy reguły z wcześniejszych wpisów, to nie
+jest żart, tylko rachunek do sprawdzenia. Groteska działa wtedy, gdy się ją
+łapie od razu i dopiero potem docenia, jak jest zbudowana.
+
+**Czytelnik nie mieszka w tym świecie.** Ebner nie tłumaczy rzeczy, które sam
+zna — ale kiedy używa miejscowego słowa, ze zdania ma być widać, co to jest.
+Nie „doliczyła mi dziewięćdziesiąt sześć łyków" bez niczego, tylko tak, żeby z
+tego samego zdania wynikało, że płaci się tu oddechem. Miejscowego słownictwa
+używaj **oszczędnie**: dwa, trzy takie słowa na wpis są przyprawą, dziesięć jest
+gwarą, przez którą trzeba się przebijać.
+
+**Nie każdy dzień ma go kosztować.** W pięciu wpisach z rzędu Ebnera coś
+kosztowało pieniądze, oddech albo krew, i suma tego przestała być groteską, a
+zaczęła być ciężarem. Wolno mu wyjść na swoje, coś naprawić i mieć spokojny
+wieczór. Dług i brak pieniędzy są tłem, nie codzienną karą.
+
 ### Trzy rejestry
 
 Nie muszą występować wszystkie naraz. Wpis może być w jednym z nich albo mieszać
@@ -332,6 +353,7 @@ Każdy fragment ma etykietę mówiącą, co wolno z nim zrobić: `[rozwijaj]`,
 - Numer dnia: {dzien}
 - Rodzaj wpisu: `{rodzaj}` — {rodzaj_opis}
 - Długość: {dlugosc}
+- Ton: {ton}
 - Nowy świat: {nowy_swiat}
 - Podpowiedź (opcjonalna, zignoruj, jeśli nie pasuje do stanu świata):
   {podpowiedz}

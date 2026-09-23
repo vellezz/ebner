@@ -163,6 +163,7 @@ def plan_entry(cfg: dict, world: dict, *, seed: int | None = None) -> dict[str, 
     step = pick_day_step(cfg, kind["id"], rng)
     length = pick_length(cfg, rng, kind["id"])
     hint_pool, hint = pick_hint(cfg, rng)
+    tone = _weighted(rng, cfg["tone"]) if cfg.get("tone") else None
 
     prefer_known = kind["id"] in cfg["world_growth"]["revisit_pressure"]["prefer_known_for"]
     new_destination = (not prefer_known) and wants_new_destination(cfg, world, rng)
@@ -177,6 +178,8 @@ def plan_entry(cfg: dict, world: dict, *, seed: int | None = None) -> dict[str, 
         "length_label": length["label"],
         "hint_pool": hint_pool,
         "hint": hint,
+        "tone": tone["id"] if tone else None,
+        "tone_label": tone["label"] if tone else "",
         "new_destination": new_destination,
         "seed": seed,
     }

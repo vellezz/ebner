@@ -16,13 +16,15 @@ shape of mistake.
 
 from __future__ import annotations
 
+import collections
 import copy
 import pathlib
 import random
 import unittest
 
-from ebner.context import FACT_LIMIT, select_facts
+from ebner.context import FACT_LIMIT, LOCAL_FACT_LIMIT, select_facts
 from ebner.pipeline import (
+    rhythm,
     EMPTY_RETRY,
     REGISTER_FLOOR,
     REGISTER_RATIO,
@@ -37,7 +39,7 @@ from ebner.pipeline import (
     register_slip,
     report_extraction,
 )
-from ebner.rhythm import pick_kind, pick_length, stay_multipliers
+from ebner.rhythm import pick_kind, pick_length, plan_entry, stay_multipliers
 
 
 KNOWN_THREADS = {"nowe-zlecenie-glosowanie", "dlug-z-varnu"}
@@ -637,3 +639,73 @@ class EmptyExtractionRetry(unittest.TestCase):
         """A day that truly changes nothing must be able to say so, or the
         retry becomes pressure to invent facts — worse than missing them."""
         self.assertIn("zwróć puste", EMPTY_RETRY)
+
+
+class ToneDraw(unittest.TestCase):
+    """Tone is drawn, because as advice it died."""
+
+    def test_funny_is_the_common_case(self):
+        cfg = rhythm()
+        world = {"threads": [{"reference_policy": "develop"}], "threads_active": 1,
+                 "threads_due_for_closure": 0, "last_day": 80, "entries_in_location": 2,
+                 "entries_since_new_place": 3}
+        drawn = collections.Counter(
+            plan_entry(cfg, world, seed=i)["tone"] for i in range(4000))
+        self.assertGreater(drawn["funny"] / 4000, 0.5)
+        self.assertLess(drawn["sad"] / 4000, 0.2, "melancholia najwyżej w co piątym")
+        self.assertIn("plain", drawn)
+
+    def test_the_label_reaches_the_plan(self):
+        cfg = rhythm()
+        plan = plan_entry(cfg, {"threads": [], "threads_active": 0, "last_day": 1,
+                                "entries_in_location": 1, "entries_since_new_place": 9}, seed=7)
+        self.assertTrue(plan["tone_label"])
+
+
+class StayFactBudget(unittest.TestCase):
+    """What one stay piles up may not fill the prompt with its vocabulary."""
+
+    def _world(self, stay_facts: int, days_in_location: int = 8):
+        last_day = 75
+        arrived = last_day - days_in_location
+        facts = [
+            {"id": "f-seed", "subject": "ebner", "valid_from": 0, "kind": "general"},
+            {"id": "f-rule", "subject": "netla", "valid_from": arrived, "kind": "world_rule"},
+        ]
+        for i in range(stay_facts):
+            facts.append({"id": f"f-stay-{i}", "subject": "ebner",
+                          "valid_from": arrived + 1 + (i % days_in_location), "kind": "general"})
+        return {"facts": facts, "location": [{"id": "netla"}], "last_day": last_day,
+                "entities": [], "days_in_location": days_in_location}
+
+    def test_a_short_stay_is_untouched(self):
+        kept, _ = select_facts(self._world(3))
+        self.assertEqual(len(kept), 5)
+
+    def test_a_long_stay_is_thinned_to_the_budget(self):
+        kept, omitted = select_facts(self._world(30))
+        stay = [f for f in kept if f["id"].startswith("f-stay-") or f["id"] == "f-rule"]
+        self.assertEqual(len(stay), LOCAL_FACT_LIMIT)
+        self.assertGreater(omitted, 0)
+
+    def test_the_world_rule_survives_the_cut(self):
+        """A rule is what a new entry can contradict; a week of detail is not."""
+        kept, _ = select_facts(self._world(30))
+        self.assertIn("f-rule", {f["id"] for f in kept})
+
+    def test_the_seed_survives_the_cut(self):
+        kept, _ = select_facts(self._world(30))
+        self.assertIn("f-seed", {f["id"] for f in kept})
+
+    def test_the_newest_of_the_stay_is_what_is_kept(self):
+        """Yesterday is what the next entry must agree with; the first days of a
+        long stay are its bookkeeping."""
+        kept, _ = select_facts(self._world(30))
+        days = [f["valid_from"] for f in kept if f["id"].startswith("f-stay-")]
+        self.assertGreater(min(days), 67)
+
+    def test_nothing_happens_without_a_stay_length(self):
+        world = self._world(30)
+        del world["days_in_location"]
+        kept, _ = select_facts(world)
+        self.assertEqual(len(kept), 32)

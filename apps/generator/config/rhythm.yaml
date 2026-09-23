@@ -158,6 +158,34 @@ stay_pressure:
   departure: [travel, new_job, stopover]
   settled: [continuation, quiet, documents]
 
+# Tone.
+#
+# CLAUDE.md has said from the start that most entries should be funny and that
+# the grotesque is the foundation rather than a seasoning. Nothing drew for it,
+# so it was advice, and this project has learned three times now what happens to
+# advice: the thread ceiling filled with corpses, the stale-thread instruction
+# was ignored fifteen entries running, and the invoice ending had to be counted
+# before it stopped.
+#
+# It died quietly while everything else was being tuned. Measured over the last
+# five entries: something costs Ebner money, breath or blood in every one, the
+# misery vocabulary runs at nearly twice its early rate, and a reader's verdict
+# was that the absurdity had stopped attracting and started weighing.
+#
+# So tone is drawn like kind and length. `sad` is capped by its weight at about
+# one entry in eight, which is the "at most every fifth" CLAUDE.md asks for with
+# room to spare.
+tone:
+  - id: funny
+    weight: 60
+    label: "zabawny: absurd ma bawić, nie przytłaczać — ktoś odpowiada poważnie na coś niedorzecznego, a Ebner relacjonuje to z kamienną twarzą. W tym wpisie coś ma się udać albo przynajmniej nie kosztować."
+  - id: plain
+    weight: 27
+    label: "rzeczowy: bez dowcipu na siłę, ale i bez ciężaru — zwykły dzień zwykłego fachowca"
+  - id: sad
+    weight: 13
+    label: "cicha melancholia: spokojna obserwacja, smutek bez nazywania go. Nigdy jako puenta."
+
 # When something is already running, lean into it rather than starting again.
 kind_bias:
   when_open_thread_due:

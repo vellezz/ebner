@@ -224,6 +224,33 @@ FACT_WINDOW_DAYS = 12
 # running, and a fact removed from the prompt is a fact the entry can
 # contradict.
 FACT_LIMIT = 60
+# How many facts recorded during the current stay may reach the prompt.
+#
+# This one is a budget, and it exists because the prompt turned into a glossary.
+# Of thirty-eight live facts in front of the writer, eighteen had been recorded
+# since he landed on this moon and thirteen of those were written in the moon's
+# private vocabulary — swallows, the mirror, the sac, the ration. Entries came
+# back with one coined term every twenty-seven words against one in five hundred
+# at day 12, a tenfold rise, and a reader's verdict was that they had stopped
+# being inviting and started being work.
+#
+# The loop is why this is capped rather than watched: an entry written out of
+# that vocabulary records new facts in the same vocabulary, which come back in
+# the next prompt. No style rule could have fixed that, because the prompt itself
+# was the glossary.
+#
+# The key is the stay, not the subject. Two earlier attempts keyed on the place —
+# `subject in chain`, then the place plus everyone standing in it — and both did
+# nothing measurable, because the vocabulary rides on facts about *Ebner*: his
+# ration, his debt in breath, his own arm. What they have in common is when they
+# were written down.
+#
+# World rules are pinned and the rest is kept newest-first: what happened
+# yesterday is what the next entry has to be consistent with, while the first
+# days of a stay are its accumulated bookkeeping. Dropping a fact means an entry
+# can contradict it, which is the price here, paid deliberately and only for the
+# oldest detail of a stay that has gone on too long.
+LOCAL_FACT_LIMIT = 8
 
 
 def select_facts(world: dict) -> tuple[list[dict], int]:
@@ -269,6 +296,17 @@ def select_facts(world: dict) -> tuple[list[dict], int]:
         return last_day - (fact.get("valid_from") or 0) <= FACT_WINDOW_DAYS
 
     kept = [fact for fact in facts if keep(fact)]
+
+    # Thin what this stay has piled up, before the global cut, so one place
+    # cannot fill the prompt with its own vocabulary.
+    arrived = last_day - (world.get("days_in_location") or 0)
+    if arrived > 0:
+        stay = [f for f in kept if (f.get("valid_from") or 0) >= arrived]
+        if len(stay) > LOCAL_FACT_LIMIT:
+            stay.sort(key=lambda f: (f.get("kind") != "world_rule", -(f.get("valid_from") or 0)))
+            dropped = {id(f) for f in stay[LOCAL_FACT_LIMIT:]}
+            kept = [f for f in kept if id(f) not in dropped]
+
     if len(kept) > FACT_LIMIT:
         # Recency alone is the wrong order to cut in: it drops the rule of the
         # place he is standing on before it drops last week's invoice. Rank by

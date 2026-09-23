@@ -607,6 +607,7 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
         "rodzaj": params["kind"],
         "rodzaj_opis": params["kind_label"],
         "dlugosc": f"{params['length_label']}, {params['length_words'][0]}–{params['length_words'][1]} słów",
+        "ton": params.get("tone_label") or "bez wskazania",
         "podpowiedz": params["hint"] or "brak",
         "nowy_swiat": "tak — dziś wypada sięgnąć gdzieś nowej" if params["new_destination"] else "nie",
         "style_samples": _style_samples(),
