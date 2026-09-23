@@ -1,0 +1,32 @@
+{
+  "day": 72,
+  "threads": [
+    {
+      "id": "rast-kuter-sygnal",
+      "op": "update",
+      "summary": "Ebner ustalił dokładniejsze położenie Rasta: leży osiem, może dziesięć kroków od nowo odkrytej bruzdy w dnie rowu, poza nią; odbiornik pika w trzy krótkie sygnały, cisza, znowu trzy."
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-katownik"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f72-bruzda-maszyna",
+      "kind": "scene",
+      "content": "Wysokie na dwa wzrosty ramię, płaskie, ze stopą szeroką jak drzwi, idące bruzdą w dnie rowu w tempie człowieka na ulicy — bez spawu, przelotki czy kołnierza, jakie Ebner rozpoznaje.",
+      "threads": [
+        "rast-kuter-sygnal"
+      ]
+    },
+    {
+      "id": "f72-hesp-ciezki",
+      "kind": "punchline",
+      "content": "Hesp trzymał od dawna przygotowaną tabliczkę z jednym słowem: CIĘŻKI. Niżej dopisał: NIE PYTAŁEŚ — i nie starł.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner leżący w namule na dnie rowu, patrzący w światło latarki na ogromne, płaskie ramię nieznanej maszyny wychodzące z zawiesiny ciężkiego gazu.for the sketch prompt in Polish"
+}
