@@ -1,0 +1,63 @@
+{
+  "day": 75,
+  "threads": [
+    {
+      "id": "netla-lyki",
+      "op": "open",
+      "summary": "Gęstwa weszła do ładowni Hanny podczas startu; Merza naliczyła nową pozycję za ubytek z rowu, niezależną od pozycji za oddech.",
+      "status": "active"
+    },
+    {
+      "id": "rast-kuter-sygnal",
+      "op": "update",
+      "summary": "Ebner przestawił Hannę nad sąsiedni rów, by móc schodzić do Rasta bez przechodzenia grzbietu pieszo z uszkodzoną ręką."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-netla-racja-wydanie-nie-oddech",
+      "kind": "world_rule",
+      "content": "Na Netli racja liczy się z wydania gęstwy z rowu, nie z oddechu — nawet nietknięta i niewdychana gęstwa, która weszła i wyparowała, jest policzona jako ubytek.",
+      "subject": "netla"
+    },
+    {
+      "id": "f-hanna-ladownia-zalana",
+      "content": "Podczas startu z krawędzi rowu gęstwa weszła przez próg ładowni Hanny i uderzyła w tylną grodź przy podniesieniu dziobu; czujnik cieczy zaryglował drzwi grodziowe, odcinając Ebnera od warsztatu. Gęstwa parowała przez otwarty właz w próżnię przez większość dnia.",
+      "subject": "hanna"
+    },
+    {
+      "id": "f-ebner-uraz-pogorszony",
+      "content": "Podczas twardego lądowania z przechyłem na prawo Ebner trzymał korektę jedną ręką i lewym łokciem, bo lewej dłoni nie zgina; płoza zeszła po kamieniu z nieprzyjemnym dźwiękiem.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-netla-rozliczenie-lyki-75",
+      "content": "Merza naliczyła Ebnerowi nową pozycję za gęstwę, która weszła i wyparowała z ładowni Hanny, osobną od pozycji za oddech naliczonej dzień wcześniej; Hesp zebrał do worka to, co zostało w rowku przy progu ładowni.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ladownia-stan-73"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "chlupnelo-przy-starcie",
+      "kind": "scene",
+      "content": "Chlupnęło przy starcie. Gęstwa weszła przez próg ładowni, niewidoczna dopóki nie zebrała się w lustro, i przy podniesieniu dziobu poszła jednym ruchem do tylnej grodzi.",
+      "threads": [
+        "netla-lyki"
+      ]
+    },
+    {
+      "id": "merza-racja-z-wydania",
+      "kind": "punchline",
+      "content": "— Racja liczy się z wydania — powiedziała Merza. — Nie z oddechu. Oddech to osobna pozycja, tę masz od wczoraj.",
+      "threads": [
+        "netla-lyki"
+      ]
+    }
+  ],
+  "sketch": "Kabina Hanny widziana przez próg zaryglowanych drzwi grodziowych, za nimi lustro ciemnej gęstwy na podłodze ładowni, drżenie powietrza nad progiem gdzie ciecz paruje w próżnię."
+}
