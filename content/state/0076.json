@@ -1,0 +1,87 @@
+{
+  "day": 76,
+  "entities": [
+    {
+      "id": "tarn",
+      "kind": "place",
+      "name": "Tarn",
+      "parent": "netla",
+      "summary": "Mały, gorący od środka księżyc widoczny z Netli nad grzbietem; ma katapultę wystrzeliwującą kapsuły gęstwy do rowu Netli i skraplarnie oblepione czerwonym pyłem."
+    },
+    {
+      "id": "wilbek",
+      "kind": "person",
+      "name": "Wilbek",
+      "parent": "tarn",
+      "summary": "Kierownik napełniania na Tarnie, rozmowny; dostał od Netli naliczenie kary za trzy kapsuły, które nigdy nie dotarły do rowu."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "netla",
+      "to": "tarn"
+    }
+  ],
+  "threads": [
+    {
+      "id": "tarn-zasuwa-naprawa",
+      "op": "open",
+      "type": "short",
+      "status": "active",
+      "reference_policy": "develop",
+      "planned_entries": 2,
+      "summary": "Zasuwa napełniania kapsuł na Tarnie nie domyka się do końca (kożuch lodu blokuje ją na ok. dwie trzecie), więc kapsuły lecą lżejsze niż licznik czasu pokazuje; Ebner ma jutro osłonić wałek i dołożyć krańcówkę na samej zasuwie."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-hanna-ladownia-wysuszona",
+      "kind": "general",
+      "content": "Drzwi grodziowe ładowni Hanny puściły same rano, bo czujnik cieczy wysechł; warsztat jest znów suchy i dostępny po raz pierwszy od dwóch dni.",
+      "subject": "hanna",
+      "valid_from": 76
+    },
+    {
+      "id": "f-tarn-wezwanie-bez-zaplaty",
+      "kind": "general",
+      "content": "Ebner poleciał na wezwanie Merzy na Tarn bez zapłaty w gęstwie na drogę; dzień pracy zostanie odliczony od jego łyków do odpracowania na Netli.",
+      "subject": "ebner-gripe",
+      "valid_from": 76
+    },
+    {
+      "id": "f-tarn-kapsuly-lzejsze",
+      "kind": "general",
+      "content": "Zasuwa napełniania kapsuł na Tarnie zbiera kożuch lodu i otwiera się tylko do jakichś dwóch trzecich pełnego skoku, więc kapsuły idą pełne według licznika czasu, a niepełne wagowo; katapulta wali za każdym razem tym samym kopem, ale kapsuły przez to spadają krócej i lądują na grzbiecie zamiast dolatywać do rowu.",
+      "subject": "tarn",
+      "valid_from": 76
+    },
+    {
+      "id": "f-tarn-kara-trzy-kapsuly",
+      "kind": "general",
+      "content": "Netla naliczyła załodze Tarna karę za trzy kapsuły gęstwy, które nie doszły do rowu; Wilbek się sprzeciwiał, argumentując że gęstwa nigdy tam nie była, ale Netla odpisała, że racja liczy się z wydania, nie z dotarcia.",
+      "subject": "tarn",
+      "valid_from": 76
+    }
+  ],
+  "fragments": [
+    {
+      "id": "tarn-zasuwa-kozuch",
+      "kind": "scene",
+      "content": "Zasuwa napełniania stoi w miejscu, gdzie z jednej strony jest szron, a z drugiej gorąca ściana. Obraca się na wałku i przy zamykaniu zbiera na sobie kożuch. Nie dochodzi do końca otwarcia, tylko na jakieś dwie trzecie, i nikt tego nie widzi, bo wskaźnik pokazuje położenie dźwigni, a nie zasuwy.",
+      "threads": [
+        "tarn-zasuwa-naprawa"
+      ]
+    },
+    {
+      "id": "tarn-kara-dialog",
+      "kind": "punchline",
+      "content": "— To znaczy, że wysyłamy trzy czwarte kapsuły. — Mniej więcej. — I płacimy karę za jedną czwartą, której nie wysłaliśmy. — Płacicie karę za to, że jej tam nie ma. To nie to samo i oni się na tym znają lepiej od was.",
+      "threads": [
+        "netla-lyki",
+        "tarn-zasuwa-naprawa"
+      ]
+    }
+  ],
+  "sketch": "Zasuwa napełniania kapsuł na Tarnie, w połowie oblodzona kożuchem szronu, między gorącą blachą a mrozem, z Wilbekiem skrobiącym lód paznokciem rękawicy."
+}
