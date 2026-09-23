@@ -1,0 +1,62 @@
+{
+  "day": 69,
+  "entities": [
+    {
+      "id": "rast",
+      "kind": "ship",
+      "name": "Rast",
+      "parent": "netla",
+      "summary": "Rozbity kuter ratunkowy leżący od dziesięcioleci na dnie sąsiedniego rowu na Netli, wybebeszony przez mieszkańców; jego skrzynka alarmowa wciąż nadaje sygnał ratunkowy sprzed czterdziestu lat."
+    }
+  ],
+  "threads": [
+    {
+      "id": "rast-kuter-sygnal",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Sygnał ratunkowy z rozbitego kutra Rast, ukrytego pod powierzchnią gęstwy w sąsiednim rowie; antena wyszła nad lustro, gdy poziom gazu opadł wskutek uszkodzonych kolumn terraformera."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-rast-kuter-znaleziony",
+      "content": "Ebner znalazł rozbity kuter Rast na dnie sąsiedniego rowu, wybebeszony do czysta przez mieszkańców Netli na przestrzeni lat; ocalała tylko zalana żywicą skrzynka alarmowa z ogniwem izotopowym, nadająca stary wzór ratunkowy od co najmniej czterdziestu lat.",
+      "subject": "rast",
+      "valid_from": 69
+    },
+    {
+      "id": "f-netla-poziom-antena-korelacja",
+      "content": "Antena kutra Rast wyszła nad lustro gęstwy dopiero teraz, bo poziom w rowach opadł wskutek rozerwania czterech kolumn terraformera; gdy poziom wróci, antena znów zejdzie pod powierzchnię i sygnał ucichnie.",
+      "subject": "netla",
+      "valid_from": 69
+    },
+    {
+      "id": "f-ebner-uraz-netla",
+      "content": "Ebner, wracając z rowu, wypadł nad powierzchnię gęstwy i spadł na kamienie zamiast na gęstwę; ma zdarty rękaw i przedramię oraz posiniaczony lewy bok. Zostawił w gęstwie nierozliczony kątownik z Ambratu.",
+      "subject": "ebner-gripe",
+      "valid_from": 69
+    }
+  ],
+  "fragments": [
+    {
+      "id": "rast-opis-wnetrza",
+      "kind": "scene",
+      "content": "Wszystko wybrane do czysta: fotele wyjęte, panele zdjęte, kable wycięte równo przy przelotkach. Ktoś to rozbierał przez lata, spokojnie, jak się rozbiera rzecz, po którą można wrócić jutro. Zostawili tylko skrzynkę alarmową, zalaną żywicą, nadającą od czterdziestu lat.",
+      "threads": [
+        "rast-kuter-sygnal"
+      ]
+    },
+    {
+      "id": "to-jest-miara",
+      "kind": "punchline",
+      "content": "— Zielona główka wyszła nad lustro, kiedy poziom spadł. Zejdzie z powrotem, kiedy poziom wróci. Słychać go z orbity. — To jest miara — powiedziała Merza.",
+      "threads": [
+        "rast-kuter-sygnal",
+        "spor-kolumny-wymiennikowe"
+      ]
+    }
+  ],
+  "sketch": "Mężczyzna w skafandrze schodzi po kamieniach w dół krokami w gęsty, ciemny gaz sięgający po pierś, trzymając latarkę i metalowy kątownik, ku prostokątnemu cieniowi wraku widocznemu pod powierzchnią."
+}
