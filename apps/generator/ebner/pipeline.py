@@ -470,6 +470,28 @@ def register_slip(text: str) -> list[str]:
     return ["- " + repair.replace("{ile}", str(abstract)).replace("{iles}", str(concrete))]
 
 
+EMPTY_RETRY = """**Druga próba.** Pierwsza nie zapisała ani jednego faktu, a ten wpis nie jest
+wpisem, w którym nic się nie stało. Przejdź go jeszcze raz i wypisz, co od teraz
+obowiązuje: nowa cecha miejsca, nowy przedmiot albo jego strata, uszkodzony
+sprzęt, cudza wiedza, zobowiązanie, stan ciała Ebnera. Zapisuj wielkości tak, jak
+padły. Jeśli po drugim czytaniu naprawdę nic nie obowiązuje, zwróć puste —
+ale wcześniej sprawdź każdy akapit osobno.
+
+---
+
+"""
+
+
+def _extract(system: str, world: dict, schema: dict) -> dict:
+    """One extraction attempt, normalised against what the world already holds."""
+    return normalise_state(
+        json.loads(_strip_fence(complete("state", system, "Wyciągnij stan.", output_schema=schema))),
+        {t["id"] for t in world["threads"]},
+        {f["id"] for f in world["facts"]},
+        {e["id"] for e in world["entities"]},
+    )
+
+
 def report_extraction(state: dict) -> list[str]:
     """Say out loud when a delta records suspiciously little.
 
@@ -663,28 +685,35 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     # the entry goes into the error rather than evaporating with the
     # traceback — a failed run should not also destroy the expensive part.
     schema = json.loads((SCHEMA_DIR / "state.schema.json").read_text(encoding="utf-8"))
+    extraction_prompt = fill(
+        prompt("state_pl.md"),
+        {
+            "stan": common["stan"],
+            "byty": render_entities(world),
+            "skad": common["miejsce"],
+            "wpis": entry_text,
+            "schema": json.dumps(schema, ensure_ascii=False, indent=2),
+        },
+    )
     try:
-        state_text = complete(
-            "state",
-            fill(
-                prompt("state_pl.md"),
-                {
-                    "stan": common["stan"],
-                    "byty": render_entities(world),
-                    "skad": common["miejsce"],
-                    "wpis": entry_text,
-                    "schema": json.dumps(schema, ensure_ascii=False, indent=2),
-                },
-            ),
-            "Wyciągnij stan.",
-            output_schema=schema,
-        )
-        state = normalise_state(
-            json.loads(_strip_fence(state_text)),
-            {t["id"] for t in world["threads"]},
-            {f["id"] for f in world["facts"]},
-            {e["id"] for e in world["entities"]},
-        )
+        state = _extract(extraction_prompt, world, schema)
+        # Asked again when a delta carries no facts at all, because the prompt
+        # asking for them has been ignored before and the damage is silent:
+        # days 28 to 30 recorded nothing, and day 33 then contradicted a figure
+        # that had never been written down. Day 72 lost a furrow in a trench
+        # floor and a walking machine the same way.
+        #
+        # Only for the kinds where emptiness is suspect — a `quiet` day
+        # legitimately changes nothing — and one further attempt, never a loop.
+        # The prose is already paid for, so the retry costs a fraction of the
+        # entry and buys the canon a fact that cannot be recovered later.
+        if not (state.get("facts_opened") or []) and params["kind"] not in ("quiet", "note"):
+            print("  ekstrakcja: zero faktów przy wpisie, który coś ustalił — pytam raz jeszcze")
+            again = _extract(EMPTY_RETRY + extraction_prompt, world, schema)
+            if again.get("facts_opened"):
+                state = again
+            else:
+                print("  ekstrakcja: druga próba też bez faktów, zostawiam")
     except Exception as error:
         raise PipelineError(
             f"state extraction failed: {error}\n\n"

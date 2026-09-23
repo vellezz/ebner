@@ -23,6 +23,7 @@ import unittest
 
 from ebner.context import FACT_LIMIT, select_facts
 from ebner.pipeline import (
+    EMPTY_RETRY,
     REGISTER_FLOOR,
     REGISTER_RATIO,
     _register_rule,
@@ -620,3 +621,19 @@ class RegisterMeasure(unittest.TestCase):
         _, concrete, _ = _register_rule()
         self.assertTrue(concrete.search("uszczelka"))
         self.assertTrue(concrete.search("wywierciłem"))
+
+
+class EmptyExtractionRetry(unittest.TestCase):
+    """A delta with no facts is asked for a second time, once."""
+
+    def test_the_retry_prompt_is_prepended_not_replacing(self):
+        """The second attempt must still carry the entry and the world."""
+        self.assertTrue(EMPTY_RETRY.endswith("---\n\n"))
+        combined = EMPTY_RETRY + "ORYGINALNY PROMPT"
+        self.assertIn("ORYGINALNY PROMPT", combined)
+        self.assertIn("Druga próba", combined)
+
+    def test_it_still_permits_an_empty_answer(self):
+        """A day that truly changes nothing must be able to say so, or the
+        retry becomes pressure to invent facts — worse than missing them."""
+        self.assertIn("zwróć puste", EMPTY_RETRY)
