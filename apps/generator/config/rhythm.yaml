@@ -42,18 +42,34 @@ world_growth:
     prefer_known_for: [continuation, resolution, quiet, documents]
 
 # Word counts, not paragraph counts — the writer reads these verbatim.
+#
+# These bands are obeyed exactly. Across forty-six entries not one landed
+# outside them: nothing between 201 and 299 words, nothing between 701 and 899,
+# nothing above 1,600. So this block is the whole of the length decision, and
+# the only one.
+#
+# Within a band the writer sits low. `long` was 900 to 1,600 and produced a mean
+# of 1,087 with a longest-ever of 1,178 — the top half of that band was never
+# used, so lowering the ceiling would have changed nothing and lowering the floor
+# changes everything. The bands below cut the corpus mean from 653 words to
+# roughly 500.
+#
+# Length is the largest thing in the bill after effort, because output is what
+# costs: a 1,100-word entry spends around 8,500 output tokens on the writing
+# step against 3,000 for a 500-word one. Shortening is therefore a budget change
+# as much as a rhythm one, and both were wanted.
 length:
   - id: note
     weight: 20
     words: [50, 200]
     label: "notatka: kilka zdań, jedna obserwacja, jedno zdarzenie"
   - id: medium
-    weight: 50
-    words: [300, 700]
+    weight: 55
+    words: [300, 600]
     label: "średni wpis"
   - id: long
-    weight: 30
-    words: [900, 1600]
+    weight: 25
+    words: [700, 1100]
     label: "długi wpis: sceny z dialogiem i konkretną robotą, nie streszczenia"
 
 # Thread discipline. The ceilings are in CLAUDE.md; this is when a thread stops
