@@ -34,22 +34,27 @@ To jest science fiction. Kosmos, podróż i przygoda są równie ważne jak zlec
   przebraniu; ich zasady wynikają z ich natury i środowiska.
 - **Przygoda może być niebezpieczna.** Ebner może się bać, być ranny, zgubić się,
   stracić sprzęt albo pieniądze.
-- **Jedna reguła na cywilizację.** Gdy wpis dotyczy obcej cywilizacji, jej sposób
-  życia opiera się na jednej regule, która wynika z racjonalnej przesłanki i jest
-  doprowadzona do końca. Reguła wychodzi na jaw przez zdarzenia i szczegóły,
-  nigdy przez wykład.
-- **Przesłanka jest fizyczna albo biologiczna, nie urzędowa.** Reguła ma
-  *wynikać* z tego, jak to miejsce jest zbudowane — z grawitacji, z atmosfery,
-  z budowy ciała mieszkańców, z tego, co tam rośnie albo się psuje. Przepis
-  jest konsekwencją, nigdy punktem wyjścia. Patrz niżej, „Nawyki tego
-  dziennika": to jedna z czterech rzeczy, które już poszły źle.
+- **Świat to przede wszystkim warunki, nie pomysł.** Domyślnie miejsce pokazuje
+  się przez to, jak się w nim jest: grawitacja, pogoda, światło, pył, smród,
+  hałas, żarło, woda, choroby, brud, zimno, kolejka, zły port i nieuprzejmi
+  ludzie. Tyle wystarczy na wpis. Miejsce **nie musi mieć naczelnej zasady** ani
+  niczego, co się z niej wywodzi — może być po prostu niewygodne, a robota i tak
+  musi być zrobiona.
+- **Jedna reguła na cywilizację jest wolno, ale rzadko.** Gdy już jest, wynika z
+  fizyki albo z biologii, nie z przepisu, wychodzi na jaw przez zdarzenia i
+  szczegóły, nigdy przez wykład — i **nie jest tematem wpisu**, tylko tłem, po
+  którym widać ją z tego, ile kogoś kosztuje. Trzy światy z rzędu były
+  zbudowane z jednego pomysłu doprowadzonego do końca i to jest jeden z nawyków
+  wypisanych niżej.
+- **Obcy nie są ludźmi w przebraniu**, ale nie muszą też być tezą: mają ciało,
+  zwyczaje, złe dni i własne interesy.
 
 ## Nawyki tego dziennika, których masz nie powtarzać
 
-To nie są ogólne rady o pisaniu. To cztery rzeczy, które ten dziennik **już
-robił za często** — policzone na gotowych wpisach, nie przeczuwane. Przy każdej
-stoi zamiennik, bo „nie rób tak" bez alternatywy przesuwa problem, a nie usuwa
-go: wyparty nawyk wraca w przebraniu.
+To nie są ogólne rady o pisaniu. To rzeczy, które ten dziennik **już robił za
+często** — policzone na gotowych wpisach, nie przeczuwane. Przy każdej stoi
+zamiennik, bo „nie rób tak" bez alternatywy przesuwa problem, a nie usuwa go:
+wyparty nawyk wraca w przebraniu.
 
 **Rozstrzygnięcie przez wygraną na interpretacji przepisu.** Ebner znajduje w
 regulaminie lukę, wypowiada rozróżnienie, druga strona je przyjmuje i sprawa
@@ -69,15 +74,40 @@ czytelnik zgaduje ostatnią linijkę, zanim do niej dojdzie.
 komentarza albo urwij w pół sprawy. Rachunek zostaw na wpis, w którym pieniądze
 są wydarzeniem, a nie interpunkcją.
 
-**Świat, którego regułą jest regulamin.** Na stacji o wszystkim decyduje
-głosowanie, na Oskrze czas jest towarem w rurach, na Ambracie własność trwa
-przez nieprzerwany dotyk. Trzy światy z rzędu, za każdym razem w miejscu fizyki
-przepis — bo przepis jest najtańszą regułą do wymyślenia. Po trzecim razie
-czytelnik przestał czytać.
-*Zamiast tego:* zacznij od ciała, skały, powietrza, światła albo pogody, a
-przepis niech będzie **konsekwencją** — czymś, co mieszkańcy musieli wymyślić,
-bo inaczej się tam nie da żyć. Jeśli twoja reguła daje się streścić jako
-„u nich obowiązuje przepis, że…", zacznij od nowa.
+**Świat zbudowany z jednego pomysłu doprowadzonego do końca.** Na stacji o
+wszystkim decyduje głosowanie. Na Oskrze czas jest towarem w rurach. Na Ambracie
+własność trwa przez nieprzerwany dotyk. Na Netli ciężki gaz leży w rowach, więc
+mieszkańcy mają worek pod żebrami, więc mówienie na górze jest wydatkiem, więc
+kłótnie schodzą pod lustro, więc robotę liczy się w łykach. Cztery światy z
+rzędu, w których wszystko wynika z jednej rzeczy — i czyta się to jak zagadkę,
+nie jak miejsce. Poprawianie przesłanki z urzędowej na fizyczną tego nie
+naprawiło, tylko zamieniło przepis na twierdzenie.
+*Zamiast tego:* niech świat będzie **warunkami, w których trudno pracować**.
+Wieje pyłem i wszystko się zapycha. Grawitacja jest za duża i po dwóch dniach
+bolą plecy. Żarło jest złe, woda śmierdzi, w porcie kradną, a klient się spóźnia
+i nie ma części. Nie wszystko musi z czegoś wynikać. Miejsce ma być miejscem, a
+nie układem.
+
+**Wpis, którego tematem jest rozgryzienie układu.** Próba, wynik, wniosek,
+konsekwencja, cena — i tyle się w tym dniu stało. Dzień 30 zmierzył, jak często
+przychodzi sygnał. Dzień 68 wyciął próbkę, wystawił trzy kawałki w trzech
+środowiskach, wywnioskował, gdzie narośl rośnie, i wyliczył, czym trzeba za to
+zapłacić. To jest zagadka z rozwiązaniem, nie dzień z życia.
+*Zamiast tego:* tematem jest **robota, niebezpieczeństwo, pieniądze albo
+człowiek**. Układ zostaje w tle i widać go z tego, co komu utrudnia. Dzień 43
+jest tego wzorem: klekocząca zapadka, podcięty pilnikiem nos, Otha pytająca,
+ile Ebner ma palców, i wieczór nad rozsypanymi złączami. Świata nikt tam nie
+tłumaczy, a wiadomo o nim wszystko.
+
+**Rzecz opisana przez pojęcie.** „Na dole brzmi to jak ktoś obcy i zamożny."
+„Brzmiałem jak drzwi." „Wychodzę na plus, ale w oddechu." „Obwód, który nie wie,
+że jest sam." Dźwięk dostaje zamożność, oddech dostaje saldo, obwód dostaje
+niewiedzę. Brzmi to bystro przez jedno zdanie, a przy czytaniu całości wychodzi
+przesada i czasem po prostu bezsens.
+*Zamiast tego:* opisuj przez to, co rzecz robi ciału albo rękom. Nie „brzmiałem
+jak drzwi", tylko jak własny głos wracał do ucha. Nie „na plus w oddechu",
+tylko ile mu zostało do oddychania. Fachowiec mówi, co czuł i co zobaczył, a nie
+czego to jest przypadkiem.
 
 **Tytuł w kształcie „rzecz, której nie wolno…".** „Lina, której nie wolno
 zwinąć", „Jednostka, która musi być trzymana", „Człowiek, który nie chciał

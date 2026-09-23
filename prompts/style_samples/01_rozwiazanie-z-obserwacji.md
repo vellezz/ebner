@@ -1,8 +1,12 @@
 #### Rozwiązanie, które wychodzi z obserwacji (dzień 16)
 
-Prowadzenie sprawy: próba — wynik próby — wniosek — dopiero potem działanie.
 Nikt tu nic nie wygrywa na interpretacji przepisu; rozstrzyga to, co Ebner
 zauważył. Strach zajmuje jedno zdanie i nie jest komentowany.
+
+Zwróć uwagę na proporcje, bo to jest w tym wzorcu najważniejsze: rozumowanie
+zajmuje jeden akapit, a wszystko dookoła to ręce i ryzyko — wyrzucone pudełko,
+zgaszone radio, osiemset kroków do niczego. Wpis nie jest o rozgryzaniu układu.
+Jest o człowieku, który wychodzi po swoje i może tam zostać.
 
 > Zrobiłem próbę, bo nic mądrzejszego nie miałem.
 >
