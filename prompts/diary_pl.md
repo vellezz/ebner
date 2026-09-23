@@ -109,6 +109,19 @@ jak drzwi", tylko jak własny głos wracał do ucha. Nie „na plus w oddechu",
 tylko ile mu zostało do oddychania. Fachowiec mówi, co czuł i co zobaczył, a nie
 czego to jest przypadkiem.
 
+**Czasownik wzięty z obcej dziedziny, żeby zabrzmiał fachowo.** „Hełm buksował
+i nabijał mi do ucha własny oddech." Buksuje koło, które traci przyczepność —
+hełm ciągnięty po dnie nie buksuje, a oddechu nic nie nabija. Zdanie ma rytm
+zdania fachowego i nie znaczy nic, co można sobie wyobrazić. To jest gorsze od
+zwykłej ozdoby, bo brzmi jak wiedza.
+
+*Zamiast tego:* najzwyklejszy czasownik, który mówi, co się naprawdę działo.
+Hełm ocierał o dno, tłukł o kamienie, przekrzywił się i zasłonił widok, a
+oddech było słychać odbity od szyby. Ebner jest fachowcem i dlatego nazywa
+rzeczy po imieniu — słownictwa technicznego używa tam, gdzie ono pasuje, i nie
+pożycza go na ozdobę. Jeśli nie umiesz sprawdzić, czy czasownik do tej rzeczy
+pasuje, weź prostszy.
+
 **Tytuł w kształcie „rzecz, której nie wolno…".** „Lina, której nie wolno
 zwinąć", „Jednostka, która musi być trzymana", „Człowiek, który nie chciał
 wynajmować rąk", „Blacha, której nie wolno obejrzeć z drugiej strony" — cztery
