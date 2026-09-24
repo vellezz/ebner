@@ -14,6 +14,8 @@ everything here:
 
 from __future__ import annotations
 
+import re
+
 from .d1 import query
 
 POLICY_LABEL = {
@@ -173,6 +175,24 @@ def _places(remote: bool, last_day: int) -> dict[str, list[dict]]:
     return {"recent": recent[:8], "stale": stale[:6]}
 
 
+def last_tone() -> str | None:
+    """The tone drawn for the most recent entry, or None before there was one.
+
+    Read from the entry file rather than from D1, because it is a property of
+    the draw and not of the world: nothing in the projection would carry it,
+    and adding a column to make one randomiser decision remember the last would
+    be a migration for a line of YAML. The repository is checked out wherever
+    this runs, and the site already builds its map from `content/` the same way.
+    """
+    from .apply import ENTRIES_DIR
+
+    entries = sorted(ENTRIES_DIR.glob("[0-9]*.md"))
+    if not entries:
+        return None
+    found = re.search(r"^tone:\s*(\w+)\s*$", entries[-1].read_text(encoding="utf-8"), re.M)
+    return found.group(1) if found else None
+
+
 def load_world(*, remote: bool = True) -> dict:
     """Everything the randomiser and the prompt need, in one shape."""
     summary = _summary(remote)
@@ -198,6 +218,7 @@ def load_world(*, remote: bool = True) -> dict:
 
     return {
         **summary,
+        "last_tone": last_tone(),
         "threads": threads,
         "threads_due_for_closure": [t for t in threads if t["due_for_closure"]],
         "facts": _facts(remote),

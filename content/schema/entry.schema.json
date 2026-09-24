@@ -5,7 +5,14 @@
   "description": "Single source of truth for entry frontmatter. The generator validates against this file as a guard before opening a PR; the Astro content collection validates against the same file at build time. Neither side keeps a second copy of these rules.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["day", "title", "location", "kind", "threads", "image"],
+  "required": [
+    "day",
+    "title",
+    "location",
+    "kind",
+    "threads",
+    "image"
+  ],
   "properties": {
     "day": {
       "description": "Ebner's in-world day count. Strictly increasing across entries, but not consecutive: gaps are normal.",
@@ -38,6 +45,15 @@
         "stopover"
       ]
     },
+    "tone": {
+      "description": "Tone the randomiser drew for this entry. Recorded for the same reason `kind` is: it is a drawn parameter the next draw has to know about, since melancholy may not run twice in a row. Optional — entries written before the draw existed carry none.",
+      "type": "string",
+      "enum": [
+        "funny",
+        "plain",
+        "sad"
+      ]
+    },
     "threads": {
       "description": "Thread ids this entry touches. Shown to the reader as \"sprawy\".",
       "type": "array",
@@ -49,7 +65,10 @@
     },
     "image": {
       "description": "R2 object key of the sketch, or null when the entry has none.",
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     }
   }
 }

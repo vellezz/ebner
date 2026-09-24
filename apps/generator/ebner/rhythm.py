@@ -132,6 +132,26 @@ def pick_length(cfg: dict, rng: random.Random, kind_id: str | None = None) -> di
     return _weighted(rng, options, None)
 
 
+def pick_tone(cfg: dict, world: dict, rng: random.Random) -> dict | None:
+    """Which tone today carries.
+
+    Melancholy may not follow melancholy. The weight alone gives the right rate
+    in the long run and says nothing about clustering: at thirteen percent, two
+    of any three entries come out sad about once in twenty, and it happened on
+    the third day this existed. The creative direction asks for at most every
+    fifth entry, which is a statement about neighbours as much as about rates.
+
+    The previous tone comes from the previous entry's frontmatter, which is why
+    it is recorded there — the same reason `kind` is.
+    """
+    options = cfg.get("tone")
+    if not options:
+        return None
+    if world.get("last_tone") == "sad":
+        options = [o for o in options if o["id"] != "sad"] or options
+    return _weighted(rng, options)
+
+
 def pick_hint(cfg: dict, rng: random.Random) -> tuple[str | None, str | None]:
     """A hint the writer may ignore if it does not fit the world state."""
     probabilities = cfg["hint_probability"]
@@ -163,7 +183,7 @@ def plan_entry(cfg: dict, world: dict, *, seed: int | None = None) -> dict[str, 
     step = pick_day_step(cfg, kind["id"], rng)
     length = pick_length(cfg, rng, kind["id"])
     hint_pool, hint = pick_hint(cfg, rng)
-    tone = _weighted(rng, cfg["tone"]) if cfg.get("tone") else None
+    tone = pick_tone(cfg, world, rng)
 
     prefer_known = kind["id"] in cfg["world_growth"]["revisit_pressure"]["prefer_known_for"]
     new_destination = (not prefer_known) and wants_new_destination(cfg, world, rng)

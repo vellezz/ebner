@@ -669,7 +669,10 @@ def generate(*, seed: int | None = None, remote: bool = True, dry_run: bool = Fa
     ).get("zamiany", [])
 
     entry_text, skipped = apply_edits(entry_text, edits)
-    entry_text = normalise_entry(entry_text, {"day": params["day"], "kind": params["kind"]})
+    entry_text = normalise_entry(
+        entry_text,
+        {"day": params["day"], "kind": params["kind"], "tone": params["tone"]},
+    )
     applied = len(edits) - len(skipped)
     print(f"  redakcja: {applied}/{len(edits)} zamian naniesionych na {len(fixes)} poprawek")
     for note in skipped:

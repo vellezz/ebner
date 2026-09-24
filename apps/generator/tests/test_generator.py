@@ -39,7 +39,7 @@ from ebner.pipeline import (
     register_slip,
     report_extraction,
 )
-from ebner.rhythm import pick_kind, pick_length, plan_entry, stay_multipliers
+from ebner.rhythm import pick_kind, pick_length, pick_tone, plan_entry, stay_multipliers
 
 
 KNOWN_THREADS = {"nowe-zlecenie-glosowanie", "dlug-z-varnu"}
@@ -709,3 +709,49 @@ class StayFactBudget(unittest.TestCase):
         del world["days_in_location"]
         kept, _ = select_facts(world)
         self.assertEqual(len(kept), 32)
+
+
+class ToneDoesNotRepeat(unittest.TestCase):
+    """Melancholy may not follow melancholy."""
+
+    CFG = {"tone": [{"id": "funny", "weight": 60, "label": ""},
+                    {"id": "plain", "weight": 27, "label": ""},
+                    {"id": "sad", "weight": 13, "label": ""}]}
+
+    def test_sad_is_excluded_after_sad(self):
+        drawn = {pick_tone(self.CFG, {"last_tone": "sad"}, random.Random(i))["id"]
+                 for i in range(500)}
+        self.assertNotIn("sad", drawn)
+        self.assertIn("funny", drawn)
+
+    def test_sad_is_available_otherwise(self):
+        for previous in ("funny", "plain", None):
+            drawn = {pick_tone(self.CFG, {"last_tone": previous}, random.Random(i))["id"]
+                     for i in range(500)}
+            self.assertIn("sad", drawn, f"po {previous}")
+
+    def test_a_config_without_tones_draws_nothing(self):
+        self.assertIsNone(pick_tone({}, {}, random.Random(1)))
+
+    def test_it_never_returns_nothing_when_sad_is_the_only_option(self):
+        """Excluding must not be able to empty the list."""
+        only = {"tone": [{"id": "sad", "weight": 1, "label": ""}]}
+        self.assertEqual(pick_tone(only, {"last_tone": "sad"}, random.Random(1))["id"], "sad")
+
+
+class ToneIsRecorded(unittest.TestCase):
+    """The draw has to survive into the entry, or the next draw cannot see it."""
+
+    def test_normalise_writes_the_tone(self):
+        entry = '---\nday: 90\ntitle: "Dzień 90. Próba"\nlocation: tarn\nkind: quiet\n---\n\nTekst.\n'
+        out = normalise_entry(entry, {"day": 90, "kind": "quiet", "tone": "funny"})
+        self.assertIn("tone: funny", out)
+
+    def test_the_schema_allows_it_and_does_not_require_it(self):
+        import json
+        import pathlib
+        path = pathlib.Path(__file__).resolve().parents[3] / "content" / "schema" / "entry.schema.json"
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        self.assertIn("tone", schema["properties"])
+        self.assertNotIn("tone", schema["required"])
+        self.assertEqual(schema["properties"]["tone"]["enum"], ["funny", "plain", "sad"])
