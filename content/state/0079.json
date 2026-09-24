@@ -1,0 +1,26 @@
+{
+  "day": 79,
+  "facts_opened": [
+    {
+      "id": "f-tarn-katapulta-tajemnicza",
+      "kind": "general",
+      "content": "Katapulta na Tarnie ma zawsze ten sam kop, niezależnie od masy kapsuły czy warunków; obudowa jest bez śrub i spoin, ciepła na pasie szerokim na dwie dłonie na wysokości pasa, gdzie pył się nie trzyma, ale wnętrze pod nim brzmi jak pełne i nieruchome. Tabliczka z dziewięcioma punktami zakazów wisi przy słupie; punkt siódmy jest wytarty do gołej blachy i nikt go nie wykonuje, choć nikt nie pamięta co zabraniał — pamiętała jedna kobieta, która dawno zeszła i nie wróciła.",
+      "subject": "tarn"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "tarn-katapulta-tajemnica",
+      "kind": "scene",
+      "content": "Obudowa nie ma śrub. Nie ma też spoin. Jest ciepła na pasie szerokim na dwie dłonie, na wysokości pasa, i tam pył się nie trzyma. Postukałem — wszędzie odpowiada jakby była pełna, co przy czymś wyrzucającym kapsułę jest bez sensu.",
+      "threads": []
+    },
+    {
+      "id": "tarn-punkt-siodmy",
+      "kind": "punchline",
+      "content": "— A siódmy? — Siódmego nie robimy. Punkt siódmy na tabliczce jest wytarty do gołej blachy; pamiętała go jedna kobieta, która zeszła stąd dawno i nie wróciła.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner przykłada ucho do ciepłego pasa nienaznaczonej blachy obudowy katapulty, obok tabliczka z wytartym siódmym punktem, w tle czerwony pył osiada po wystrzale kapsuły."
+}
