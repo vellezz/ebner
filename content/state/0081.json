@@ -1,0 +1,54 @@
+{
+  "day": 81,
+  "travel": [
+    {
+      "seq": 1,
+      "from": "tarn",
+      "to": "netla"
+    }
+  ],
+  "threads": [
+    {
+      "id": "rast-kuter-sygnal",
+      "op": "update",
+      "summary": "Sygnał ze skrzynki alarmowej Rasta słabnie i gaśnie w miarę podnoszenia się poziomu gęstwy w rowie; zostaje tylko czysta nośna, taka sama jak nadajnika Ebnera."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-netla-poziom-wraca",
+      "content": "Poziom gęstwy w rowie Netli wyraźnie wzrósł (widać po ciemnej obwódce na kamieniach) odkąd z Tarnu znów idą pełne kapsuły; sygnał skrzynki Rasta zanikł wraz z podniesieniem lustra.",
+      "subject": "netla",
+      "valid_from": 81
+    },
+    {
+      "id": "f-tarn-kamien-nienazwany",
+      "content": "Po nocnej stronie Tarnu krąży mały ciemny kamień z jaśniejszym pasem, którego nie ma w spisie nawigacyjnym; nikt go nie zgłasza, bo zgłoszenie doliczyłoby go do rejonu i do ksiąg. Nazwę znała tylko zaginiona kobieta od tabliczki z zakazami.",
+      "subject": "tarn",
+      "valid_from": 81
+    }
+  ],
+  "fragments": [
+    {
+      "id": "tarn-korytarz-kapsul",
+      "kind": "world_description",
+      "content": "Korytarz kapsuł idzie prosto z katapulty nad grzbiet i nikt tam nie wchodzi — kapsuła leci szybko i nie ma w sobie nic, czym mogłaby kogoś ominąć.",
+      "threads": []
+    },
+    {
+      "id": "kamien-bez-nazwy",
+      "kind": "scene",
+      "content": "— Jest — powiedział Wilbek. — Od zawsze jest. Jak pan zgłosi, przyjdą i zmierzą, i będziemy go mieli w księgach. A z niego nic nie leci.",
+      "threads": []
+    },
+    {
+      "id": "sygnal-gasnie-rast",
+      "kind": "scene",
+      "content": "Drugi znak w każdej trójce gasł w połowie, a przy czwartym przejściu fali nie wrócił wcale. Została nośna, cicha i równa, taka sama, jaką nadaje mój własny nadajnik nad głową.",
+      "threads": [
+        "rast-kuter-sygnal"
+      ]
+    }
+  ],
+  "sketch": "Mały statek Hanna szybujący nocną stroną Tarnu obok ciemnego, nienazwanego kamienia z jaśniejszym pasem, na tle gwiazd i odległego grzbietu Netli."
+}
