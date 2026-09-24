@@ -399,6 +399,12 @@ we frontmatterze.
 które ten wpis wprowadza. `threads` wymienia wyłącznie wątki, których wpis
 naprawdę dotyka — nie wszystkie otwarte.
 
+**`location` to miejsce, w którym wpis się kończy — zawsze prawdziwe miejsce.**
+Także wtedy, gdy dzień minął w drodze: wtedy wpisujesz cel, jeśli Ebner dziś
+doleciał, albo miejsce startu, jeśli jeszcze leci. Nie wymyślaj identyfikatora
+na samą drogę. `przelot-tarn-netla` nie jest miejscem, guard to odrzuca i cały
+wpis trzeba pisać od nowa — to się już wydarzyło.
+
 Tytuł nazywa **ten dzień**, nie współrzędne. Samo miejsce wystarczy tylko
 wtedy, gdy przybycie tam jest wydarzeniem — czyli zwykle przy pierwszym
 wpisie z danego miejsca. Ebner siedzi na jednej stacji tydzień, więc tytuł
