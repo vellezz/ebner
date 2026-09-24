@@ -1,0 +1,56 @@
+{
+  "day": 78,
+  "threads": [
+    {
+      "id": "tarn-zasuwa-naprawa",
+      "op": "close",
+      "status": "closed",
+      "closure": "resolved",
+      "summary": "Ebner osłonił wałek zasuwy blachą i przykręcił krańcówkę z drzwi kabiny sanitarnej wprost na zasuwie; kapsuły znów napełniają się pełne i licznik startuje poprawnie."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-tarn-zasuwa-naprawiona",
+      "content": "Zasuwa napełniania kapsuł na Tarnie ma teraz osłonę wałka przed szronem i krańcówkę zamontowaną na końcu skoku samej zasuwy (nie na dźwigni); kapsuły napełniają się pełne, katapulta wystrzeliwuje je do rowu Netli skutecznie.",
+      "subject": "tarn",
+      "valid_from": 78
+    },
+    {
+      "id": "f-tarn-nadwyzka-niewpisana",
+      "content": "W zbiorniku buforowym na Tarnie stoi gęstwa odpowiadająca latom niepełnych kapsuł, której nigdy nie wykazano w księgach (księgi pokazywały pełne wydanie); załoga nie może jej ani wpisać wstecz, ani wylać, więc napełniła z niej dwa kanistry dla Ebnera, a Wilbek wpisał do księgi „wydano zero”.",
+      "subject": "tarn",
+      "valid_from": 78
+    },
+    {
+      "id": "f-ebner-gestwa-niepoliczna",
+      "content": "Ebner ma dwa kanistry gęstwy z nadwyżki Tarnu, z których oddychanie pod lustrem nie jest nikomu liczone — pierwszy raz od dwunastu dni.",
+      "subject": "ebner-gripe",
+      "valid_from": 78
+    }
+  ],
+  "fragments": [
+    {
+      "id": "tarn-krancowka-drzwi",
+      "kind": "scene",
+      "content": "Krańcówkę własnej nie mam, a na Tarnie mają jedną zapasową, z drzwi kabiny sanitarnej. — Jak ją zdejmę, to drzwi będą się otwierać zawsze. — To przecież lepiej. — Dla kto pierwszy wejdzie.",
+      "threads": [
+        "tarn-zasuwa-naprawa"
+      ]
+    },
+    {
+      "id": "tarn-cwiartka-gestwy",
+      "kind": "punchline",
+      "content": "Panie Gripe. Jeżeli licznik przez lata pisał pełne kapsuły, a szło trzy czwarte, to gdzie jest jedna czwarta. — Tego nie ma. — Tego nie wydano. — To nie to samo? — Na Netli to jest cała różnica.",
+      "threads": [
+        "netla-lyki"
+      ]
+    },
+    {
+      "id": "tarn-wpisano-zero",
+      "kind": "document",
+      "content": "Wpisać nie można, bo trzeba by wpisać cztery lata wstecz. Wylać też nie można, bo ubytek trzeba wykazać. Więc napełnili kanister na drogę i drugi na zapas, a Wilbek wpisał w księgę: wydano zero."
+    }
+  ],
+  "sketch": "Wilbek pukający młotkiem w blachę zbiornika buforowego na Tarnie, nasłuchujący poziomu gęstwy, której nie ma w księgach."
+}
