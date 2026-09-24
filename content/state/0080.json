@@ -1,0 +1,23 @@
+{
+  "day": 80,
+  "facts_closed": [
+    {
+      "id": "f-hanna-ladownia-wysuszona"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-80-czujnik",
+      "kind": "scene",
+      "content": "Czujnik cieczy w progu ładowni miał między elektrodami mostek zaschniętego osadu z odparowanej gęstwy — stąd drzwi grodziowe otwierały się i zamykały sam z siebie. Ebner zeskrobał osad, sprawdził kubkiem wody, działa.",
+      "threads": []
+    },
+    {
+      "id": "frag-80-rekaw",
+      "kind": "scene",
+      "content": "Ebner zszył zdarty rękaw i przedramię zwykłą nicią z apteczki, nie nitką z pałąka — nić z pałąka zwinięta umiera, a rękaw się zwija przy każdym podniesieniu ręki. Od środka nakleił taśmę. Wygląda źle, trzyma.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner siedzi w otwartej ładowni Hanny wieczorem, patrząc na Netlę wisząca nad grzbietem Tarnu, dużą i mokrą, bez widocznej kreski."
+}
