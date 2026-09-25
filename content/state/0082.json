@@ -1,0 +1,28 @@
+{
+  "day": 82,
+  "threads": [
+    {
+      "id": "netla-lyki",
+      "op": "update",
+      "summary": "Ebner wyczyścił tylko pięć gniazd zaworów z powodu urazu ręki; zostało trzydzieści dwa. Osad z gęstwy w ładowni wysypany za próg, nierozliczony."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-netla-gniazda-32",
+      "content": "Z zestawienia gniazd zaworów do wyczyszczenia Ebnerowi zostało trzydzieści dwa, po wyczyszczeniu pięciu tego dnia (mniej niż zwykle z powodu urazu lewej dłoni, która zgina się tylko do połowy). Pierwszy kanister gęstwy z nadwyżki Tarnu jest napoczęty w jednej trzeciej.",
+      "subject": "ebner-gripe",
+      "valid_from": 82
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f82-piec-gniazd",
+      "kind": "scene",
+      "content": "Merza przyszła pod wieczór, popatrzyła na moje pięć gniazd i nic nie powiedziała. Zapisała.",
+      "threads": [
+        "netla-lyki"
+      ]
+    }
+  ]
+}
