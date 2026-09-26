@@ -1,0 +1,27 @@
+{
+  "day": 83,
+  "facts_closed": [
+    {
+      "id": "f-netla-gniazda-32"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "zero-jest-jedno",
+      "kind": "punchline",
+      "content": "— Wydano zero — powiedziała księga. — Zero przyjmuje się bez potwierdzenia. Jest pan winien zero.",
+      "threads": [
+        "netla-lyki"
+      ]
+    },
+    {
+      "id": "hesp-zero-wspolne",
+      "kind": "scene",
+      "content": "Zero jest jedno — powiedziała księga. — Zostało wydane w całości. Komu? Wszystkim naraz. Dlatego nie dzieli się dalej.",
+      "threads": [
+        "netla-lyki"
+      ]
+    }
+  ],
+  "sketch": "Ebner stoi przy włazie habitatu, głośnik nad nim, w tle Hesp z workiem wypchniętym do przodu patrzy na dwa kanistry gęstwy.},"
+}
