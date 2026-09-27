@@ -1,0 +1,49 @@
+{
+  "day": 86,
+  "entities": [
+    {
+      "id": "bysz",
+      "kind": "place",
+      "name": "Bysz",
+      "summary": "Ciężka planeta bez startów; wszystko opuszcza ją windą — taśmą kabin idącą nieprzerwanie w górę, kończącą się w głowicy przy przeciwwadze."
+    },
+    {
+      "id": "glowica-byszu",
+      "kind": "place",
+      "name": "Głowica Byszu",
+      "parent": "bysz",
+      "summary": "Rura z pomostami przykręcona do przeciwwagi na szczycie windy taśmowej Byszu; zimna, przewiewna, pokryta czerwonym pyłem przywożonym z dołu."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "netla",
+      "to": "glowica-byszu"
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-bysz-kolnierze-zle",
+      "content": "Rury zamówione przez Merzę na Byszu przyszły z kołnierzami o innym rozstawie śrub niż terraformer na Netli wymaga (dwa otwory na większym okręgu zamiast trzech) — rysunek posłużył tylko do ustalenia liczby sztuk, nie wymiarów. Ebner wziął rury takie, jakie są, i zetnie kołnierze na miejscu, dorabiając nowe z blachy, której na Netli nie ma.",
+      "subject": "ebner-gripe",
+      "valid_from": 86
+    }
+  ],
+  "fragments": [
+    {
+      "id": "bysz-dyspozytorka-dialog",
+      "kind": "scene",
+      "content": "— Zamawiałem według rysunku. — Rysunek poszedł na dół. Na dole robią kołnierz, który robią. — Czyli rysunek był im po co? — Żeby wiedzieć, ile sztuk.",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    },
+    {
+      "id": "bysz-pyl-czerwony",
+      "kind": "world_description",
+      "content": "W głowicy Byszu wszystko — poręcze, blat, rękawy, herbata — pokryte jest czerwonym pyłem przywożonym z dołu w kabinach; nie ma dokąd spaść, więc osiada z powrotem tam, gdzie był."
+    }
+  ],
+  "sketch": "Ebner w zimnej, przewiewnej rurze windy przyczepionej do przeciwwagi, cały pokryty czerwonym pyłem, oglądający rurę z niepasującym kołnierzem."
+}
