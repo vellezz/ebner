@@ -1,0 +1,12 @@
+{
+  "day": 83,
+  "threads": [
+    {
+      "id": "sygnal-spod-oskry",
+      "op": "close",
+      "status": "closed",
+      "closure": "abandoned",
+      "summary": "Ebner poprosił rachmistrzynię o kręcenie zaworem w rytmie odpowiadającym własnej wiadomości nadawcy zamiast zakręcenia lub rozrzedzenia sygnału; sygnał odpowiedział krótszą wiadomością, potem umilkł, a Ebner uznał to za zaprzestanie zużycia, więc termin przestał biec."
+    }
+  ]
+}
