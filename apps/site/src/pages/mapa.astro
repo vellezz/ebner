@@ -41,12 +41,19 @@ for (const hop of world.travel) {
   legs.set(key, leg);
 }
 
-const row = new Map(visited.map((id, i) => [id, i]));
-const degree = new Map(visited.map((id) => [id, 0]));
-for (const leg of legs.values()) {
-  degree.set(leg.from, (degree.get(leg.from) ?? 0) + 1);
-  degree.set(leg.to, (degree.get(leg.to) ?? 0) + 1);
+const order = new Map(visited.map((id, i) => [id, i]));
+
+// Somewhere he has been that sits inside somewhere else he has been: a moon of
+// a world, a station over a planet, a platform on a route. Six of the eighteen
+// places are one of these, and the site computed the containment chain and
+// threw it away. It is the only genuinely spatial thing the world records, so
+// it is the one thing this drawing can show without inventing anything.
+const host = new Map<string, string>();
+for (const id of visited) {
+  const parent = world.entities.get(id)?.parent;
+  if (parent && order.has(parent)) host.set(id, parent);
 }
+const worlds = visited.filter((id) => !host.has(id));
 
 // The layout, computed here rather than in the browser.
 //
@@ -57,70 +64,115 @@ for (const leg of legs.values()) {
 // nodes ten of them sat exactly on the frame, the middle was empty, and mean
 // movement fell to 0.01 while peak velocity *rose* from 5.4 to 10.2. That is
 // not a simulation settling; it is nodes pressed against walls that swallow
-// their motion, and no amount of retuning changes the shape of that failure —
-// at twenty-five nodes the same code gives five overlapping labels, at
-// thirty-seven it gives fifteen crossings.
+// their motion, and retuning only moves the failure to a later n.
 //
-// The data does not need a simulation. Twelve nodes and eleven legs is a tree,
-// and a traveller's route stays close to one: a chain with side trips and the
-// occasional return. A tree has an exact layout, so the drawing grows with the
-// data instead of being compressed into a fixed frame, and it is the same on
-// every device without needing a seed.
+// A spine in visit order replaced it and fixed every legibility defect, and it
+// read as a branch diagram: correct about the route and wrong about what the
+// route is. This is a chronicle of flying between worlds.
 //
-// Chronology runs down the spine. A place he flew out of and back to is a leaf,
-// so it steps aside; everything else stays on the line. Returns arch out to the
-// left, labels sit to the right, and those two never meet — which is why no
-// label here can be struck through by an edge, the way `Ambrat` was by three.
-const ROW = 40;
-const TRUNK = 26;
-const BRANCH = 30;
-const LABEL_GAP = 16;
-const TOP = 26;
-
-const at = new Map(
-  visited.map((id, i) => {
-    // The first place is where the record starts, not a side trip. It has one
-    // leg like any dead end, and stepping it aside drew the home dock hanging
-    // off Hoonu's orbit as though he had detoured to it.
-    const leaf = i > 0 && (degree.get(id) ?? 0) <= 1 && visited.length > 1;
-    return [id, { x: TRUNK + (leaf ? BRANCH : 0), y: TOP + (row.get(id) ?? 0) * ROW, leaf }];
-  }),
-);
-
-const nodes = visited.map((id) => ({
-  id,
-  name: name(id),
-  visits: world.travel.filter((h) => h.to === id).length,
-  ...at.get(id)!,
-}));
-
-// Monospace, so a character is a fixed width and the widest name can set the
-// frame without measuring anything in a browser.
+// So: worlds scattered on a golden-angle spiral in the order he reached them.
+// The angle is 137.5 degrees, which is what leaves no two points on the same
+// ray, and the radius grows as the square root of the index, which is what
+// keeps the spacing between neighbours constant. Together that gives an
+// arrangement that looks strewn rather than plotted and cannot collapse: the
+// field grows with the count instead of the count being crushed into a fixed
+// field. No seed, no iteration, identical everywhere.
+//
+// What it must not do is claim distance. The spiral says nothing about how far
+// anything is from anything — it is an index turned into an angle — and the
+// caption says so, because the world records no coordinates and never will.
+const STEP = 62; // spacing between neighbouring worlds
+const ORBIT = 30; // how far a moon sits from the world it belongs to
+const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 const CHAR = 7.3;
-const labelRight = Math.max(...nodes.map((n) => n.x + LABEL_GAP + n.name.length * CHAR));
 
+const at = new Map<string, { x: number; y: number; moon: boolean }>();
+worlds.forEach((id, i) => {
+  const angle = i * GOLDEN;
+  const radius = STEP * Math.sqrt(i);
+  at.set(id, { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius, moon: false });
+});
+// Moons hang off their world, each at its own angle so two moons of one world
+// never land on each other.
+const moonIndex = new Map<string, number>();
+for (const id of visited) {
+  const parent = host.get(id);
+  if (!parent) continue;
+  const n = moonIndex.get(parent) ?? 0;
+  moonIndex.set(parent, n + 1);
+  const seat = at.get(parent)!;
+  const angle = GOLDEN * (order.get(id) ?? 0) + n * 2.4;
+  at.set(id, { x: seat.x + Math.cos(angle) * ORBIT, y: seat.y + Math.sin(angle) * ORBIT, moon: true });
+}
+
+const nodes = visited.map((id) => {
+  const seat = at.get(id)!;
+  const label = name(id);
+  // The label goes on whichever side points away from the middle, so names
+  // lean outward instead of into the drawing.
+  const outward = seat.x >= 0 ? 1 : -1;
+  return {
+    id,
+    name: label,
+    visits: world.travel.filter((h) => h.to === id).length,
+    step: (order.get(id) ?? 0) + 1,
+    ...seat,
+    anchor: outward > 0 ? 'start' : 'end',
+    lx: seat.x + outward * (seat.moon ? 10 : 13),
+    ly: seat.y + 4,
+    width: label.length * CHAR,
+  };
+});
+
+// A greedy nudge, in a fixed order, so two names can never sit on each other.
+// With twelve nodes it fires rarely; it is here for the fiftieth.
+const placed: { x1: number; x2: number; y: number }[] = [];
+for (const n of nodes.slice().sort((a, b) => a.ly - b.ly || a.lx - b.lx)) {
+  for (let guard = 0; guard < 24; guard++) {
+    const x1 = n.anchor === 'start' ? n.lx : n.lx - n.width;
+    const box = { x1, x2: x1 + n.width, y: n.ly };
+    const clash = placed.some((p) => Math.abs(p.y - box.y) < 13 && p.x1 < box.x2 + 6 && box.x1 < p.x2 + 6);
+    if (!clash) {
+      placed.push(box);
+      break;
+    }
+    n.ly += 13;
+  }
+}
+
+// Routes bow, because a straight line between two stars is a claim and a curve
+// is a drawing. The direction of the bow comes from the ids, so it is stable.
 const drawn = [...legs.values()]
   .filter((l) => at.has(l.from) && at.has(l.to))
   .map((l) => {
-    const [a, b] = [l.from, l.to].sort((x, y) => (row.get(x) ?? 0) - (row.get(y) ?? 0));
-    const p = at.get(a)!;
-    const q = at.get(b)!;
-    const span = (row.get(b) ?? 0) - (row.get(a) ?? 0);
-    // Neighbouring rows are a plain segment; anything further is a return, and
-    // a return is the thing this diagram should make obvious rather than hide.
-    const bow = span > 1 ? 14 + span * 7 : 0;
-    const path = bow
-      ? `M ${p.x} ${p.y} C ${p.x - bow} ${p.y + ROW / 2}, ${q.x - bow} ${q.y - ROW / 2}, ${q.x} ${q.y}`
-      : `M ${p.x} ${p.y} L ${q.x} ${q.y}`;
-    return { path, bow, days: l.days, span, width: Math.min(1 + l.days.length, 5) };
+    const p = at.get(l.from)!;
+    const q = at.get(l.to)!;
+    const dx = q.x - p.x;
+    const dy = q.y - p.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const side = l.from < l.to ? 1 : -1;
+    const bow = Math.min(len * 0.16, 34) * side;
+    const cx = (p.x + q.x) / 2 - (dy / len) * bow;
+    const cy = (p.y + q.y) / 2 + (dx / len) * bow;
+    return {
+      path: `M ${p.x.toFixed(1)} ${p.y.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${q.x.toFixed(1)} ${q.y.toFixed(1)}`,
+      days: l.days,
+      width: Math.min(1 + l.days.length, 5),
+    };
   });
 
-const leftmost = Math.min(TRUNK, ...drawn.map((l) => TRUNK - l.bow));
+// Moons keep a faint ring on the world they belong to, which is the only mark
+// here that means anything physical.
+const rings = [...new Set([...host.values()])].map((id) => ({ ...at.get(id)!, r: ORBIT }));
+
+const pad = 30;
+const xs = nodes.flatMap((n) => [n.x - 14, n.lx, n.anchor === 'start' ? n.lx + n.width : n.lx - n.width]);
+const ys = nodes.flatMap((n) => [n.y - 14, n.y + 14, n.ly + 6]);
 const view = {
-  x: Math.round(leftmost - 14),
-  y: 0,
-  w: Math.round(labelRight - leftmost + 28),
-  h: TOP * 2 + (visited.length - 1) * ROW,
+  x: Math.round(Math.min(...xs) - pad),
+  y: Math.round(Math.min(...ys) - pad),
+  w: Math.round(Math.max(...xs) - Math.min(...xs) + pad * 2),
+  h: Math.round(Math.max(...ys) - Math.min(...ys) + pad * 2),
 };
 
 const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].to : null;
@@ -144,11 +196,14 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
         role="img"
         aria-label="Trasa Ebnera: miejsca w kolejności odwiedzenia"
       >
+        <g class="rings">
+          {rings.map((r) => <circle cx={r.x} cy={r.y} r={r.r} />)}
+        </g>
         <g class="legs">
           {
             drawn.map((l) => (
               <path d={l.path} stroke-width={l.width} stroke-linecap="round">
-                <title>{l.span > 1 ? `powrót — dni: ${l.days.join(', ')}` : `dni: ${l.days.join(', ')}`}</title>
+                <title>{`dni: ${l.days.join(', ')}`}</title>
               </path>
             ))
           }
@@ -156,16 +211,16 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
         <g class="nodes">
           {
             nodes.map((n) => (
-              <a href={`/dni?miejsce=${n.id}`} class={n.id === current ? 'here' : ''}>
-                <rect
-                  class="hit"
-                  x={view.x}
-                  y={n.y - ROW / 2}
-                  width={view.w}
-                  height={ROW}
+              <a href={`/dni?miejsce=${n.id}`} class={`${n.id === current ? 'here ' : ''}${n.moon ? 'moon' : ''}`}>
+                <circle class="hit" cx={n.x} cy={n.y} r={22} />
+                <circle
+                  class="body"
+                  cx={n.x}
+                  cy={n.y}
+                  r={n.id === current ? 7 : (n.moon ? 3 : 5) + Math.min(n.visits, 2)}
                 />
-                <circle cx={n.x} cy={n.y} r={n.id === current ? 8 : 4 + Math.min(n.visits, 3)} />
-                <text x={n.x + LABEL_GAP} y={n.y + 4}>{n.name}</text>
+                <text x={n.lx} y={n.ly} text-anchor={n.anchor}>{n.name}</text>
+                <title>{`${n.step}. ${n.name}`}</title>
               </a>
             ))
           }
@@ -179,10 +234,11 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
       <span class="hint">przeciągnij, żeby przesunąć</span>
     </div>
     <figcaption class="readout">
-      Z góry na dół biegnie kolejność, w jakiej Ebner w tych miejscach był. Odnogi
-      w prawo to miejsca, z których wrócił tą samą drogą; łuki po lewej to powroty
-      po czasie. Układ jest topologiczny, nie przestrzenny — nie pokazuje
-      odległości ani czasów, bo współrzędnych w tym świecie nikt nie prowadzi.
+      Duże punkty to światy, małe na pierścieniu — księżyce, stacje i platformy,
+      które do nich należą. Linie to przeloty; grubsza znaczy, że tę trasę
+      pokonał więcej razy. Rozmieszczenie wynika z kolejności odwiedzin, nie z
+      położenia: <strong>ten rysunek nie pokazuje odległości ani czasów</strong>,
+      bo współrzędnych w tym świecie nikt nie prowadzi.
     </figcaption>
   </figure>
 
@@ -231,6 +287,19 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
       vh = next * ratio;
       apply();
     };
+
+    // A scatter is wider than a phone, and shrinking it to fit turns
+    // twelve-point names into nine. So a narrow screen opens in close, on the
+    // place he is now, and pans from there — the whole chart is a button away.
+    const here = document.querySelector<SVGCircleElement>('.nodes .here .body');
+    if (frame.clientWidth < 520 && here) {
+      const want = Math.max(frame.clientWidth * 0.92, 240);
+      vw = want;
+      vh = want * ratio;
+      vx = here.cx.baseVal.value - vw / 2;
+      vy = here.cy.baseVal.value - vh / 2;
+      apply();
+    }
 
     document.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -317,7 +386,7 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
   .map svg {
     display: block;
     width: 100%;
-    max-width: 420px;
+    max-width: 560px;
     height: auto;
     margin: 4px auto;
   }
@@ -325,20 +394,48 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
   .legs path {
     fill: none;
     stroke: var(--ln);
+    opacity: 0.85;
   }
 
-  .nodes circle {
+  /* The one mark here that means something physical: what orbits what. */
+  .rings circle {
+    fill: none;
+    stroke: var(--ln);
+    stroke-width: 0.75;
+    opacity: 0.35;
+    stroke-dasharray: 2 4;
+  }
+
+  .nodes .body {
     fill: var(--f2);
+  }
+
+  .nodes .moon .body {
+    fill: var(--f3, var(--f2));
+    opacity: 0.85;
   }
 
   .nodes text {
     font-family: var(--font-mono);
     font-size: 12px;
     fill: var(--f2);
-    dominant-baseline: auto;
+    /* A halo in the panel's own colour, so a route passing behind a name
+       reads as passing behind it. Scattering the places like stars brings
+       back the one defect the spine had removed by construction — `Ambrat`
+       was struck through by three edges at once in the version before that —
+       and on a chart with crossing lines this is how it is dealt with. */
+    paint-order: stroke;
+    stroke: var(--wb);
+    stroke-width: 3px;
+    stroke-linejoin: round;
   }
 
-  .nodes .here circle {
+  .nodes .moon text {
+    font-size: 11px;
+    opacity: 0.85;
+  }
+
+  .nodes .here .body {
     fill: var(--ac);
   }
 
@@ -346,15 +443,15 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
     fill: var(--ac);
   }
 
-  /* An invisible band across the whole row, so the target is the row and not
-     the four-pixel dot. Forty units tall clears the forty-four-pixel minimum
-     at the scales this renders at. */
+  /* An invisible disc far wider than the dot, so a finger has something to
+     land on. Twenty-two units clears the forty-four-pixel minimum at the
+     scales this renders at. */
   .nodes .hit {
     fill: transparent;
   }
 
-  .nodes a:hover circle,
-  .nodes a:focus-visible circle {
+  .nodes a:hover .body,
+  .nodes a:focus-visible .body {
     fill: var(--ac);
   }
 
