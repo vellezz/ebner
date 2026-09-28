@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { loadWorld, containmentChain } from '../lib/world';
+import { loadWorld } from '../lib/world';
 import { count } from '../lib/plural';
 
 // The map is built from content/, never from D1 — D1 is a projection of the
@@ -13,20 +13,16 @@ import { count } from '../lib/plural';
 const world = loadWorld();
 
 const name = (id: string) => world.entities.get(id)?.name ?? id.replace(/-/g, ' ');
-const system = (id: string) => {
-  const chain = containmentChain(world, id);
-  return chain.length > 1 ? chain[chain.length - 1].id : id;
-};
 
-// Only places. Day 12 recorded `stacja → hanna → stacja` — boarding his own
-// ship, written down as a journey — and without this the map draws Hanna as
-// somewhere he flew to. The underlying state is wrong and should be corrected
-// at the source; this keeps the map honest meanwhile, and a map of places is
-// what it should be regardless.
+// Only places. A ship or a person as a stop is an extraction mistake; the state
+// guard now rejects one, and this stays because a map of places is what it
+// should be regardless.
 const isPlace = (id: string) => world.entities.get(id)?.kind === 'place';
 
-// One node per place that a journey has actually touched. Places only ever
-// mentioned are not on the map: this is a record of where he has been.
+// One node per place that a journey has actually touched, in first-touch order.
+// That order is the whole spine below, so it is chronology and not a choice.
+// Places only ever mentioned are not on the map: this is a record of where he
+// has been.
 const visited: string[] = [];
 for (const hop of world.travel) {
   for (const end of [hop.from, hop.to]) {
@@ -38,27 +34,96 @@ for (const hop of world.travel) {
 const legs = new Map<string, { from: string; to: string; days: number[] }>();
 for (const hop of world.travel) {
   if (!hop.from || !isPlace(hop.from) || !isPlace(hop.to)) continue;
+  if (hop.from === hop.to) continue;
   const key = [hop.from, hop.to].sort().join('|');
   const leg = legs.get(key) ?? { from: hop.from, to: hop.to, days: [] };
   leg.days.push(hop.day);
   legs.set(key, leg);
 }
 
+const row = new Map(visited.map((id, i) => [id, i]));
+const degree = new Map(visited.map((id) => [id, 0]));
+for (const leg of legs.values()) {
+  degree.set(leg.from, (degree.get(leg.from) ?? 0) + 1);
+  degree.set(leg.to, (degree.get(leg.to) ?? 0) + 1);
+}
+
+// The layout, computed here rather than in the browser.
+//
+// What was here before was a spring embedder: four hundred iterations, no
+// cooling, constants written when the graph had six nodes and five legs. Its
+// clamp box is 620x420, and packing n nodes at the spring's rest length of 150
+// needs about n x 19,500 square pixels — so the box held thirteen. At twelve
+// nodes ten of them sat exactly on the frame, the middle was empty, and mean
+// movement fell to 0.01 while peak velocity *rose* from 5.4 to 10.2. That is
+// not a simulation settling; it is nodes pressed against walls that swallow
+// their motion, and no amount of retuning changes the shape of that failure —
+// at twenty-five nodes the same code gives five overlapping labels, at
+// thirty-seven it gives fifteen crossings.
+//
+// The data does not need a simulation. Twelve nodes and eleven legs is a tree,
+// and a traveller's route stays close to one: a chain with side trips and the
+// occasional return. A tree has an exact layout, so the drawing grows with the
+// data instead of being compressed into a fixed frame, and it is the same on
+// every device without needing a seed.
+//
+// Chronology runs down the spine. A place he flew out of and back to is a leaf,
+// so it steps aside; everything else stays on the line. Returns arch out to the
+// left, labels sit to the right, and those two never meet — which is why no
+// label here can be struck through by an edge, the way `Ambrat` was by three.
+const ROW = 40;
+const TRUNK = 26;
+const BRANCH = 30;
+const LABEL_GAP = 16;
+const TOP = 26;
+
+const at = new Map(
+  visited.map((id, i) => {
+    // The first place is where the record starts, not a side trip. It has one
+    // leg like any dead end, and stepping it aside drew the home dock hanging
+    // off Hoonu's orbit as though he had detoured to it.
+    const leaf = i > 0 && (degree.get(id) ?? 0) <= 1 && visited.length > 1;
+    return [id, { x: TRUNK + (leaf ? BRANCH : 0), y: TOP + (row.get(id) ?? 0) * ROW, leaf }];
+  }),
+);
+
 const nodes = visited.map((id) => ({
   id,
   name: name(id),
-  system: system(id),
   visits: world.travel.filter((h) => h.to === id).length,
-  firstDay: world.travel.find((h) => h.to === id || h.from === id)?.day ?? 0,
+  ...at.get(id)!,
 }));
 
-const where = world.travel.length > 0 ? world.travel[world.travel.length - 1].to : null;
+// Monospace, so a character is a fixed width and the widest name can set the
+// frame without measuring anything in a browser.
+const CHAR = 7.3;
+const labelRight = Math.max(...nodes.map((n) => n.x + LABEL_GAP + n.name.length * CHAR));
 
-const graph = {
-  nodes,
-  legs: [...legs.values()],
-  current: where,
+const drawn = [...legs.values()]
+  .filter((l) => at.has(l.from) && at.has(l.to))
+  .map((l) => {
+    const [a, b] = [l.from, l.to].sort((x, y) => (row.get(x) ?? 0) - (row.get(y) ?? 0));
+    const p = at.get(a)!;
+    const q = at.get(b)!;
+    const span = (row.get(b) ?? 0) - (row.get(a) ?? 0);
+    // Neighbouring rows are a plain segment; anything further is a return, and
+    // a return is the thing this diagram should make obvious rather than hide.
+    const bow = span > 1 ? 14 + span * 7 : 0;
+    const path = bow
+      ? `M ${p.x} ${p.y} C ${p.x - bow} ${p.y + ROW / 2}, ${q.x - bow} ${q.y - ROW / 2}, ${q.x} ${q.y}`
+      : `M ${p.x} ${p.y} L ${q.x} ${q.y}`;
+    return { path, bow, days: l.days, span, width: Math.min(1 + l.days.length, 5) };
+  });
+
+const leftmost = Math.min(TRUNK, ...drawn.map((l) => TRUNK - l.bow));
+const view = {
+  x: Math.round(leftmost - 14),
+  y: 0,
+  w: Math.round(labelRight - leftmost + 28),
+  h: TOP * 2 + (visited.length - 1) * ROW,
 };
+
+const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].to : null;
 ---
 
 <Base title="Mapa — ebner.gripe" description="Trasa Ebnera Gripe: miejsca i przeloty, bez czasów.">
@@ -66,146 +131,60 @@ const graph = {
     <h1>Mapa</h1>
     <p class="readout lead">
       {count(nodes.length, 'miejsce', 'miejsca', 'miejsc')} &middot;
-      {count(graph.legs.length, 'przelot', 'przeloty', 'przelotów')} &middot; bez czasów
+      {count(drawn.length, 'przelot', 'przeloty', 'przelotów')} &middot; bez czasów
     </p>
   </header>
 
   <figure class="map">
-    <svg data-map viewBox="0 0 800 520" role="img" aria-label="Graf tras między miejscami">
-      <g data-legs stroke="var(--ln)" fill="none"></g>
-      <g data-nodes></g>
-    </svg>
+    <div class="frame" data-frame>
+      <svg
+        data-map
+        viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
+        data-home={`${view.x} ${view.y} ${view.w} ${view.h}`}
+        role="img"
+        aria-label="Trasa Ebnera: miejsca w kolejności odwiedzenia"
+      >
+        <g class="legs">
+          {
+            drawn.map((l) => (
+              <path d={l.path} stroke-width={l.width} stroke-linecap="round">
+                <title>{l.span > 1 ? `powrót — dni: ${l.days.join(', ')}` : `dni: ${l.days.join(', ')}`}</title>
+              </path>
+            ))
+          }
+        </g>
+        <g class="nodes">
+          {
+            nodes.map((n) => (
+              <a href={`/dni?miejsce=${n.id}`} class={n.id === current ? 'here' : ''}>
+                <rect
+                  class="hit"
+                  x={view.x}
+                  y={n.y - ROW / 2}
+                  width={view.w}
+                  height={ROW}
+                />
+                <circle cx={n.x} cy={n.y} r={n.id === current ? 8 : 4 + Math.min(n.visits, 3)} />
+                <text x={n.x + LABEL_GAP} y={n.y + 4}>{n.name}</text>
+              </a>
+            ))
+          }
+        </g>
+      </svg>
+    </div>
+    <div class="tools readout">
+      <button type="button" data-zoom="out" aria-label="Oddal">−</button>
+      <button type="button" data-zoom="in" aria-label="Przybliż">+</button>
+      <button type="button" data-zoom="home">całość</button>
+      <span class="hint">przeciągnij, żeby przesunąć</span>
+    </div>
     <figcaption class="readout">
-      Układ jest topologiczny, nie przestrzenny — pokazuje kolejność i połączenia,
-      nie odległości. Współrzędnych w tym świecie nikt nie prowadzi.
+      Z góry na dół biegnie kolejność, w jakiej Ebner w tych miejscach był. Odnogi
+      w prawo to miejsca, z których wrócił tą samą drogą; łuki po lewej to powroty
+      po czasie. Układ jest topologiczny, nie przestrzenny — nie pokazuje
+      odległości ani czasów, bo współrzędnych w tym świecie nikt nie prowadzi.
     </figcaption>
   </figure>
-
-  <script is:inline define:vars={{ graph }}>
-    // Laid out here rather than at build time so it can settle: the shape is
-    // a few springs, and a few springs are easier to let run than to solve.
-    //
-    // `define:vars` means this script is inline and re-runs on every
-    // navigation, so it rebuilds the graph each time it finds an empty one and
-    // leaves an already-drawn map alone.
-    document.addEventListener('astro:page-load', () => {
-    const svg = document.querySelector('[data-map]');
-    const { nodes, legs, current } = graph;
-    if (svg && !svg.dataset.drawn && nodes.length) {
-      svg.dataset.drawn = '1';
-      const W = 800;
-      const H = 520;
-      const NS = 'http://www.w3.org/2000/svg';
-
-      // Seeded, so the map is the same on every load and on every device. A
-      // graph that rearranges itself each visit is not a map of anything.
-      let seed = 20260921;
-      const rnd = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
-
-      const at = new Map(
-        nodes.map((n, i) => [
-          n.id,
-          {
-            // Start on a ring in visit order, so the settled layout still
-            // reads roughly as a chronology.
-            x: W / 2 + Math.cos((i / nodes.length) * Math.PI * 2) * 180 + rnd() * 20,
-            y: H / 2 + Math.sin((i / nodes.length) * Math.PI * 2) * 140 + rnd() * 20,
-            vx: 0,
-            vy: 0,
-          },
-        ]),
-      );
-
-      const linked = legs.filter((l) => at.has(l.from) && at.has(l.to));
-      for (let step = 0; step < 400; step++) {
-        // Everything pushes everything else apart.
-        for (const a of nodes) {
-          for (const b of nodes) {
-            if (a.id === b.id) continue;
-            const p = at.get(a.id);
-            const q = at.get(b.id);
-            let dx = p.x - q.x;
-            let dy = p.y - q.y;
-            const d2 = Math.max(dx * dx + dy * dy, 400);
-            const f = 24000 / d2;
-            p.vx += (dx / Math.sqrt(d2)) * f;
-            p.vy += (dy / Math.sqrt(d2)) * f;
-          }
-        }
-        // A route pulls its two ends together.
-        for (const leg of linked) {
-          const p = at.get(leg.from);
-          const q = at.get(leg.to);
-          const dx = q.x - p.x;
-          const dy = q.y - p.y;
-          const d = Math.max(Math.hypot(dx, dy), 1);
-          const f = (d - 150) * 0.01;
-          p.vx += (dx / d) * f;
-          p.vy += (dy / d) * f;
-          q.vx -= (dx / d) * f;
-          q.vy -= (dy / d) * f;
-        }
-        for (const n of nodes) {
-          const p = at.get(n.id);
-          p.x = Math.min(W - 90, Math.max(90, p.x + (p.vx *= 0.82)));
-          p.y = Math.min(H - 50, Math.max(50, p.y + (p.vy *= 0.82)));
-        }
-      }
-
-      const legLayer = svg.querySelector('[data-legs]');
-      for (const leg of linked) {
-        const p = at.get(leg.from);
-        const q = at.get(leg.to);
-        const line = document.createElementNS(NS, 'line');
-        line.setAttribute('x1', p.x);
-        line.setAttribute('y1', p.y);
-        line.setAttribute('x2', q.x);
-        line.setAttribute('y2', q.y);
-        line.setAttribute('stroke-width', Math.min(1 + leg.days.length, 5));
-        line.setAttribute('stroke-linecap', 'round');
-        const title = document.createElementNS(NS, 'title');
-        title.textContent = `dni: ${leg.days.join(', ')}`;
-        line.append(title);
-        legLayer.append(line);
-      }
-
-      const nodeLayer = svg.querySelector('[data-nodes]');
-      for (const n of nodes) {
-        const p = at.get(n.id);
-        const g = document.createElementNS(NS, 'g');
-        const link = document.createElementNS(NS, 'a');
-        link.setAttribute('href', `/dni?miejsce=${n.id}`);
-
-        const dot = document.createElementNS(NS, 'circle');
-        dot.setAttribute('cx', p.x);
-        dot.setAttribute('cy', p.y);
-        dot.setAttribute('r', n.id === current ? 9 : 5 + Math.min(n.visits, 4));
-        dot.setAttribute('fill', n.id === current ? 'var(--ac)' : 'var(--f2)');
-
-        const label = document.createElementNS(NS, 'text');
-        // Set here, not in the stylesheet. Astro scopes its CSS by adding an
-        // attribute to elements in the template, and these are built at
-        // runtime — so a `.map text` rule never matches them, and the labels
-        // came out in the browser's default link blue.
-        label.setAttribute('fill', 'var(--f2)');
-        label.setAttribute('font-family', 'var(--font-mono)');
-        label.setAttribute('font-size', '12');
-        // Kept inside the frame: a name at the edge is otherwise half cut off.
-        label.setAttribute('x', Math.min(W - 70, Math.max(70, p.x)));
-        label.setAttribute('y', p.y - 16);
-        label.setAttribute('text-anchor', 'middle');
-        label.textContent = n.name.length > 22 ? n.name.slice(0, 21) + '…' : n.name;
-        const full = document.createElementNS(NS, 'title');
-        full.textContent = n.name;
-        label.append(full);
-
-        link.append(dot, label);
-        g.append(link);
-        nodeLayer.append(g);
-      }
-    }
-    });
-  </script>
 
   <ol class="legend">
     {
@@ -213,16 +192,91 @@ const graph = {
         .slice()
         .reverse()
         .map((n) => (
-          <li class={n.id === graph.current ? 'here' : ''}>
+          <li class={n.id === current ? 'here' : ''}>
             <span class="place">{n.name}</span>
             <span class="readout meta">
-              {n.id === graph.current ? 'tutaj jest teraz' : count(n.visits, 'przylot', 'przyloty', 'przylotów')}
+              {n.id === current ? 'tutaj jest teraz' : count(n.visits, 'przylot', 'przyloty', 'przylotów')}
             </span>
           </li>
         ))
     }
   </ol>
 </Base>
+
+<script>
+  // Only the view moves here. The layout is fixed at build time, so there is
+  // nothing to settle and nothing to re-run: this pans and scales the window
+  // onto a drawing that is already finished.
+  import { onPage, once } from '../lib/page';
+
+  onPage(() => {
+    const svg = document.querySelector<SVGSVGElement>('[data-map]');
+    const frame = document.querySelector<HTMLElement>('[data-frame]');
+    if (!svg || !frame || !once(svg, 'Map')) return;
+
+    const home = (svg.dataset.home ?? '').split(' ').map(Number);
+    let [vx, vy, vw, vh] = home;
+    const ratio = vh / vw;
+
+    const apply = () => svg.setAttribute('viewBox', `${vx} ${vy} ${vw} ${vh}`);
+
+    const scale = (factor: number, cx = vx + vw / 2, cy = vy + vh / 2) => {
+      // Clamped so it cannot be zoomed into nothing or out past the drawing by
+      // more than a screen — a map you can lose is worse than one that does not
+      // move.
+      const next = Math.min(Math.max(vw * factor, home[2] / 6), home[2] * 2);
+      vx = cx - ((cx - vx) * next) / vw;
+      vy = cy - ((cy - vy) * next * ratio) / vh;
+      vw = next;
+      vh = next * ratio;
+      apply();
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const what = button.dataset.zoom;
+        if (what === 'home') {
+          [vx, vy, vw, vh] = home;
+          apply();
+        } else scale(what === 'in' ? 0.7 : 1 / 0.7);
+      });
+    });
+
+    frame.addEventListener(
+      'wheel',
+      (event) => {
+        // Only with a modifier, so the page still scrolls over the map. A map
+        // that eats the scroll wheel is a trap on a long page.
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        scale(event.deltaY > 0 ? 1.12 : 1 / 1.12);
+      },
+      { passive: false },
+    );
+
+    let from: { x: number; y: number } | null = null;
+    frame.addEventListener('pointerdown', (event) => {
+      if ((event.target as Element).closest('a')) return;
+      from = { x: event.clientX, y: event.clientY };
+      frame.setPointerCapture(event.pointerId);
+      frame.classList.add('dragging');
+    });
+    frame.addEventListener('pointermove', (event) => {
+      if (!from) return;
+      const unit = vw / frame.clientWidth;
+      vx -= (event.clientX - from.x) * unit;
+      vy -= (event.clientY - from.y) * unit;
+      from = { x: event.clientX, y: event.clientY };
+      apply();
+    });
+    for (const end of ['pointerup', 'pointercancel']) {
+      frame.addEventListener(end, () => {
+        from = null;
+        frame.classList.remove('dragging');
+      });
+    }
+  });
+</script>
 
 <style>
   .head {
@@ -246,20 +300,104 @@ const graph = {
     border: 1px solid var(--wl);
   }
 
+  /* The drawing is rendered at its own size rather than stretched to the
+     column. Stretching is what made the labels five pixels tall on a phone:
+     a 800-unit viewBox in a 333-pixel box scales everything by 0.416, and
+     twelve-unit type goes with it. Capped at its natural width, the scale
+     stays near 1 at any viewport and the type stays the size it says. */
+  .frame {
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+
+  .frame.dragging {
+    cursor: grabbing;
+  }
+
   .map svg {
     display: block;
     width: 100%;
+    max-width: 420px;
     height: auto;
+    margin: 4px auto;
   }
 
-  .map text {
-    font-family: var(--font-mono);
-    font-size: 12px;
+  .legs path {
+    fill: none;
+    stroke: var(--ln);
+  }
+
+  .nodes circle {
     fill: var(--f2);
   }
 
-  .map a {
+  .nodes text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    fill: var(--f2);
+    dominant-baseline: auto;
+  }
+
+  .nodes .here circle {
+    fill: var(--ac);
+  }
+
+  .nodes .here text {
+    fill: var(--ac);
+  }
+
+  /* An invisible band across the whole row, so the target is the row and not
+     the four-pixel dot. Forty units tall clears the forty-four-pixel minimum
+     at the scales this renders at. */
+  .nodes .hit {
+    fill: transparent;
+  }
+
+  .nodes a:hover circle,
+  .nodes a:focus-visible circle {
+    fill: var(--ac);
+  }
+
+  .nodes a:hover text,
+  .nodes a:focus-visible text {
+    fill: var(--fg);
+  }
+
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-top: 1px solid var(--wl);
+  }
+
+  .tools button {
+    min-width: 44px;
+    min-height: 32px;
+    padding: 0 10px;
+    background: transparent;
+    border: 1px solid var(--wl);
+    color: inherit;
+    font: inherit;
     cursor: pointer;
+  }
+
+  .tools button:hover {
+    border-color: var(--ac);
+    color: var(--ac);
+  }
+
+  .tools .hint {
+    margin-left: auto;
+    opacity: 0.7;
+  }
+
+  /* On a phone the hint wraps onto the buttons, and it is telling a touch
+     user to do what their finger already does. */
+  @media (max-width: 560px) {
+    .tools .hint {
+      display: none;
+    }
   }
 
   figcaption {
