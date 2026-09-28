@@ -120,8 +120,13 @@ def _statements(state: dict, entry: dict | None, body: str | None) -> list[str]:
             )
 
     # --- travel -----------------------------------------------------------
-    # Replaced wholesale so a corrected state file cannot leave orphan hops.
-    if state.get("travel") is not None and entry_day is not None:
+    # Replaced wholesale so a corrected state file cannot leave orphan hops —
+    # and the delete runs whether or not the file still has a `travel` key,
+    # which it did not before. Day 12 recorded a journey to Ebner's own ship
+    # and back; correcting it meant dropping the key, and dropping the key was
+    # exactly the case where the old rows survived. A state file is the
+    # authority for its day, including when what it says is "nothing moved".
+    if entry_day is not None:
         out.append(f"DELETE FROM travel WHERE entry_day = {sql_str(day)}")
         for hop in sorted(state.get("travel", []), key=lambda h: h["seq"]):
             out.append(

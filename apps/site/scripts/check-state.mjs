@@ -57,6 +57,7 @@ for (const f of readdirSync(entryDir).filter((n) => n.endsWith('.md'))) {
 // --- state files, replayed in filename order -----------------------------
 const stateDir = join(ROOT, 'content/state');
 const knownEntities = new Set();
+const entityKind = new Map();
 const knownThreads = new Set();
 const knownFacts = new Set();
 let prevLocation = null;
@@ -89,6 +90,7 @@ for (const f of readdirSync(stateDir).filter((n) => n.endsWith('.json')).sort())
   for (const e of s.entities ?? []) {
     if (knownEntities.has(e.id)) problems.push(`${f}: entity ${e.id} already exists`);
     knownEntities.add(e.id);
+    entityKind.set(e.id, e.kind);
   }
   for (const e of s.entities ?? []) {
     if (e.parent === e.id) problems.push(`${f}: entity ${e.id} is its own parent`);
@@ -123,6 +125,15 @@ for (const f of readdirSync(stateDir).filter((n) => n.endsWith('.json')).sort())
   for (const h of hops) {
     if (h.from && !knownEntities.has(h.from)) problems.push(`${f}: travel leaves unknown ${h.from}`);
     if (!knownEntities.has(h.to)) problems.push(`${f}: travel arrives at unknown ${h.to}`);
+    // A journey goes between places. Day 12 recorded `stacja -> hanna ->
+    // stacja`, which is Ebner boarding his own ship written down as two hops,
+    // and it sat in the travel table for seventy days: the map filtered it out
+    // and so nothing ever said it was wrong. A ship or a person as a stop is
+    // always an extraction mistake, and it is the kind that never surfaces.
+    for (const end of [h.from, h.to]) {
+      if (end && knownEntities.has(end) && entityKind.get(end) !== 'place')
+        problems.push(`${f}: travel touches ${end}, which is a ${entityKind.get(end)}, not a place`);
+    }
   }
 
   if (s.day === 0) continue;
