@@ -1,0 +1,20 @@
+{
+  "day": 87,
+  "facts_opened": [
+    {
+      "id": "f-bysz-maszyna-plytek",
+      "content": "Na dolnym pomoście Byszu, przy wejściu taśmy w rurę, stoi nieprzykręcona i niespawana maszyna nieznanego pochodzenia, która z pyłu jadącego na taśmie wytwarza płaskie płytki wielkości dwóch dłoni, grubości akurat na kołnierz — jedna klaśnięcie na przejście przeciwwagi. Sterta leży u jej podstawy, dolne płytki są najstarsze i najbardziej stwardniałe, górne najświeższe. Ebner wziął dwadzieścia dwie płytki z wierchu na nowe kołnierze do kolumn terraformera na Netli.",
+      "subject": "glowica-byszu"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "bysz-maszyna-plytek-scene",
+      "kind": "scene",
+      "content": "Maszyna bez śruby i bez spoiny, klaska raz na przejście przeciwwagi i wypluwa płytkę. Sterta do wysokości barku. Dyspozytorka: \"To jest z pyłu. A do czego by to komu.\"",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    }
+  ]
+}
