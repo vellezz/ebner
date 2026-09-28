@@ -81,7 +81,7 @@ const worlds = visited.filter((id) => !host.has(id));
 // What it must not do is claim distance. The spiral says nothing about how far
 // anything is from anything — it is an index turned into an angle — and the
 // caption says so, because the world records no coordinates and never will.
-const STEP = 62; // spacing between neighbouring worlds
+const STEP = 105; // spacing between neighbouring worlds
 const ORBIT = 30; // how far a moon sits from the world it belongs to
 const GOLDEN = Math.PI * (3 - Math.sqrt(5));
 const CHAR = 7.3;
@@ -274,7 +274,20 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
     let [vx, vy, vw, vh] = home;
     const ratio = vh / vw;
 
-    const apply = () => svg.setAttribute('viewBox', `${vx} ${vy} ${vw} ${vh}`);
+    // Kept over the drawing. Without this, panning or opening zoomed near an
+    // edge shows a panel half full of nothing — which is what happened on a
+    // phone, where the view opens on the current place and the current place
+    // is at the rim.
+    const hold = () => {
+      const [hx, hy, hw, hh] = home;
+      vx = vw >= hw ? hx + (hw - vw) / 2 : Math.min(Math.max(vx, hx), hx + hw - vw);
+      vy = vh >= hh ? hy + (hh - vh) / 2 : Math.min(Math.max(vy, hy), hy + hh - vh);
+    };
+
+    const apply = () => {
+      hold();
+      svg.setAttribute('viewBox', `${vx} ${vy} ${vw} ${vh}`);
+    };
 
     const scale = (factor: number, cx = vx + vw / 2, cy = vy + vh / 2) => {
       // Clamped so it cannot be zoomed into nothing or out past the drawing by
@@ -291,13 +304,25 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
     // A scatter is wider than a phone, and shrinking it to fit turns
     // twelve-point names into nine. So a narrow screen opens in close, on the
     // place he is now, and pans from there — the whole chart is a button away.
-    const here = document.querySelector<SVGCircleElement>('.nodes .here .body');
-    if (frame.clientWidth < 520 && here) {
-      const want = Math.max(frame.clientWidth * 0.92, 240);
+    // A dozen places scattered wide cannot be both wholly visible and readable
+    // on a phone: fitting the chart to 390 pixels renders twelve-unit names at
+    // seven, which is the defect this page started with. So a narrow screen
+    // opens at a readable scale and shows part of the chart.
+    //
+    // It centres on the middle of the places rather than on where he is now.
+    // Centring on the current place was the first try and it opened on an
+    // almost empty panel, because the newest world sits at the rim of a spiral
+    // that grows outward — the sparsest spot there is. The list below reaches
+    // that place in one tap; the map's job here is to show the shape.
+    const bodies = [...document.querySelectorAll<SVGCircleElement>('.nodes .body')];
+    if (frame.clientWidth < 520 && bodies.length) {
+      const mid = (pick: (c: SVGCircleElement) => number) =>
+        bodies.reduce((sum, c) => sum + pick(c), 0) / bodies.length;
+      const want = Math.min(frame.clientWidth / 0.9, home[2]);
       vw = want;
       vh = want * ratio;
-      vx = here.cx.baseVal.value - vw / 2;
-      vy = here.cy.baseVal.value - vh / 2;
+      vx = mid((c) => c.cx.baseVal.value) - vw / 2;
+      vy = mid((c) => c.cy.baseVal.value) - vh / 2;
       apply();
     }
 
@@ -383,12 +408,15 @@ const current = world.travel.length > 0 ? world.travel[world.travel.length - 1].
     cursor: grabbing;
   }
 
+  /* The drawing fills the panel. Its own width is set in user units by how
+     far apart the worlds sit, not by a cap here — capping a small drawing and
+     stretching it is what turned twelve-unit type into five pixels on a phone
+     in the version before last. Spread the chart and the scale stays near one
+     at the width it is actually shown. */
   .map svg {
     display: block;
     width: 100%;
-    max-width: 560px;
     height: auto;
-    margin: 4px auto;
   }
 
   .legs path {
