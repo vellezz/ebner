@@ -1,0 +1,41 @@
+{
+  "day": 88,
+  "entities": [
+    {
+      "id": "skrzynka-ratunkowa-byszu",
+      "kind": "place",
+      "name": "Skrzynka ratunkowa głowicy Byszu",
+      "parent": "glowica-byszu",
+      "summary": "Stara skrzynka z rozbitej kapsuły, przywiązana drutem u wejścia taśmy w rurę, nadająca sygnał obecności; ruch Byszu prowadzi ją w rejestrze jako zdarzenie otwarte, dopóki sygnał nie ustanie."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-byszu-skrzynka-alarm-wyjasniona",
+      "kind": "general",
+      "content": "Sygnał alarmowy z głowicy Byszu pochodził od starej skrzynki ratunkowej ze zbitej kapsuły, przywiązanej drutem przy wejściu taśmy w rurę; dyspozytorka ruchu Byszu jest formalnym kapitanem przeciwwagi od czterech lat i podpisała odwołanie alarmu. Ebner zgasił sygnał, opierając o pałąk skrzynki dwie płytki na sztorc jak daszek, zamiast czekać dwadzieścia dwa przejścia przeciwwagi na naturalne przywalenie sterty.",
+      "subject": "glowica-byszu"
+    },
+    {
+      "id": "f-ebner-kolnierze-zapas",
+      "kind": "general",
+      "content": "Ebner ma dwadzieścia płytek na kołnierze (po zwrocie dwóch dyspozytorce z wziętych osiemnastu) przy zapotrzebowaniu dwunastu sztuk na kolumny terraformera Netli — pierwszy raz od dawna ma osiem sztuk na zapas.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "kapitan-przeciwwagi",
+      "kind": "punchline",
+      "content": "Zapytałem, kto jest kapitanem przeciwwagi, i dyspozytorka odstawiła miskę, jakby to było pytanie o coś, o czym wszyscy wiedzą. — Ja. Od czterech lat. Raz w roku ktoś musi.",
+      "threads": []
+    },
+    {
+      "id": "daszek-z-plytek",
+      "kind": "scene",
+      "content": "Postawiłem nad pałąkiem dwie płytki na sztorc, oparte o siebie szczytami, jak daszek. Odbiornik zgasł od razu.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner opiera dwie płaskie płytki jak daszek nad starą skrzynką ratunkową przywiązaną drutem do konstrukcji przeciwwagi, wokół czerwony pył i sterta płytek."
+}
