@@ -1,0 +1,54 @@
+{
+  "day": 90,
+  "travel": [
+    {
+      "seq": 1,
+      "from": "glowica-byszu",
+      "to": "bysz"
+    }
+  ],
+  "threads": [
+    {
+      "id": "netla-lyki",
+      "op": "update",
+      "summary": "Ebner wiózł z Byszu rury i dwadzieścia płytek na kołnierze; po opłacie celnej w naturze zostało piętnaście sztuk, dwanaście potrzebnych na kolumny."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-bysz-clo-wyrob-obcy",
+      "kind": "world_rule",
+      "content": "Na Byszu urządzenie niezamocowane do konstrukcji zakładu nie jest jego częścią, więc wyrób z niego liczy się jako towar obcego pochodzenia i podlega cłu przy wywozie, choć surowiec (pył) był miejscowy; cło pobiera się w naturze, w sztukach wyrobu, bo ułamków sztuki nie wolno wpisać do żadnej kolumny.",
+      "subject": "bysz",
+      "valid_from": 90
+    },
+    {
+      "id": "f-ebner-kolnierze-zapas-90",
+      "content": "Po opłaceniu cła w naturze (pięć płytek z wierzchu, najświeższych) Ebnerowi zostało piętnaście płytek na kołnierze przy zapotrzebowaniu dwunastu sztuk na kolumny drugą i czwartą — trzy sztuki zapasu.",
+      "subject": "ebner-gripe",
+      "valid_from": 90
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-kolnierze-zapas"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "bysz-clo-dialog",
+      "kind": "scene",
+      "content": "Pył wyjechał, a płytki przyjechały. Dwie różne rzeczy w dwóch kierunkach. Od jednej z nich należy się opłata — od tej, która przyjeżdża.",
+      "threads": [
+        "spor-kolumny-wymiennikowe"
+      ]
+    },
+    {
+      "id": "bysz-magazyn-obcych",
+      "kind": "punchline",
+      "content": "Skonfiskowane płytki trafią do magazynu materiałów obcych — na dolnym pomoście, dwa kroki od maszyny, która je zrobiła.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner na rampie startowej Byszu, obok kosza taśmy znikającego w chmurze czerwonego pyłu, z urzędniczką trzymającą tabliczkę nad rozwiniętymi szmatami pełnymi płytek."
+}
