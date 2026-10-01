@@ -1,0 +1,70 @@
+{
+  "day": 91,
+  "entities": [
+    {
+      "id": "onda",
+      "kind": "person",
+      "name": "Onda",
+      "parent": "bysz",
+      "summary": "Urzędniczka wywozu na Byszu, pilnuje wykazu narzędzi i cła."
+    },
+    {
+      "id": "welk",
+      "kind": "person",
+      "name": "Welk",
+      "parent": "glowica-byszu",
+      "summary": "Brygadzista spodu szybu na Byszu, odpowiada za zraszacze przeciwpyłowe."
+    },
+    {
+      "id": "spod-byszu",
+      "kind": "place",
+      "name": "Spód szybu Byszu",
+      "parent": "glowica-byszu",
+      "summary": "Betonowa misa u podstawy taśmy kabin, skąd idzie w górę cały ruch powietrza; miejsce pracy Ebnera przy zraszaczach."
+    }
+  ],
+  "threads": [
+    {
+      "id": "zraszacze-byszu",
+      "op": "open",
+      "type": "short",
+      "status": "active",
+      "reference_policy": "develop",
+      "planned_entries": 2,
+      "summary": "Ebner naprawia kolumnę osiemnastu zraszaczy przeciwpyłowych na spodzie szybu Byszu, zaciskając dysze jedna po drugiej; zostało siedemnaście do zrobienia."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ebner-zraszacze-diagnoza",
+      "kind": "general",
+      "content": "Ebner ustalił, że zraszacze przeciwpyłowe na spodzie Byszu nie działają od sześciu dni, bo zewnętrzny serwis (cztery przeciwwagi temu) wyjął wkładki wirowe z dysz, przez co woda leci strugami zamiast mgłą; naprawa polega na zaciśnięciu każdej dyszy szczypcami w szczelinę, robota na dwa dni, bez części.",
+      "subject": "glowica-byszu"
+    },
+    {
+      "id": "f-ebner-zaplata-platki-91",
+      "kind": "general",
+      "content": "Za naprawę zraszaczy Welk zapłacił Ebnerowi pięć płytek z magazynu materiałów obcych na Byszu; Onda potwierdziła, że przy wywozie nie naliczy od nich cła, bo przyjechały jako obce i wyjadą jako obce, nic się z nimi nie stało.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "zraszacze-diagnoza-91",
+      "kind": "scene",
+      "content": "Odkręciłem jedną dyszę i obejrzałem pod światło. Otwór wypalony na okrągło, wkładka wirowa wyjęta. Dyszę zacisnąłem lekko szczypcami, nie na płasko, tylko tak, żeby otwór zrobił się szczeliną — i pył zaczął schodzić jak zasłona, która się zsuwa.",
+      "threads": [
+        "zraszacze-byszu"
+      ]
+    },
+    {
+      "id": "cos-nie-stalo-sie-91",
+      "kind": "punchline",
+      "content": "Zapytałem, czy przy wywozie znowu policzy mi cło. Zastanowiła się uczciwie, dłużej niż wczoraj. — Nie. Przyjechały jako obce i wyjadą jako obce. Nic się z nimi nie stało.",
+      "threads": [
+        "netla-lyki"
+      ]
+    }
+  ],
+  "sketch": "Ebner klęczy w czerwonym pyle na betonowej misie u podstawy szybu, zaciskając szczypcami dyszę zraszacza, podczas gdy w tle pył schodzi w dół jak zasłona na trzymetrowym odcinku."
+}
