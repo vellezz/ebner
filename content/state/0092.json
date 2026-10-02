@@ -1,0 +1,50 @@
+{
+  "day": 92,
+  "threads": [
+    {
+      "id": "zraszacze-byszu",
+      "op": "update",
+      "summary": "Ebner odkrył, że samo zaciśnięcie dyszy nie wystarcza — bez wkładki wirowej strumień tworzy płaski wachlarz w przypadkowym kierunku i trzeba go celować podkładkami z drutu pod kołnierzem; zrobił dziewięć dysz, zostało osiem."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-byszu-dysza-celowanie",
+      "content": "Dysza zraszacza bez wkładki wirowej robi płaski wachlarz zamiast mgły, a kierunek wachlarza zależy od tego, w którym miejscu gwint ją zatrzyma; ustawia się to podkładając pod kołnierz pierścień zwinięty z miękkiego drutu — grubość pierścienia przesuwa dyszę o ułamek obrotu.",
+      "subject": "glowica-byszu"
+    },
+    {
+      "id": "f-byszu-dysze-postep-92",
+      "content": "Z osiemnastu dysz kolumny zraszaczy na spodzie Byszu dziewięć jest już zaciśniętych i ustawionych, osiem zostało do zrobienia.",
+      "subject": "glowica-byszu"
+    },
+    {
+      "id": "f-byszu-ksiega-naprawa-zmiana",
+      "content": "W książce urządzenia Byszu pole „naprawa” nie wymaga zgody głowicy, pole „zmiana” tak; Welk wpisał usunięcie wkładek wirowych jako naprawę z rysunkiem na marginesie, żeby kolejny serwisant nie rozwiercił zaciśniętych dysz myśląc, że są zepsute.",
+      "subject": "welk"
+    },
+    {
+      "id": "f-byszu-katy-odpowiedzialnosc",
+      "content": "Welk wpisał w książce urządzenia Byszu przy zraszaczach: „kąty — brygadzista spodu”, czyniąc Ebnera odpowiedzialnym za ustawienie kierunku dysz, bo to on codziennie widzi, gdzie mgła nie schodzi.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f92-wachlarz-zasniony",
+      "kind": "scene",
+      "content": "Trzy dysze obok siebie dały trzy wachlarze stojące jak im wyszło — jeden poprzek, dwa wzdłuż — a między nimi czysty korytarz, którym pył szedł w górę jak gdyby nigdy nic.",
+      "threads": [
+        "zraszacze-byszu"
+      ]
+    },
+    {
+      "id": "f92-rysunek-welka",
+      "kind": "document",
+      "content": "Pod polem „naprawa” nie było miejsca na rysunek, więc Welk narysował z boku osiemnaście kresek i przy każdej ukośną kreskę, jak stoi wachlarz; przy siódmej musiał dmuchnąć pył z kartki.",
+      "threads": [
+        "zraszacze-byszu"
+      ]
+    }
+  ]
+}
