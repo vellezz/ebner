@@ -1,0 +1,51 @@
+{
+  "day": 94,
+  "entities": [
+    {
+      "id": "ohra",
+      "kind": "place",
+      "name": "Ohra",
+      "parent": "system-nici",
+      "summary": "Mały karzeł w pobliżu Byszu, na mapie celnej ledwie dwie linijki: cztery kamienie, lód na trzecim, stara tabliczka nadawcza powtarzająca nieznany komunikat."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "bysz",
+      "to": "ohra"
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ebner-woda-ohra",
+      "content": "Ebner napełnił zbiornik wody na Hannie do dwóch trzecich lodem wyrąbanym na Ohrze; woda po przetopieniu ma metaliczny posmak i zostawia osad na dnie czajnika w jeden wieczór — do przefiltrowania.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-ebner-droga-bysz-zamknieta",
+      "content": "Prosta droga z Byszu jest zamknięta od trzech dni, bo ktoś ciągnie przez nią coś długiego; objazd prowadzi przez Ohrę.",
+      "subject": "bysz"
+    },
+    {
+      "id": "f-ebner-hanna-wytop-lodu",
+      "content": "Ciepły kadłub Hanny po locie wytapia lód pod płozami, przez co statek powoli osiada przodem i przechyla się na prawą stronę; Ebner musiał przestawić ją na skalny grzbiet, by nie zapadła się głębiej.",
+      "subject": "hanna"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-ohra-tabliczka",
+      "kind": "world_description",
+      "content": "Boi nie ma żadnej, jest za to stara tabliczka nadawcza, która powtarza sama do siebie coś w języku, którego nie znam, co dwanaście albo trzynaście sekund.",
+      "threads": []
+    },
+    {
+      "id": "frag-hanna-siadala",
+      "kind": "scene",
+      "content": "Lód pod nią odparowywał. Kadłub po locie jest ciepły, a tu nie ma czym tego ciepła oddać — więc płozy wytopiły sobie dwa rowki i Hanna powoli siadała w nie przodem.",
+      "threads": []
+    }
+  ],
+  "sketch": "Mały statek Hanna przechylony na lodowej niecce, para unosząca się spod płóz, w tle stara tabliczka nadawcza na skalistym karle."
+}
