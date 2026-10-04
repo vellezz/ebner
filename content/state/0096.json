@@ -1,0 +1,49 @@
+{
+  "day": 96,
+  "threads": [
+    {
+      "id": "rast-kuter-sygnal",
+      "op": "close",
+      "status": "closed",
+      "closure": "resolved",
+      "summary": "Ebner znalazł tabliczkę nadawczą na Ohrze: to stary nadajnik ratunkowy z nagraniem o wodzie, nadający na darmowym kanale alarmowym tym samym rytmem co skrzynka Rasta; wyjaśnia pochodzenie sygnału, nie jego źródło na Netli."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-ohra-tabliczka-nadajnik",
+      "content": "Tabliczka nadawcza na Ohrze to stary nadajnik ratunkowy osadzony na trzech prętach przy trzecim kamieniu, z ogniwem, baterią kondensatorów, kostką pamięci i sześciopozycyjnym przełącznikiem kanału ustawionym na pierwszą, darmową pozycję alarmową; nagranie mówi o wodzie przy trzecim kamieniu i poleca brać ile trzeba, zamykać pokrywę.",
+      "subject": "ohra",
+      "valid_from": 96
+    },
+    {
+      "id": "f-ohra-tabliczka-odstep",
+      "content": "Odstęp między sygnałami tabliczki na Ohrze wynosił dwanaście do trzynastu sekund przed wyczyszczeniem ogniwa spod mlecznego szronu, a po oczyszczeniu skrócił się do sześciu sekund.",
+      "subject": "ohra",
+      "valid_from": 96
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f96-tabliczka-skrzynka",
+      "kind": "scene",
+      "content": "Trzy krótkie, przerwa, reszta — ten sam rytm, co ze skrzynki przy kutrze w rowie na Netli. Ebner leci sprawdzić czwarty kamień, bo nie chce być człowiekiem, który usłyszał wezwanie i nie sprawdził.",
+      "threads": [
+        "rast-kuter-sygnal"
+      ]
+    },
+    {
+      "id": "f96-kanal-darmowy",
+      "kind": "world_description",
+      "content": "Pierwsza pozycja przełącznika kanału jest darmowa na każdym sprzęcie, jaki Ebner miał w rękach — za resztę płaci się od nadania. Ktoś postawił tu tablicę z napisem „jest woda” i nadał ją na kanale, na którym się nie płaci, bo na płatnym nikogo by nie było stać.",
+      "threads": []
+    },
+    {
+      "id": "f96-nie-przestawil",
+      "kind": "punchline",
+      "content": "Mogłem to przestawić na trzecią pozycję. Zastanawiałem się nad tym dłużej, niż trwało otwieranie skrzynki. Nie przestawiłem — nie moja skrzynka, nie moje pasmo, a powód nadal działa, bo ja tu po tę wodę przyleciałem.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner w skafandrze klęczy przy wbitej w szczelinę skalną tabliczce nadawczej na odłamku Ohry, otwarta pokrywa ukazuje ogniwo pokryte mlecznym szronem, w tle cztery kamienie i Hanna stojąca na grzbiecie skalnym."
+}
