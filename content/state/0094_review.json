@@ -1,0 +1,12 @@
+{
+  "day": 94,
+  "threads": [
+    {
+      "id": "nowe-zlecenie-glosowanie",
+      "op": "close",
+      "status": "closed",
+      "closure": "abandoned",
+      "summary": "Łożysko wentylatora wylotowego kolumny drugiej przegrało głosowanie dwadzieścia cztery do dwudziestu trzech; równocześnie pojawił się sygnał pomocy od frachtowca ze szlaku, któremu Ebner udzielił holu dzięki argumentowi o rozdzieleniu sprawy na dwie odrębne kwestie."
+    }
+  ]
+}
