@@ -1,0 +1,62 @@
+{
+  "day": 97,
+  "entities": [
+    {
+      "id": "stacja-przeladunkowa",
+      "kind": "place",
+      "name": "Stacja przeładunkowa",
+      "parent": "szlak-za-hoonem",
+      "summary": "Stara, ciasna stacja na objeździe zamkniętej drogi z Byszu, cumowanie w dwóch rzędach, jedno łącze dalekiego zasięgu na kolejkę."
+    },
+    {
+      "id": "vuls",
+      "kind": "person",
+      "name": "Vuls",
+      "parent": "ambrat",
+      "summary": "Trzymacz wynajęty z urzędu przez Ebnera na Ambracie, trzyma linę z żetonem, kartką i kopertą od Varnu."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "ohra",
+      "to": "stacja-przeladunkowa"
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-varnu-obnizka-maleje",
+      "kind": "general",
+      "content": "Odpowiedź Varnu, odczytana przez prześwit spod wrót na Ambracie, ujawniła że obniżka rachunku o jedną jednostkę nie jest jednorazowa — przy każdym kolejnym piśmie kwota schodzi o jeden; na kopercie widnieje też nowe, nieznane dotąd oznaczenie sprawy, a czwarty wiersz pozostał nieodczytany.",
+      "subject": "ebner-gripe",
+      "valid_from": 97
+    },
+    {
+      "id": "f-vuls-czytanie-jako-trzymanie",
+      "kind": "general",
+      "content": "Vuls zaproponował wliczenie czytania koperty przez prześwit do stażu trzymania, argumentując że trzymał kopertę przez cały czas czytania.",
+      "subject": "vuls",
+      "valid_from": 97
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f97-czytanie-przez-wrota",
+      "kind": "scene",
+      "content": "Vuls leżał na brzuchu przy wrotach hali na Ambracie, przykładał kopertę z Varnu do paska światła i opisywał kształty liter, których sam nie rozumiał, a Ebner odczytywał je lustrzanie po drugiej stronie łącza.",
+      "threads": [
+        "hol-frachtowca-ambrat",
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "f97-obnizka-nie-jednorazowa",
+      "kind": "punchline",
+      "content": "Nie jest jednorazowa. Przy każdym piśmie schodzi o jedną — odpowiedź, na którą Ebner czekał od dawna, przyszła nie jako słowo, lecz jako kształt litery widziany pod kątem, przez obcą dłoń.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    }
+  ],
+  "sketch": "Człowiek leżący na brzuchu przy szczelinie światła pod metalowymi wrotami hali, przykładający kopertę do paska blasku, podczas gdy w tle wciągarka pracuje nad holowanym frachtowcem."
+}
