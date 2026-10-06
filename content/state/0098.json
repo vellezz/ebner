@@ -1,0 +1,42 @@
+{
+  "day": 98,
+  "facts_opened": [
+    {
+      "id": "f-ebner-wklad-pochlaniacza",
+      "content": "Wkład pochłaniacza w kabinie Ebnera jest zużyty i nie ma zapasowego; wypukany wkład starczy jeszcze dzień, może dwa, potem Ebner będzie spał przy otwartym włazie.",
+      "subject": "ebner-gripe",
+      "valid_from": 98
+    },
+    {
+      "id": "f-ambrat-urzad-kazda-przesylka-osobno",
+      "content": "Urząd na Ambracie zażądał od Vulsa, by każda kolejna przesyłka na rejestr Ebnera była traktowana jako osobna rzecz z osobnym wpisem za trzy jednostki, tak jak koperta; czterdzieści przesyłek to czterdzieści wpisów po trzy jednostki.",
+      "subject": "vuls",
+      "valid_from": 98
+    },
+    {
+      "id": "f-ebner-pisma-skasowane",
+      "content": "Ebner przygotował czterdzieści identycznych pism do Varnu licząc na niemal zerowy koszt transmisji z racji kompresowalności, ale po wyjaśnieniu Vulsa o kosztach wpisu skasował trzydzieści dziewięć, zostawiając jedno, by wymusić powtórzenie nieodczytanego czwartego wiersza.",
+      "subject": "ebner-gripe",
+      "valid_from": 98
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f98-rachunek-jednostka-w-dol",
+      "kind": "scene",
+      "content": "Jednostka w dół na rachunku, trzy w górę u trzymacza — przy czterdziestu pismach Ebner zbiłby dług o czterdzieści, a zapłacił sto dwadzieścia za to, że ktoś je potrzyma.",
+      "threads": [
+        "dlug-z-varnu",
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "f98-vuls-slonce-i-tak-idzie",
+      "kind": "punchline",
+      "content": "— Będę się kładł tak czy tak. Słońce i tak idzie, a ja i tak stoję.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    }
+  ]
+}
