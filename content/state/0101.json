@@ -1,0 +1,25 @@
+{
+  "day": 101,
+  "facts_closed": [
+    {
+      "id": "f-ebner-wklad-pochlaniacza"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f101-taryfa-zastepcza",
+      "kind": "document",
+      "content": "Kontrola ładunku w tranzycie, taryfa zastępcza: stacja pobiera w zastępstwie to, co pobrałaby zamknięta droga macierzysta, a ta nie pobierała nic, bo tam się tylko przejeżdża. Rura kołnierzowa, osiem sztuk: stawka według drogi macierzystej — zamkniętej.",
+      "threads": [
+        "netla-lyki"
+      ]
+    },
+    {
+      "id": "f101-ile-im-ucieklo",
+      "kind": "punchline",
+      "content": "— To po co pani mierzyła każdą rurę? — Żeby jak się otworzy, wiedzieli, ile im uciekło.",
+      "threads": []
+    }
+  ],
+  "sketch": "Kobieta w kombinezonie i chłopak z taśmą mierzą rury pojedynczo na rampie stacji przeładunkowej, notując każdą osobno.\n"
+}
