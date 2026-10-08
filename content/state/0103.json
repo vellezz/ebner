@@ -1,0 +1,21 @@
+{
+  "day": 103,
+  "facts_opened": [
+    {
+      "id": "f-hanna-pochlaniacz-wymieniony",
+      "content": "Ebner wymienił wkład pochłaniacza na Hannie; stary był zapchany od strony wlotu równą, szarą skorupą pyłu z Byszu grubości paznokcia, nie zużyty chemicznie — to on powodował ciągnięcie powietrza przez korek.",
+      "subject": "hanna",
+      "valid_from": 103
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f103-poch-wlot",
+      "kind": "scene",
+      "content": "Od strony wylotu wygląda jak nowy, jasny. Od strony wlotu ma równą, szarą skorupę na grubość paznokcia — pył z Byszu, ten, co się wciska i twardnieje.",
+      "threads": [
+        "netla-lyki"
+      ]
+    }
+  ]
+}
