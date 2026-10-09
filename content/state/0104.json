@@ -1,0 +1,68 @@
+{
+  "day": 104,
+  "threads": [
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "summary": "Ebner i Vuls odczytali czwarty wiersz formularza Varnu przez prześwit, obracając kopertę: każde złożone pismo obniża należność o jedną jednostkę, bez ograniczenia liczby pism. Ebner skasował przygotowane pismo i nie wysłał żadnego."
+    },
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "update",
+      "summary": "Vuls odczytał Ebnerowi czwarty wiersz koperty przez prześwit pod wrotami, obracając ją do góry nogami; urzędnik uznał czytanie za nieprzerywające trzymania. Staż koperty u Vulsa jest teraz najdłuższy w jego rejestrze."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-varnu-regula-znizki",
+      "content": "Czwarty wiersz formularza Varnu głosi: każde pismo złożone w sprawie obniża należność o jedną jednostkę, a liczba pism składanych w sprawie nie jest ograniczona.",
+      "subject": "ebner-gripe",
+      "valid_from": 104
+    },
+    {
+      "id": "f-ebner-pismo-ostatnie-skasowane",
+      "content": "Ebner skasował ostatnie przygotowane pismo do Varnu po poznaniu treści czwartego wiersza i nie wysłał żadnego.",
+      "subject": "ebner-gripe",
+      "valid_from": 104
+    },
+    {
+      "id": "f-vuls-staz-rekord",
+      "content": "Dzięki czytaniu koperty przez prześwit bez przerywania trzymania, staż koperty w rejestrze Vulsa jest teraz najdłuższy, jaki kiedykolwiek zanotował.",
+      "subject": "vuls",
+      "valid_from": 104
+    },
+    {
+      "id": "f-ebner-szelki-przelozone",
+      "content": "Ebner przełożył szelki w skafandrze na drugą stronę, bo lewą ręką zapina je teraz inaczej i dotychczasowy układ uwierał z powodu niesprawnej dłoni.",
+      "subject": "ebner-gripe",
+      "valid_from": 104
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f104-czwarty-wiersz",
+      "kind": "document",
+      "content": "Każde pismo złożone w sprawie obniża należność o jedną jednostkę. Liczba pism składanych w sprawie nie jest ograniczona.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "f104-obrot-koperty",
+      "kind": "scene",
+      "content": "— Obróć ją. — Którą stroną? — Do góry nogami, tak żeby czwarty wiersz był tam, gdzie był pierwszy. — Wszystko było i tak lustrzanie. — To prawda, więc teraz jest podwójnie.",
+      "threads": [
+        "hol-frachtowca-ambrat"
+      ]
+    },
+    {
+      "id": "f104-dlaczego-nie-pisza",
+      "kind": "punchline",
+      "content": "— Czyli wystarczy pisać — powiedział Vuls. — Wystarczy pisać. — To ja mam czterdzieści wpisów po trzy jednostki. — Dlatego nie piszemy.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    }
+  ],
+  "sketch": "Ebner przy łączu dalekiego zasięgu na stacji przeładunkowej, przepisujący od końca wiersza litery odczytywane mu przez prześwit spod drzwi na odległym Ambracie."
+}
