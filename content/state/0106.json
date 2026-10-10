@@ -1,0 +1,43 @@
+{
+  "day": 106,
+  "threads": [
+    {
+      "id": "dlug-z-varnu",
+      "op": "update",
+      "summary": "Ebner zadzwonił do Varnu zamiast pisać; habitat obsługuje sprawy głosowo przez AI, która czyta zniszczony nośnik tylko raz. Za cztery jednostki Ebner kupił odczyt stu dziewięciu nazwisk ze spisu mieszkańców blokującego bufor; w zamian otrzymał urwany fragment własnej sprawy o postoju i dopłacie. Dalszy odczyt wymaga kolejnych wpłat po cztery jednostki za sektor."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-varnu-ai-bufor-spis",
+      "content": "Układ obsługi należności Varnu to głos, który czyta sprawy ze starego nośnika niszczącego się przy odczycie; bufor na odczyt jest od szesnastu lat zajęty przez spis tysiąca dwustu czternastu mieszkańców habitatu, bo spis jest podstawą przydziału powietrza, wody i oświetlenia. Połączenie głosowe nie liczy się jako rzecz do wpisania w rejestr Vulsa, bo głosu nikt nie trzyma.",
+      "subject": "ebner-gripe",
+      "valid_from": 106
+    },
+    {
+      "id": "f-varnu-stawka-za-spis",
+      "content": "Varnu policzyło odczyt całego spisu mieszkańców za kwotę, która rozśmieszyła Ebnera; za cztery jednostki przeczytano sto dziewięć pozycji spisu od początku listy (wedle daty wpisania do habitatu), po czym bufor zwolnił miejsce na odczyt jednego sektora sprawy Ebnera — urwanego w połowie fragmentu o postoju, materiale własnym klienta i dopłacie za wyjście poza grafik.",
+      "subject": "ebner-gripe",
+      "valid_from": 106
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f106-rozmowa-varnu",
+      "kind": "scene",
+      "content": "— Ile wynosi? — Mniej niż na ostatnim rachunku o jedną jednostkę, bo to połączenie liczę jako pismo. — A ile było na ostatnim rachunku? — Nie wiem. Sprawa leży na starym nośniku, w warstwie, która przy odczycie się ściera. Przeczytać da się raz.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "f106-sto-dziewiec-nazwisk",
+      "kind": "punchline",
+      "content": "Za cztery jednostki Ebner kupił sto dziewięć nazwisk obcych mieszkańców habitatu Varnu, żeby zwolnić bufor i poznać urwany w połowie fragment własnej sprawy: „…poz. 4, postój przy pierś… materiał własny klienta, zuż… dopłata za wyjście poza grafik, nalicz…” Kość z nazwiskami schował do szuflady z wiertłami.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    }
+  ],
+  "sketch": "Ebner w zimnym boksie łączności stacji przeładunkowej, słuchawka przy uchu, wskaźnik zapisu migający na kości diagnostycznej, wentylator na jednym łożysku w tle."
+}
