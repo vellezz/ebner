@@ -1,0 +1,58 @@
+{
+  "day": 108,
+  "facts_opened": [
+    {
+      "id": "f-varnu-spis-tresc-formularz",
+      "kind": "general",
+      "content": "Spis mieszkańców Varnu to sto dziewięć bloków stałej długości: nazwisko, numer kabiny, data wpisania, przydział powietrza (identyczny we wszystkich), przydział wody (identyczny), sektor oświetlenia (cztery warianty) i trzy nierozpoznane pola, wszystkie puste — treść daje się skompresować niemal do zera.",
+      "subject": "ebner-gripe",
+      "valid_from": 108
+    },
+    {
+      "id": "f-varnu-oplata-probka-wycena",
+      "kind": "general",
+      "content": "Ebner odesłał Varnu próbkę stu dziewięciu pozycji spisu jako pismo dotyczące cennika, nie sprawy należności; boja wyceniła przesłanie całego spisu na stawkę równą zwykłej wiadomości, z zaokrągleniem w dół.",
+      "subject": "ebner-gripe",
+      "valid_from": 108
+    },
+    {
+      "id": "f-ebner-falszywy-alarm-nadajnik",
+      "kind": "general",
+      "content": "Zapasowy nadajnik Ebnera z uszkodzoną anteną (brak śruby nr 7) wysłał czystą nośną w paśmie ratunkowym, co stacja uznała za wezwanie pomocy i ogłosiła alarm drugiego stopnia; Ebner wyłączył bezpiecznik prawej strony pokładu, sprawę zamknięto jako jednostkę odnalezioną, podpisał protokół jako uratowany i ratujący jednocześnie.",
+      "subject": "ebner-gripe",
+      "valid_from": 108
+    },
+    {
+      "id": "f-varnu-bufor-wolny-czyta-sprawe",
+      "kind": "general",
+      "content": "Po przesłaniu spisu bufor odczytu nośnika Varnu zwolnił się całkowicie; układ obsługi zaczął czytać całą sprawę Ebnera od początku, bez tła szumu obiegu, i kazał się odezwać, gdy łącze znów będzie dostępne.",
+      "subject": "ebner-gripe",
+      "valid_from": 108
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f108-spis-formularz",
+      "kind": "document",
+      "content": "Sto dziewięć pozycji, każda w bloku stałej długości — nie lista, tylko formularz powielony sto dziewięć razy. Zmienia się nazwisko, numer i data; reszta to ta sama rzecz powtórzona.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "f108-falszywy-alarm",
+      "kind": "scene",
+      "content": "Nadawałem nośną. Treści tam nie ma od naprawy. — Nośna bez treści w paśmie ratunkowym jest wezwaniem pomocy. Z tym nie da się dyskutować.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "f108-protokol-podpis",
+      "kind": "punchline",
+      "content": "Dwie rubryki: uratowany i ratujący. Podpisałem się w obu, bo na tej stacji nikt inny tego nie zrobi.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner w boksie dyspozytorki ze stacją za plecami, na ekranie migający alarm, a on trzyma kość pamięci przy wyrzuconym bezpieczniku."
+}
