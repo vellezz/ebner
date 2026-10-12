@@ -1,0 +1,36 @@
+{
+  "day": 111,
+  "facts_opened": [
+    {
+      "id": "f-varnu-sektor-pierwszy-tresc",
+      "kind": "general",
+      "content": "Sektor pierwszy sprawy Ebnera: habitat Varnu wezwał serwis do obiegu chłodzenia sektora oświetleniowego mniejszego, jednostka przyjęta do postoju; zapisana pozycja to oczekiwanie na materiał własny klienta, sześćdziesiąt jeden dni. Sektor zniszczony odczytem, zapisany wyłącznie w notatkach Ebnera.",
+      "subject": "ebner-gripe",
+      "valid_from": 111
+    },
+    {
+      "id": "f-ebner-pamiec-cztery-dni",
+      "kind": "general",
+      "content": "Ebner pamięta, że czekał na materiał klienta cztery dni, nie sześćdziesiąt jeden; układ Varnu twierdzi, że zapis dotyczy oczekiwania sprawy, nie pobytu jednostki, i rozróżnienie może być w sektorze drugim.",
+      "subject": "ebner-gripe",
+      "valid_from": 111
+    }
+  ],
+  "fragments": [
+    {
+      "id": "varnu-sektor-pierwszy-czytanie",
+      "kind": "document",
+      "content": "Sektor pierwszy gotowy. Odczyt niszczy zapis. Oczekiwanie na materiał własny klienta: sześćdziesiąt jeden dni. W tym sektorze nie ma informacji o pobycie jednostki, jest informacja o oczekiwaniu sprawy.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "workiem-narzedzi-oferta",
+      "kind": "scene",
+      "content": "Chudy facet z workiem narzędzi oferuje swoje miejsce w kolejce w zamian za przewóz, byle siedzieć w ładowni i niczego nie ruszać; Ebner odmawia, bo wożenie ludzi to osobna rubłyka, której ma dość.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner w ciasnym boksie łączności pisze ołówkiem na kartce, podczas gdy bezcielesny głos czyta z niszczącego się nośnika."
+}
