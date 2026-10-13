@@ -1,0 +1,35 @@
+{
+  "day": 112,
+  "entities": [
+    {
+      "id": "werd",
+      "kind": "person",
+      "name": "Werd",
+      "parent": "stacja-przeladunkowa",
+      "summary": "Trzyma maszynownię stacji przeładunkowej, płaci dniówki od razu."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-werd-dniowka-trzy",
+      "content": "Werd zapłaciła Ebnerowi trzy jednostki za dniówkę przy wymienniku płytowym, od razu po robocie.",
+      "subject": "ebner-gripe",
+      "valid_from": 112
+    },
+    {
+      "id": "f-stacja-wymiennik-osad",
+      "content": "Wymiennik płytowy na obiegu pomocniczym stacji przeładunkowej był zapisany jako otwarty sześć lat temu, choć osad na płytach wyglądał na starszy; uszczelek nowych nie było, stare złożono odwrócone z zaznaczeniem o wymianie w książce urządzenia.",
+      "subject": "stacja-przeladunkowa",
+      "valid_from": 112
+    }
+  ],
+  "fragments": [
+    {
+      "id": "osad-sprzed-szesciu-lat",
+      "kind": "scene",
+      "content": "— Sześć lat to mało na tyle. / — Tak jest zapisane. Ebner myśli o tym, ile razy sam wpisywał w cudzą książkę datę wypełnienia rubryki zamiast daty roboty.",
+      "threads": []
+    }
+  ],
+  "sketch": "Trzy osoby skrobiące ciemne, pokryte grubym osadem płyty wymiennika w wąskim, słabo oświetlonym korytarzu stacji."
+}
