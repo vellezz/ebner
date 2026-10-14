@@ -1,0 +1,25 @@
+{
+  "day": 113,
+  "entities": [
+    {
+      "id": "teln",
+      "kind": "place",
+      "name": "Teln",
+      "summary": "Bezportowa bryła z pyłem bez zgłoszonego lądowania od lat; dwie budy wiertnicze po dwóch stronach grani, rozdzielone nieprzenikliwą skałą."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "stacja-przeladunkowa",
+      "to": "teln"
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-ebner-nadajnik-srubowanie"
+    }
+  ],
+  "fragments": [],
+  "sketch": ""
+}
