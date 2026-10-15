@@ -1,0 +1,80 @@
+{
+  "day": 114,
+  "entities": [
+    {
+      "id": "druga-buda-telnu",
+      "kind": "place",
+      "name": "Buda po drugiej stronie grani",
+      "parent": "teln",
+      "summary": "Druga wiertnicza buda na Telnie, oddzielona nieprzenikliwą granią od tej, którą obsługiwał wcześniej Ebner; dostęp tylko lotem nad skałą lub wielogodzinnym przejściem pieszym."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "teln",
+      "to": "druga-buda-telnu"
+    },
+    {
+      "seq": 2,
+      "from": "druga-buda-telnu",
+      "to": "teln"
+    }
+  ],
+  "threads": [
+    {
+      "id": "spotkanie-telnu",
+      "op": "open",
+      "type": "short",
+      "status": "active",
+      "reference_policy": "may_return",
+      "planned_entries": 1,
+      "summary": "Dwie załogi po przeciwnych stronach grani Telnu, cztery lata komunikujące się przypadkowymi skokami napięcia przy grzałce, dostały od Ebnera świadomy przełącznik sygnałowy i zaproszenie do spotkania — pierwszy krok do kontaktu bez pośrednictwa awarii."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "teln-woda-kanister-reka",
+      "content": "Woda dla załogi po drugiej stronie grani Telnu nie pochodzi z żadnej instalacji — ktoś nosi ją kanistrem pieszo dookoła grani, kilka godzin w jedną stronę, tą samą linią śladów od lat.",
+      "subject": "druga-buda-telnu",
+      "valid_from": 114
+    },
+    {
+      "id": "teln-sygnal-przypadkowy-rozpoznany",
+      "content": "Przerwy nadajnika drugiej budy, odbierane dotąd po drugiej stronie grani jako prośby o wodę, były skutkiem spadku napięcia przy rozruchu grzałki regeneracyjnej skrubera — nie zamierzonym sygnałem; obie strony przez cztery lata źle odczytywały intencje drugiej.",
+      "subject": "druga-buda-telnu",
+      "valid_from": 114
+    },
+    {
+      "id": "teln-opornik-naprawiony",
+      "content": "Ebner dorobił opornik rozruchowy z drutu nawiniętego na ceramiczny kawałek, dzięki czemu grzałka drugiej budy nabiera prądu powoli i nadajnik przestał się resetować; zamontował też przełącznik do świadomego, naumyślnego wysyłania sygnału trzech przerw i jednej dłuższej.",
+      "subject": "druga-buda-telnu",
+      "valid_from": 114
+    },
+    {
+      "id": "teln-krzywka-jednostronna",
+      "content": "Krzywka wykonana wcześniej przez Ebnera dla pierwszej budy Telnu działa tylko w jedną stronę; druga buda nie ma żadnej i odpowiada ręcznie, w rękawicy, na mrozie — Ebner nie ma materiału na drugą krzywkę.",
+      "subject": "teln",
+      "valid_from": 114
+    }
+  ],
+  "fragments": [
+    {
+      "id": "teln-cisza-to-znaczy-jestescie",
+      "kind": "scene",
+      "content": "— To znaczy, że oni teraz nic nie usłyszą. — Usłyszą ciszę. To znaczy, że jesteście. — Ale wody nie przyniosą.",
+      "threads": [
+        "spotkanie-telnu"
+      ]
+    },
+    {
+      "id": "teln-przyjdzcie",
+      "kind": "punchline",
+      "content": "Nadałem jeszcze na tamtą stronę, krótko, że byłem i że drugiej krzywki nie zrobię, ale że teraz mogą się umówić. Odpowiedziało mi dwa razy przykryte: przyjdźcie.",
+      "threads": [
+        "spotkanie-telnu"
+      ]
+    }
+  ],
+  "sketch": "Ebner klęczący przy oszronionej rurce skrubera na zewnątrz prowizorycznej budy wiertniczej, z kanistrem wody przy wejściu i śladami stóp biegnącymi w stronę grani."
+}
