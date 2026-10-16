@@ -1,0 +1,53 @@
+{
+  "day": 115,
+  "travel": [
+    {
+      "seq": 1,
+      "from": "teln",
+      "to": "stacja-przeladunkowa"
+    }
+  ],
+  "threads": [
+    {
+      "id": "spotkanie-telnu",
+      "op": "update",
+      "summary": "Nadzór pasma zarejestrował sygnał z Telnu jako alarmowy wzór (trzy krótkie, jeden długi); Ebner potwierdził, że to przewoźnik z kanistrem i że załoga wie, co nadaje — sygnał zamknięto jako rozpoznany, nie ratunkowy."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "teln-sygnal-zarejestrowany-oficjalnie",
+      "content": "Nadzór pasma zarejestrował powtarzalny sygnał trzech krótkich i jednego dłuższego z Telnu jako wzór dopuszczalny tylko wtedy, gdy nadający wie, co nadaje; Ebner złożył oświadczenie, że załoga wie, i sprawę zamknięto bez opłaty jako sygnał rozpoznany, nie ratunkowy.",
+      "subject": "teln"
+    },
+    {
+      "id": "ebner-blacha-krzywka-druga",
+      "content": "Ebner zdobył na stacji przeładunkowej dwa krzywe, grube kawałki blachy z resztek poszycia zbiornika na drugą krzywkę dla Telnu; przywiązał je do żebra w ładowni i narysował na blasze ołówkiem szkic krzywki.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "stacja-uszczelki-odwrocone",
+      "content": "Werd potwierdziła Ebnerowi, że uszczelki wymiennika płytowego na stacji przeładunkowej śmierdzą dlatego, że są założone odwrócone, nie dlatego że są zużyte.",
+      "subject": "stacja-przeladunkowa"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "teln-sygnal-rozpoznany-dialog",
+      "kind": "scene",
+      "content": "— Zarejestrowaliśmy powtarzalny sygnał z bryły bez zgłoszonego lądowania. Proszę o wyjaśnienie. — To przewoźnik z kanistrem... — Zamykam jako sygnał rozpoznany, nie ratunkowy.",
+      "threads": [
+        "spotkanie-telnu"
+      ]
+    },
+    {
+      "id": "ebner-pokusa-kutra-ratunkowego",
+      "kind": "punchline",
+      "content": "Gdybym powiedział, że jednak nie wiem, poleciałby tam kuter ratunkowy z pełnymi zbiornikami. Siedziałem z ręką na przycisku dłużej, niż to ładnie wygląda.",
+      "threads": [
+        "spotkanie-telnu"
+      ]
+    }
+  ],
+  "sketch": "Ebner w kokpicie Hanny trzyma rękę nad przyciskiem radia, w tle widok grani Telnu z dwoma budami po przeciwnych stronach."
+}
