@@ -1,0 +1,53 @@
+{
+  "day": 116,
+  "facts_opened": [
+    {
+      "id": "f-varnu-sektor-drugi-tresc",
+      "content": "Sektor drugi sprawy Ebnera: liczenie oczekiwania zaczyna się od dnia złożenia zapotrzebowania na materiał; habitat złożył je sam do siebie, do własnego magazynu, pięćdziesiąt siedem dni przed przylotem Ebnera. Ebner czekał na miejscu cztery dni, materiał przyszedł, obieg naprawiono. Sześćdziesiąt jeden dni postoju to suma pięćdziesięciu siedmiu i czterech. Dopłata za wyjście poza grafik dotyczy sprawy, a grafik jest grafikiem magazynu.",
+      "subject": "ebner-gripe",
+      "valid_from": 116
+    },
+    {
+      "id": "f-varnu-sektor-pierwszy-zniszczony",
+      "content": "Pierwszy sektor sprawy Ebnera na nośniku Varnu jest już ciszą — zapis poszedł przy poprzednim odczycie; układ czyta tę ciszę tak samo sumiennie jak tekst. Ebner odtworzył jego treść z własnej kartki i układ przyjął to jako oświadczenie strony, nie jako oryginalny dokument.",
+      "subject": "ebner-gripe",
+      "valid_from": 116
+    },
+    {
+      "id": "f-ebner-trzy-jednostki-wydane-varnu",
+      "content": "Ebner zapłacił Varnu trzy jednostki otrzymane od Werd za dniówkę przy wymienniku, żeby skorzystać z łącza dalekiego zasięgu na stacji przeładunkowej; nie ma już czym dopłacić za dalszy odczyt.",
+      "subject": "ebner-gripe",
+      "valid_from": 116
+    },
+    {
+      "id": "f-stacja-laczne-kolejka",
+      "content": "Łącze dalekiego zasięgu na stacji przeładunkowej jest jedno; dyspozytorka wpuszcza do boksu po jednym na kwadrans i puka, gdy czas się kończy.",
+      "subject": "stacja-przeladunkowa",
+      "valid_from": 116
+    }
+  ],
+  "facts_closed": [
+    {
+      "id": "f-varnu-sektor-pierwszy-tresc"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "varnu-sektor-drugi-wyjasnienie",
+      "kind": "document",
+      "content": "Liczenie oczekiwania zaczyna się u nich w dniu złożenia zapotrzebowania na materiał, a zapotrzebowanie habitat złożył sam do siebie, do własnego magazynu, pięćdziesiąt siedem dni przed moim przylotem. Potem przyleciałem ja, czekałem cztery dni, materiał przyszedł i obieg został naprawiony. Sześćdziesiąt jeden to pięćdziesiąt siedem plus cztery.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    },
+    {
+      "id": "nosnik-czyta-cisze",
+      "kind": "punchline",
+      "content": "Układ czyta ciszę tak samo sumiennie jak tekst, równym tempem — pierwszy sektor nośnika już poszedł przy poprzednim odczycie i nic tam nie zostało.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    }
+  ],
+  "sketch": "Ebner w ciasnym boksie przy wadze, trzyma przepisaną na czysto kartkę przy mikrofonie starego nośnika, za szybą czeka w kolejce postać w kapturze."
+}
