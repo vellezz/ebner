@@ -1,0 +1,21 @@
+{
+  "day": 117,
+  "facts_opened": [
+    {
+      "id": "stacja-dzwonek-naprawiony",
+      "content": "Ebner naprawił dzwonek nad boksem łączności na stacji przeładunkowej (zasmolone gniazdo osi młoteczka); dyspozytorka przyznała mu w zamian pierwszeństwo jednego kwadransu łącza poza kolejką, do wykorzystania gdy będzie miał czym zapłacić za sektor.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "dzwonek-poza-kolejka",
+      "kind": "scene",
+      "content": "Dyspozytorka napisała na kartce i przykleiła pod blatem: „Gripe — jeden kwadrans, poza kolejką”. — Teraz? — Nie teraz. Teraz pan nie ma czym zapłacić za sektor, to by się panu zmarnowało.",
+      "threads": [
+        "dlug-z-varnu"
+      ]
+    }
+  ],
+  "sketch": "Ebner przy otwartej puszce zegara nad boksem dyspozytorki, dyspozytorka z obtartymi kostkami dłoni w tle."
+}
