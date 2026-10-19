@@ -1,0 +1,15 @@
+{
+  "day": 120,
+  "facts_opened": [
+    {
+      "id": "f-werd-zaplata-dwie-120",
+      "content": "Werd zapłaciła Ebnerowi dwie jednostki za naprawę przewodu grzewczego pod zawiasem segmentu 3 rękawa do drugiego rzędu; nie uznała kwoty wyższej, bo awaria nie była wpisana przed naprawą.",
+      "subject": "werd"
+    },
+    {
+      "id": "f-stacja-rekaw-petla-zapasu",
+      "content": "W książce urządzenia stacji przeładunkowej, w rubryce uwag przy rękawie do drugiego rzędu, wpisano ręką Ebnera: „przewód pod zawiasem segmentu 3 — pętla zapasu, nie prostować”; wcześniejszy zapis Holdmarku nakazywał ułożenie wyprostowane, bez pętli, co doprowadziło do przetarcia żyły w zawiasie.",
+      "subject": "stacja-przeladunkowa"
+    }
+  ]
+}
