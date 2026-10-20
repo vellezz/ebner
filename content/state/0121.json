@@ -1,0 +1,56 @@
+{
+  "day": 121,
+  "entities": [
+    {
+      "id": "oszt",
+      "kind": "person",
+      "name": "Oszt",
+      "summary": "Szyper jednostki z przemalowanym dziobem, cumującej przy dalekiej ścianie stacji przeładunkowej; jego skrzynka meldunkowa czyta dwa mosiężne grzebienie naraz."
+    },
+    {
+      "id": "jednostka-oszta",
+      "kind": "ship",
+      "name": "Jednostka Oszta",
+      "parent": "stacja-przeladunkowa",
+      "summary": "Niska jednostka z przemalowanym dziobem, w której skrzynce meldunkowej siedzą dwa grzebienie nazw naraz — zimny i ciepły, zależnie od temperatury pod pulpitem."
+    }
+  ],
+  "threads": [
+    {
+      "id": "dwa-grzebienie",
+      "op": "open",
+      "type": "short",
+      "status": "active",
+      "reference_policy": "develop",
+      "planned_entries": 2,
+      "summary": "Oszt chce, żeby skrzynka meldunkowa zawsze podawała zimny grzebień przy cumowaniu i ciepły przy podejściu — zamiana usterki w stałe urządzenie. Ebner wziął zaliczkę i ma zrobić blaszkę rozpierającą z krzywką."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-oszt-zaliczka-4",
+      "content": "Ebner wziął od Oszta cztery jednostki zaliczki za naprawę skrzynki meldunkowej z dwoma grzebieniami nazw; ma zrobić blaszkę rozpierającą z blachy sprężynowej, którą trzyma przywiązaną do żebra w ładowni Hanny.",
+      "subject": "ebner-gripe",
+      "valid_from": 121
+    }
+  ],
+  "fragments": [
+    {
+      "id": "dwa-grzebienie-mechanizm",
+      "kind": "scene",
+      "content": "Dwa grzebienie wsunięte jeden za drugim w to samo gniazdo, każdy dotyka styków swoimi zębami zależnie od temperatury mosiądzu — na postoju wygrywa tylny, w locie przedni. Jednostka ma dwie kolejki do łącza, dwa rachunki za cumowanie i dwie poczty.",
+      "threads": [
+        "dwa-grzebienie"
+      ]
+    },
+    {
+      "id": "trzeci-grzebien-punchline",
+      "kind": "punchline",
+      "content": "Oszt zapytał, czy w gnieździe zmieści się trzeci grzebień. — Zmieści się. Tylko wtedy pan nie będzie wiedział, kim pan wraca. — To się zdarzało już przy dwóch.",
+      "threads": [
+        "dwa-grzebienie"
+      ]
+    }
+  ],
+  "sketch": "Ebner w kabinie przy pulpicie wyjmuje z gniazda dwa wygięte mosiężne grzebienie, każdy z inaczej wyciętymi zębami."
+}
