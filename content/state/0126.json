@@ -1,0 +1,41 @@
+{
+  "day": 126,
+  "entities": [
+    {
+      "id": "hodna",
+      "kind": "place",
+      "name": "Hodna",
+      "summary": "Skalny księżyc z portem wkopanym w zbocze, silny pył, zimno; przedmioty naprawiane przechodzą osobną kontrolę zwaną drugim wejściem."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "stacja-przeladunkowa",
+      "to": "hodna"
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-hodna-drugie-wejscie",
+      "kind": "world_rule",
+      "content": "Na Hodnie przedmioty noszące ślady naprawy przechodzą osobną procedurę kontrolną zwaną drugim wejściem, oddzieloną od zwykłej kontroli celnej, bez podanego uzasadnienia.",
+      "subject": "hodna"
+    },
+    {
+      "id": "f-ebner-wklady-dwa",
+      "content": "Ebner kupił na Hodnie dwa wkłady filtrujące do wody — tyle, ile sklep miał w zapasie.",
+      "subject": "ebner-gripe",
+      "valid_from": 126
+    }
+  ],
+  "fragments": [
+    {
+      "id": "hodna-drugie-wejscie-scena",
+      "kind": "scene",
+      "content": "Drugie wejście to korytarz z jedną ławką i taśmą, która nie chodzi. Chłopak przeciera wciąż ten sam fragment blatu z pyłu, który i tak zaraz wraca.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner siedzi z pudłem narzędzi na kolanach w pustym, zapylonym korytarzu kontroli, patrząc przez szybę na chłopaka przecierającego blat."
+}
