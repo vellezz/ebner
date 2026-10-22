@@ -1,0 +1,23 @@
+{
+  "day": 127,
+  "facts_closed": [
+    {
+      "id": "f-ebner-wklady-dwa"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "glosowanie-tasma-127",
+      "kind": "punchline",
+      "content": "— Pan był jedyny, który to widział. — No właśnie. — I dlatego pana głos jest jeden. Dwa głosy przeciw jednemu: przenośnik nie był naprawiany, mimo że to Ebner go naprawił.",
+      "threads": []
+    },
+    {
+      "id": "wklad-objazd-tasma-127",
+      "kind": "scene",
+      "content": "Wkład filtrujący położyli na taśmie przy szybie, chociaż Ebner stał cztery kroki dalej. Taśma powiozła go wzdłuż całej hali, minęła go i zatrzymała się na końcu rolek.",
+      "threads": []
+    }
+  ],
+  "sketch": "Trzej ludzie w hali drogiego wejścia głosują nad tym, czy przenośnik taśmowy był naprawiany, podczas gdy ten sam przenośnik już działa i wiezie wkład filtrujący wzdłuż całej hali."
+}
