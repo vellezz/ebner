@@ -1,0 +1,68 @@
+{
+  "day": 128,
+  "entities": [
+    {
+      "id": "herse",
+      "kind": "person",
+      "name": "Herse",
+      "parent": "hodna",
+      "summary": "Urzędniczka w kapturze na Hodnie, sprawdza zgłoszenia rzeczy i kwalifikuje je do wejścia drugiego."
+    }
+  ],
+  "threads": [
+    {
+      "id": "dwa-grzebienie",
+      "op": "update",
+      "summary": "Ebner wykonał blaszkę rozpierającą z krzywką dla skrzynki Oszta i przetestował ją czterdzieści razy na wzorcowym grzebieniu; blaszka przeszła wejście drugie na Hodnie, bo podcięty nos uznano za ślad naprawy."
+    },
+    {
+      "id": "spotkanie-telnu",
+      "op": "update",
+      "summary": "Ebner wyciął wstępny zarys drugiej krzywki dla budy na Telnie z dwóch kawałków poszycia zdobytych na stacji przeładunkowej; blacha jest za gruba, dalsza obróbka odłożona."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-blaszka-wykonana",
+      "content": "Ebner wykonał blaszkę rozpierającą z krzywką dla skrzynki meldunkowej Oszta z blachy sprężynowej, zahartował ją i sprawdził czterdzieści razy na wzorcowym grzebieniu — działa powtarzalnie; blaszka nie została jeszcze dostarczona Osztowi.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-hodna-nowa-rzecz-jako-naprawiana",
+      "content": "Na Hodnie rzecz wykonana na miejscu, jeśli nosi ślad powtórnej obróbki (np. podcięcie nosa po próbie), zostaje uznana za rzecz naprawianą i podlega wejściu drugiemu, mimo że nigdy wcześniej nie istniała; opłaty się nie pobiera, jeśli materiał był własny wykonawcy.",
+      "subject": "hodna"
+    },
+    {
+      "id": "f-telnu-krzywka-zarys",
+      "content": "Ebner wyciął zarys drugiej krzywki dla budy na Telnie z dwóch krzywych kawałków poszycia zbiornika zdobytych na stacji przeładunkowej; blacha jest za gruba i dalsza obróbka wymaga osobnego dnia.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f128-zglosznie-rzeczy",
+      "kind": "document",
+      "content": "ZGŁOSZENIE RZECZY WYKONANEJ NA MIEJSCU: blaszka rozpierająca z krzywką, szt. 1. Czy rzecz nosi ślady naprawy: tak. Podstawa ustalenia: na rzeczy widoczne ślady powtórnej obróbki (podcięcie nosa po próbie). Rzecz obrobiona powtórnie jest rzeczą poprawianą, a rzecz poprawiana jest rzeczą naprawianą.",
+      "threads": [
+        "dwa-grzebienie"
+      ]
+    },
+    {
+      "id": "f128-herse-dialog",
+      "kind": "punchline",
+      "content": "— Ona nie była naprawiana — powiedziałem. — Ona wczoraj nie istniała. — Wczoraj nie. Dzisiaj przed południem już istniała i miała nos dłuższy. Potem pan go skrócił. — I to jest właśnie ten ślad.",
+      "threads": [
+        "dwa-grzebienie"
+      ]
+    },
+    {
+      "id": "f128-wejscie-drugie-tasma",
+      "kind": "scene",
+      "content": "Taśma chodziła cicho, bez wałka pyłu z wczoraj. Chłopak zza szyby skinął tylko głową, kiedy podałem blaszkę przez okienko, i od razu ją oddał z powrotem. — Że przeszła — powiedział, zapytany co się sprawdza.",
+      "threads": [
+        "dwa-grzebienie"
+      ]
+    }
+  ],
+  "sketch": "Ebner podaje przez okienko w hali wejścia drugiego małą metalową blaszkę z krzywką, cichy taśmociąg i sylwetka chłopaka za szybą."
+}
