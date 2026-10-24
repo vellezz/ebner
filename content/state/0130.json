@@ -1,0 +1,47 @@
+{
+  "day": 130,
+  "entities": [
+    {
+      "id": "terke",
+      "kind": "person",
+      "name": "Terke",
+      "parent": "hodna",
+      "summary": "Dozorczyni ciepła portu na Hodnie, odpowiedzialna za reaktor i rozdział ciepła."
+    },
+    {
+      "id": "reaktor-hodna",
+      "kind": "place",
+      "name": "Reaktor portu Hodny",
+      "parent": "hodna",
+      "summary": "Stary, mały reaktor w kawernie trzy poziomy pod wjazdem, zasilający port; od kilkunastu dni oddaje mniej mocy niż powinien."
+    }
+  ],
+  "threads": [
+    {
+      "id": "reaktor-hodna",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Reaktor portu Hodny dławi moc przez zapchany pyłem wymiennik końcowy na zboczu; Ebner ma go wyczyścić, ale czeka na pogodę, bo wiatr od grani zakazuje wyjścia na zbocze."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-hodna-reaktor-dlawienie",
+      "content": "Reaktor portu Hodny od kilkunastu dni oddaje mniej mocy, niż się od niego żąda, a przyciskany oddaje jeszcze mniej; przyczyną jest sterownik dławienia reagujący na zawyżoną temperaturę za wymiennikiem końcowym, który stoi na powierzchni po stronie wiatru i jest zapchany pyłem. Holdmark przy ostatnim czyszczeniu wymienił tańszą osłonę zamiast żeber.",
+      "subject": "reaktor-hodna"
+    },
+    {
+      "id": "f-hodna-kaptury-dolny-poziom",
+      "content": "Na dolnym poziomie portu Hodny brakuje ciepła z powodu niedomagania reaktora, dlatego wszyscy noszą tam kaptury — nie z powodu pyłu, jak sądził Ebner.",
+      "subject": "hodna"
+    },
+    {
+      "id": "f-ebner-czeka-na-pogode",
+      "content": "Ebner ustalił z Terke dniówkę za czyszczenie wymiennika końcowego reaktora i czeka na pogodę, bo wiatr od grani zakazuje wyjścia na zbocze; czas oczekiwania liczy się po połowie stawki, zapisany w książce Terke.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "sketch": "Ebner w kapturze schodzi po drabinie do suchej, głośnej kaverny z małym starym reaktorem, obok niego kobieta w dwóch kurtkach ze zniszczoną książką urządzenia w ręku."
+}
