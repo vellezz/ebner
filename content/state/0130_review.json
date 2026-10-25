@@ -1,0 +1,19 @@
+{
+  "day": 130,
+  "threads": [
+    {
+      "id": "spor-kolumny-wymiennikowe",
+      "op": "close",
+      "status": "closed",
+      "closure": "abandoned",
+      "summary": "Merza pyta, kto będzie mierzył oscylację lustra gęstwy o grubość dziennej warstwy — potrzebny ktoś stojący na dole i patrzący na kreskę; Hesp zareagował workiem pod żebrami w sposób, który Merza odczytała, a Ebner nie."
+    },
+    {
+      "id": "zraszacze-byszu",
+      "op": "close",
+      "status": "closed",
+      "closure": "abandoned",
+      "summary": "Ebner odkrył, że samo zaciśnięcie dyszy nie wystarcza — bez wkładki wirowej strumień tworzy płaski wachlarz w przypadkowym kierunku i trzeba go celować podkładkami z drutu pod kołnierzem; zrobił dziewięć dysz, zostało osiem."
+    }
+  ]
+}
