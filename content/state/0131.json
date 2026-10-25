@@ -1,0 +1,55 @@
+{
+  "day": 131,
+  "entities": [
+    {
+      "id": "kawerna-hodny",
+      "kind": "place",
+      "name": "Kawerna pod portem Hodny",
+      "parent": "hodna",
+      "summary": "Podziemna komora za dmuchawami, w której stoi nieznana maszyna wrośnięta w skałę, z której przy budowie zdjęto część żeber na potrzeby wymiennika na zboczu."
+    }
+  ],
+  "threads": [
+    {
+      "id": "reaktor-hodna",
+      "op": "update",
+      "summary": "Ebner zmierzył rozstaw żeber na nieznanej maszynie w kawernie (skąd pochodzą żebra wymiennika) i wykonał grzebień ze spawalniczego drutu do czyszczenia ich z pyłu; drugi grzebień zapasowy gotowy, trzeci planowany, czeka dalej na pogodę."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-kawerna-maszyna-nieznana",
+      "content": "W kawernie pod portem Hodny, za dmuchawami, stoi od zawsze duża maszyna bez tabliczki i znanych gwintów, z dwoma otworami na nieznany klucz; przy budowie portu zdjęto z niej część żeber i wstawiono je w wymiennik końcowy na zboczu, reszty nie ruszano.",
+      "subject": "kawerna-hodny"
+    },
+    {
+      "id": "f-grzebien-do-zeber",
+      "content": "Ebner wykonał ze spawalniczego drutu grzebień o rozstawie zębów dopasowanym do żeber maszyny w kawernie; wchodzi opornie na całą głębokość i wyciąga stary, zbity, tłusty w dotyku pył. Pierwszy grzebień po trzech przejściach zaczął się rozchodzić zębami, zrobił więc drugi zapasowy; trzeci planuje zrobić rano.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-terke-pol-dniowki",
+      "content": "Terke zapisała Ebnerowi pół dniówki za dzień oczekiwania na pogodę, zanim zdążył zapytać o stawkę.",
+      "subject": "terke"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f131-kawerna-maszyna",
+      "kind": "scene",
+      "content": "Duża, wrośnięta w skałę, bez tabliczki, bez jednego gwintu, który znałbym z czegokolwiek. W boku ma dwa otwory na klucz, którego nie ma i chyba nigdy nie będzie.",
+      "threads": [
+        "reaktor-hodna"
+      ]
+    },
+    {
+      "id": "f131-grzebien-test",
+      "kind": "scene",
+      "content": "Wszedł. Idzie opornie, ale idzie na całą głębokość i wychodzi z garścią starego, zbitego pyłu, który tam siedzi od czasu, kiedy ktoś tu jeszcze kuł skałę.",
+      "threads": [
+        "reaktor-hodna"
+      ]
+    }
+  ],
+  "sketch": "Ebner klęczy przy wielkiej, bezimiennej maszynie wrośniętej w skalną ścianę kawerny, wsuwając w rząd żeber domowej roboty grzebień z drutu, wyciągając garść szarego pyłu."
+}
