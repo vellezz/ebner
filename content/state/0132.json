@@ -1,0 +1,49 @@
+{
+  "day": 132,
+  "entities": [
+    {
+      "id": "pulm",
+      "kind": "place",
+      "name": "Pulm",
+      "summary": "Mokra, ciemna, cieplejsza niż wygląda osada nad studnią solankową; słońce daje światło jak lampka nad kuchenką, mieszkańcy nie znoszą jasnego światła."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "hodna",
+      "to": "pulm"
+    }
+  ],
+  "threads": [
+    {
+      "id": "reaktor-hodna",
+      "op": "update",
+      "status": "dormant",
+      "summary": "Ebner wyjechał z Hodny czekać na pogodę gdzie indziej, bo wiatr od grani trzyma się zwykle kilkanaście dni; trzeci grzebień gotowy, czyszczenie wymiennika odłożone."
+    },
+    {
+      "id": "pulm-pompa",
+      "op": "open",
+      "type": "short",
+      "status": "active",
+      "reference_policy": "develop",
+      "planned_entries": 2,
+      "summary": "Pompa w studni solankowej na Pulmie bije, ale nie daje ciśnienia; zimno zaczyna się na kolanie ssawnym przed wirnikiem. Ebner zdejmie kolano następnego dnia."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-pulm-swiatlo-zakaz",
+      "kind": "world_rule",
+      "content": "Mieszkańcy Pulmu nie znoszą jasnego światła — praca przy lampie wymaga owinięcia jej szmatą i pozostawienia tylko wąskiej szpary skierowanej w dół.",
+      "subject": "pulm"
+    },
+    {
+      "id": "f-ebner-dojazd-pulm-koszt-wlasny",
+      "content": "Ebner przyjął zlecenie na Pulmie przez boję na własny koszt dojazdu, lecąc bokiem przez nienazwany układ dwóch zimnych olbrzymów, bo bezpośrednia droga była zablokowana przeglądem bramy.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "sketch": "Ebner schodzi do ciemnej studni solankowej z lampą owiniętą szmatą, zostawiającą tylko wąską szczelinę światła skierowaną w dół, otoczony niewidocznymi w mroku mieszkańcami Pulmu."
+}
