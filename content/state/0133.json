@@ -1,0 +1,52 @@
+{
+  "day": 133,
+  "entities": [
+    {
+      "id": "ilt",
+      "kind": "person",
+      "name": "Ilt",
+      "parent": "pulm",
+      "summary": "Mieszkanka Pulmu z czworgiem małych, pamięta rękę poprzedniego serwisanta i upomina się o obietnicę czwartego nasypu."
+    }
+  ],
+  "threads": [
+    {
+      "id": "pulm-pompa",
+      "op": "update",
+      "summary": "Ebner zdjął kolano ssawne: w środku biała skorupa solna narosła w półksiężyc, przekrój zwężony do dwóch palców; skuwanie soli odłożone na jutro."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-pulm-poprzedni-serwisant",
+      "content": "Przed Ebnerem na Pulmie byli serwisanci z tą samą zgrubiałą ręką (ślady przy kciuku), cieplejszą i z pierścieniem; obiecali, że po następnej robocie czwarty nasyp przestanie krzyczeć, i że wrócą — Ebner odmówił powtórzenia tej obietnicy.",
+      "subject": "ilt",
+      "valid_from": 133
+    },
+    {
+      "id": "f-pulm-rura-owinieta",
+      "content": "Ebner owinął gorącą rurę z solanką przy ścieżce koło czwartego nasypu czterema zwojami pociętego koca z wykładziny przegrody, wiążąc co dłoń taśmą, by dzieci z Pulmu mogły bezpiecznie mijać się z rurą na wysokości swoich twarzy.",
+      "subject": "pulm",
+      "valid_from": 133
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f133-ilt-reka",
+      "kind": "scene",
+      "content": "— Ta sama ręka. Zgrubienia tu, tu i przy kciuku. Tamten był cieplejszy i miał pierścień, ale ręka ta sama.",
+      "threads": [
+        "pulm-pompa"
+      ]
+    },
+    {
+      "id": "f133-teraz-szepcze",
+      "kind": "punchline",
+      "content": "— Teraz szepcze — powiedział z pretensją, jakby i to było za dużo.",
+      "threads": [
+        "pulm-pompa"
+      ]
+    }
+  ],
+  "sketch": "Ebner owija pociętym kocem gorącą rurę z solanką przy wąskiej ścieżce, a obok stoi kobieta z czworgiem drobnych dzieci, patrząc na jego rękę."
+}
