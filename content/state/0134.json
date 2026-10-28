@@ -1,0 +1,75 @@
+{
+  "day": 134,
+  "entities": [
+    {
+      "id": "hrel",
+      "kind": "person",
+      "name": "Hrel",
+      "parent": "pulm",
+      "summary": "Przyjmujący materiał w drugiej warzelni Pulmu, wydaje kwity za sól z narostu rurowego."
+    },
+    {
+      "id": "mern",
+      "kind": "person",
+      "name": "Mern",
+      "parent": "pulm",
+      "summary": "Mieszkaniec Pulmu, przyszedł z pisemnym pytaniem o spowolnienie zarastania pompy."
+    }
+  ],
+  "threads": [
+    {
+      "id": "pulm-pompa",
+      "op": "close",
+      "status": "closed",
+      "closure": "resolved",
+      "summary": "Ebner skuł narost solny z kolana ssawnego, przekrój i ciśnienie wróciły do normy, sól oddał warzelni za kwitem."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-pulm-pompa-naprawiona",
+      "content": "Ebner skuł narost solny z kolana ssawnego pompy w Pulmie; przekrój wrócił do normy, ciśnienie w studni wzrosło na tyle, że przy czerpaku trzeba stać krok dalej.",
+      "subject": "pulm",
+      "valid_from": 134
+    },
+    {
+      "id": "f-pulm-kwit-sol",
+      "content": "Ebner otrzymał od Hrela z drugiej warzelni kwit za sól z narostu rurowego (klasa pierwsza, waga spora z okładem), zapłacony olejem lampowym wydanym od razu; olej jest najtańszą rzeczą w Pulmie, bo nikt go nie pali — Ebnerowi starczy na pół roku świecenia w ładowni.",
+      "subject": "ebner-gripe",
+      "valid_from": 134
+    },
+    {
+      "id": "f-pulm-narost-wlasnosc-osady",
+      "content": "Ebner zapisał w książce studni Pulmu, że narost solny w kolanie jest rzeczą osady, nie serwisanta, i że kolejny serwisant ma to przeczytać przed otwarciem kołnierza.",
+      "subject": "pulm",
+      "valid_from": 134
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f134-kwit",
+      "kind": "document",
+      "content": "PRZYJĘCIE MATERIAŁU WŁASNEGO. Przyjmujący: Hrel, warzelnia druga. Rodzaj: sól z narostu rurowego, skuwana, sucha. Klasa: pierwsza. Zapłata: olej lampowy, wydano od razu. Uwaga: materiał przynieść całym płatem, nie w okruchu.",
+      "threads": [
+        "pulm-pompa"
+      ]
+    },
+    {
+      "id": "f134-rura-albo",
+      "kind": "punchline",
+      "content": "Rura albo pracuje, albo rośnie. Jak rośnie wolniej, to i soli jest mniej, bo sól to dokładnie to, czego w wodzie nie ma. Nie da się mieć obu.",
+      "threads": [
+        "pulm-pompa"
+      ]
+    },
+    {
+      "id": "f134-tamci-wywozili",
+      "kind": "scene",
+      "content": "Hrel zapytał, czy sól oddaje na zawsze, czy ma po nią wrócić — bo tamci wywozili ją w workach, mówiąc że to odpad niebezpieczny.",
+      "threads": [
+        "pulm-pompa"
+      ]
+    }
+  ],
+  "sketch": "Serwisant w owiniętej szmatą lampie pisze krzywo w książce studni, obok dwa wiadra białych płatów soli."
+}
