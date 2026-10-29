@@ -1,0 +1,26 @@
+{
+  "day": 135,
+  "facts_opened": [
+    {
+      "id": "f-pulm-podzial-wzdluz",
+      "kind": "general",
+      "content": "Zebranie osady Pulm uchwaliło, że sporny narost solny dzieli się wzdłuż naturalnych warstw na płaskie płaty klasy pierwszej, nie rozbija na okruch; dzieli ten, kto nie jest stroną sporu — obowiązek przypadł Hrelowi. Zapis dopisano w książce studni pod zdaniem Ebnera.",
+      "subject": "pulm"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f135-podzial-plata",
+      "kind": "scene",
+      "content": "Postawiłem dłuto w ciemną linię między warstwami soli, stuknąłem dwa razy i płat rozszedł się wzdłuż na dwa cieńsze płaty, oba całe, oba klasa pierwsza.",
+      "threads": []
+    },
+    {
+      "id": "f135-cienszy-ale-tak-samo",
+      "kind": "punchline",
+      "content": "— Cieńsza — powiedział Hrel z zadowoleniem, ważąc połowę płata w ręce — a liczy się tak samo.",
+      "threads": []
+    }
+  ],
+  "sketch": "Mężczyzna skuwa dłutem płat soli na kolanie przy świetle lampy owiniętej szmatą, wokół w półmroku widać tylko buty i kolana mieszkańców Pulmu."
+}
