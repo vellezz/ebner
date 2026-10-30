@@ -1,0 +1,32 @@
+{
+  "day": 137,
+  "threads": [
+    {
+      "id": "spotkanie-telnu",
+      "op": "update",
+      "summary": "Ebner wykuł w warzelni drugiej na Pulmie jeden z dwóch kawałków poszycia na drugą krzywkę dla Telnu, osłaniając żar kocem rozpiętym na kijach, bo rozgrzana blacha świeci w ciemnym Pulmie; drugi kawałek czeka na kolejny dzień i zgodę Hrela na ogień."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-pulm-blacha-swieci",
+      "content": "Rozgrzana do koloru wiśni blacha świeci w ciemnym Pulmie na tyle mocno, że mieszkańcy odwracają się i zasłaniają oczy; pracę trzeba osłaniać (np. kocem na dwóch kijach) i wykonywać poza izbami.",
+      "subject": "pulm"
+    },
+    {
+      "id": "f-telnu-krzywka-pierwszy-kawalek-gotowy",
+      "content": "Ebner wykuł i wyprostował pierwszy z dwóch kawałków poszycia na drugą krzywkę dla budy na Telnie, rozbijając go na szerokość i schodząc z grubości w ogniu warzelni drugiej na Pulmie; drugi kawałek wciąż czeka na obróbkę.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "koc-na-dwoch-kijach",
+      "kind": "scene",
+      "content": "Mern trzymał kije, ja biegałem z obcęgami. Rozgrzana blacha w ciemnej izbie świeci jak nic innego w całym Pulmie — kobiety przy panwi odwróciły się do ściany, jedna z ręką na oczach.",
+      "threads": [
+        "spotkanie-telnu"
+      ]
+    }
+  ]
+}
