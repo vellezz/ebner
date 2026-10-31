@@ -1,0 +1,41 @@
+{
+  "day": 138,
+  "threads": [
+    {
+      "id": "spotkanie-telnu",
+      "op": "close",
+      "status": "closed",
+      "closure": "resolved",
+      "summary": "Drugi kawałek poszycia pękł przy hartowaniu i trafił z powrotem na ruszt dla Hrela; pierwszy kawałek z naddatkiem wystarczy na krzywkę, profil Ebner wytnie już na Hannie."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-telnu-krzywka-material-gotowy",
+      "content": "Pierwszy kawałek poszycia na drugą krzywkę dla Telnu jest rozbity na szerokość, wyprostowany i starczy z naddatkiem; drugi kawałek pękł przy hartowaniu i trafił z powrotem na ruszt Hrela na łaty do panwi. Profil krzywki zostanie wycięty już na Hannie, pilnikiem na jeden wieczór.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-mern-patrzyl-na-blache",
+      "content": "Mern przyznał, że patrzył na rozgrzaną blachę pod kocem dłużej, niż trzeba, i boi się, że to mu zaszkodziło oczom; Ebner nie wie, czy jego ból jest stamtąd, i kazał mu porównać się z kimś, kto nie patrzył, w próbie z puszką po zgorzelinie w ciemnym przejściu. Mern wolał nie wiedzieć na pewno.",
+      "subject": "mern"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f138-puszka-test",
+      "kind": "scene",
+      "content": "Postawiłem mu w ciemnym przejściu za warzelnią puszkę po zgorzelinie, odszedłem dwadzieścia kroków i kazałem mu po nią iść. Poszedł prosto i wziął ją bez macania. — Powiedział, że woli nie, bo jak wyjdzie gorzej, to będzie już wiedział. Zostawiłem puszkę przy jego drzwiach.",
+      "threads": []
+    },
+    {
+      "id": "f138-zapas-pekl",
+      "kind": "punchline",
+      "content": "Drugi miał być zapasem na wypadek, gdybym pierwszy zepsuł. Nie zepsułem, więc zapas zrobił to, co zapasy robią najczęściej: pękł, kiedy przestał być potrzebny.",
+      "threads": [
+        "spotkanie-telnu"
+      ]
+    }
+  ],
+  "sketch": "Ebner przy rozgrzanej do czerwoności blasze pod kocem rozpiętym na kijach, w ciemnej warzelni Pulmu, obok stoi chłopiec Mern patrzący spod zmrużonych powiek."
+}
