@@ -1,0 +1,75 @@
+{
+  "day": 139,
+  "entities": [
+    {
+      "id": "nyst",
+      "kind": "place",
+      "name": "Nyst",
+      "summary": "Płaski port na mieliźnie przy ujściu, gdzie woda schodzi i wraca dwa razy na dobę, odsłaniając szeroki pas mułu; jednostki stawia się na podporach i czeka, aż siądą."
+    },
+    {
+      "id": "jedda",
+      "kind": "person",
+      "name": "Jedda",
+      "parent": "nyst",
+      "summary": "Brygadzistka nabrzeża w Nyst, niska i szeroka, chodzi po mule boso."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "pulm",
+      "to": "nyst"
+    }
+  ],
+  "threads": [
+    {
+      "id": "dzwig-nyst",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Dźwig bramowy numer dwa w Nyst zjeżdża z ładunkiem pełzaczkiem mimo trzymającego pozornie hamulca; Ebner podejrzewa przekrzywienie całej podstawy osiadającej krzywo w mule i ma to zmierzyć jutro przy obu wodach."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-nyst-zlecenie-warunki",
+      "content": "Jedda ustaliła z Ebnerem stawkę za naprawę dźwigu numer dwa: dniówka plus materiał, materiału jeszcze nie wyceniono; jutro przy niskiej wodzie ma dostęp do podstawy dźwigu tylko przez pół ranka, niezależnie od tego, czy skończy.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-nyst-dzwig-diagnoza",
+      "content": "Szczęka hamulca dźwigu numer dwa w Nyst styka się z bębnem tylko górną krawędzią, dołem stoi od niego na grubość paznokcia; pod lewą nogą bramy muł jest wygnieciony głębiej niż pod prawą, a podlewka ma pęknięcie biegnące skosem od kotwy.",
+      "subject": "nyst"
+    },
+    {
+      "id": "f-nyst-rejestr-ladowania",
+      "kind": "world_rule",
+      "content": "W Nyst każde zejście na ląd, włącznie z istotą bez nazwiska wyłażącą z jednostki, musi zostać wpisane do portowej książki z rubryką skąd, kiedy i w jakim celu — puste nazwisko jest gorsze niż jakiekolwiek wpisane.",
+      "subject": "nyst"
+    },
+    {
+      "id": "f-hanna-przechyl-nyst",
+      "content": "Hanna osiadła w Nyst na podporach z przechyłem na prawo, wydając przy siadaniu niepokojący dźwięk; grawitacja w Nyst jest nieco większa niż Ebner lubi, co czuje w krzyżu i kolanach.",
+      "subject": "hanna"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "nyst-dzwig-diagnoza-scena",
+      "kind": "scene",
+      "content": "Przyłożyłem szczękę ręką i zobaczyłem, że dotyka bęben górną krawędzią, a dołem stoi od niego na grubość paznokcia. Jeżeli cała brama zjeżdża w muł jednym rogiem, będę mógł regulować tę szczękę do końca życia, a ona i tak wróci do stykania się krawędzią.",
+      "threads": [
+        "dzwig-nyst"
+      ]
+    },
+    {
+      "id": "nyst-rubryka-trzecia",
+      "kind": "punchline",
+      "content": "Rubryka trzecia. Skąd, kiedy, w jakim celu. — Napisałem: Pulm, dzisiaj, sól. Zapytał o nazwisko. Powiedziałem, że to nie ma nazwiska. Wpisałem Hrel.",
+      "threads": []
+    }
+  ],
+  "sketch": "Płaski port Nyst przy odpływie: dźwig bramowy oblepiony mułem, Hanna na podporach z przechyłem, w tle pas odsłoniętego mułu z palami."
+}
