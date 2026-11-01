@@ -1,0 +1,19 @@
+{
+  "day": 138,
+  "threads": [
+    {
+      "id": "hol-frachtowca-ambrat",
+      "op": "close",
+      "status": "closed",
+      "closure": "abandoned",
+      "summary": "Vuls odczytał Ebnerowi czwarty wiersz koperty przez prześwit pod wrotami, obracając ją do góry nogami; urzędnik uznał czytanie za nieprzerywające trzymania. Staż koperty u Vulsa jest teraz najdłuższy w jego rejestrze."
+    },
+    {
+      "id": "netla-lyki",
+      "op": "close",
+      "status": "closed",
+      "closure": "abandoned",
+      "summary": "Ebner wiózł z Byszu rury i dwadzieścia płytek na kołnierze; po opłacie celnej w naturze zostało piętnaście sztuk, dwanaście potrzebnych na kolumny."
+    }
+  ]
+}
