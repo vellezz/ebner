@@ -1,0 +1,31 @@
+{
+  "day": 140,
+  "facts_opened": [
+    {
+      "id": "f-nyst-lizawka-praca",
+      "content": "Lizawka siedząca na palach rzędu drugiego w Nyst zdziera solny nalot z drewna; port płaci za to ćwiartkę dniówki, dopisywaną do książki Hrela, bo lizawka nie ma własnego konta.",
+      "subject": "nyst"
+    },
+    {
+      "id": "f-nyst-hrel-lista-obecnych",
+      "content": "Hrel, który zszedł na ląd w Nyst po sól i nie wpisał powrotu na jednostkę, figuruje na liście obecnych portu jako pozycja 31, przydzielony do pali rzędu drugiego za stawkę jak przy dniówce nabrzeżnej.",
+      "subject": "hrel"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "f140-wyciag-ksiazki",
+      "kind": "document",
+      "content": "Zejście na ląd: Hrel. Skąd: Pulm. W jakim celu: sól. Powrót na jednostkę: brak wpisu. Osoba bez wpisu powrotu podlega wpisowi do listy obecnych.",
+      "threads": [
+        "dzwig-nyst"
+      ]
+    },
+    {
+      "id": "f140-ona-nie-wie",
+      "kind": "punchline",
+      "content": "— Ona pracuje — powiedziała Jedda. — Płacimy za pracę. — Ona nie wie, że pracuje. — Połowa nabrzeża nie wie.",
+      "threads": []
+    }
+  ]
+}
