@@ -1,0 +1,38 @@
+{
+  "day": 142,
+  "facts_opened": [
+    {
+      "id": "f-hanna-podpora-wzmocniona-nyst",
+      "content": "Lewa stopa podpory Hanny siedzi płycej, na czymś twardym; prawa zapadła się po kołnierz w starej, rzadkiej, siarkowej kolein mułu i z każdym przypływem schodzi niżej. Ebner poszerzył prawą stopę dwiema deskami z odzysku ułożonymi na krzyż, podbitymi klinami i przybitymi czterema kołkami do mułu; poziomica na grodzi ma pokazać efekt nazajutrz.",
+      "subject": "hanna",
+      "valid_from": 142
+    },
+    {
+      "id": "f-telnu-krzywka-pilnik-postep",
+      "content": "Ebner zszedł pilnikiem z obrysowanego profilu drugiej krzywki dla Telnu na jakieś dwie trzecie grubości; praca jeszcze nieskończona.",
+      "subject": "ebner-gripe",
+      "valid_from": 142
+    }
+  ],
+  "fragments": [
+    {
+      "id": "frag-142-grunt-pracuje",
+      "kind": "scene",
+      "content": "Nic się nie zepsuło. Po prostu grunt pracuje, a ja na nim mieszkam.",
+      "threads": []
+    },
+    {
+      "id": "frag-142-zlom-z-odzysku",
+      "kind": "scene",
+      "content": "— Złom się nie wydaje, złom się pali — powiedziała Jedda. — Wpiszę jako materiał z odzysku, zwrot niewymagany.",
+      "threads": []
+    },
+    {
+      "id": "frag-142-rubryka-jest",
+      "kind": "punchline",
+      "content": "— Bo rubryka jest — powiedział Hrel o lizawce i jej ćwiartce dniówki. — Ja mam z tego ćwiartkę i wyrzuty sumienia.",
+      "threads": []
+    }
+  ],
+  "sketch": "Ebner pod przechylonym kadłubem Hanny przy niskiej wodzie, przybijający dwie deski na krzyż pod podporą w mule."
+}
