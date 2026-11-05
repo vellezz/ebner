@@ -1,0 +1,57 @@
+{
+  "day": 143,
+  "threads": [
+    {
+      "id": "nyst-dzwig-naprawa",
+      "op": "open",
+      "type": "medium",
+      "status": "active",
+      "reference_policy": "develop",
+      "summary": "Ebner naprawia dźwig numer dwa w Nyst: przyniósł linę ze składu po drugiej stronie mielizny, materiał (lina) jeszcze nie wyceniony, dostęp do podstawy dźwigu tylko przy niskiej wodzie."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-nyst-lina-nie-wyceniona",
+      "content": "Ebner przyniósł do Nyst linę do dźwigu numer dwa ze składu na stałym brzegu (trzy obroty na bęben, stara ale równa) oraz dwie mokre deski gratis; lina liczy się jako materiał i jeszcze nie została wyceniona osobno od dniówki.",
+      "subject": "ebner-gripe"
+    },
+    {
+      "id": "f-nyst-chodzenie-pol-dniowki",
+      "content": "Jedda wpisała Ebnerowi i Hrelowi po pół dniówki każdemu (pozycje 32 i 33 listy obecnych, stanowisko ruchome) za przejście pieszo po mule do składu po linę i z powrotem; Hrel zadeklarował, że chętnie pochodzi się jeszcze jutro.",
+      "subject": "nyst"
+    },
+    {
+      "id": "f-hanna-poziomica-lepiej",
+      "content": "Pęcherzyk poziomicy na grodzi Hanny stoi o włos bliżej środka niż dzień wcześniej, a kubek jedzie po blacie wolniej — wzmocniona prawa stopa podpory trzyma.",
+      "subject": "hanna"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "nyst-mul-mlaskanie",
+      "kind": "scene",
+      "content": "Po stu krokach po mule, który zdziera buty z mlaśnięciem przy każdym kroku, człowiek ma dość tego dźwięku na resztę życia; śmierdzi siarką, zwłaszcza w starych koleinach.",
+      "threads": [
+        "nyst-dzwig-naprawa"
+      ]
+    },
+    {
+      "id": "nyst-stanowisko-ruchome",
+      "kind": "punchline",
+      "content": "Chłopak z książką dogonił ich w połowie drogi po mule i spytał, skąd, dokąd i czy stanowisko jest stałe czy ruchome; Ebner odpowiedział, że ruchome, skoro się rusza.",
+      "threads": [
+        "nyst-dzwig-naprawa"
+      ]
+    },
+    {
+      "id": "nyst-lina-osobno",
+      "kind": "scene",
+      "content": "Przyniosłem waszą linę. Do waszego dźwigu. — Lina jest osobno, w materiale, tego jeszcze nie wyceniliśmy — powiedziała Jedda, podczas gdy Hrel splunął w muł i zażyczył sobie jutro jeszcze pochodzić.",
+      "threads": [
+        "nyst-dzwig-naprawa"
+      ]
+    }
+  ],
+  "sketch": "Dwóch mężczyzn niosących długą linę na ramionach, brodzących przez szeroką, parującą mieliznę mułu pod niskim niebem, z dalekimi palami portu w tle."
+}
