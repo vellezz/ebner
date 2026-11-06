@@ -1,0 +1,57 @@
+{
+  "day": 147,
+  "entities": [
+    {
+      "id": "platforma-wstega-nyst",
+      "kind": "place",
+      "name": "Platforma na szczycie wstęgi w Nyst",
+      "parent": "nyst",
+      "summary": "Magazyn żelastwa i stanowisko kosza na skalnym bloku za mielizną, szczyt cienkiej wstęgi widocznej z dołu."
+    }
+  ],
+  "travel": [
+    {
+      "seq": 1,
+      "from": "nyst",
+      "to": "platforma-wstega-nyst"
+    },
+    {
+      "seq": 2,
+      "from": "platforma-wstega-nyst",
+      "to": "nyst"
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-nyst-kosz-taryfa-masa",
+      "kind": "general",
+      "content": "Kosz wjazdowy na platformę przy wstędze w Nyst kursuje dwa razy na dobę; taryfa liczona jest od masy pasażera ważonego przy wejściu i przy zejściu, a różnicę (muł zeschnięty w drodze) odejmuje się od opłaty — przy ujemnym wyniku port dopłaca.",
+      "subject": "nyst"
+    },
+    {
+      "id": "f-nyst-kausz-zaciski-zdobyte",
+      "kind": "general",
+      "content": "Ebner dostał w magazynie na platformie kausz i cztery zaciski klinowe (zamiast trzech, bo kompletu nie było) oraz garść niepoliczonych podkładek; zapisano je na dźwig numer dwa, nie na Ebnera.",
+      "subject": "ebner-gripe"
+    }
+  ],
+  "fragments": [
+    {
+      "id": "hrel-worek-z-mulem",
+      "kind": "punchline",
+      "content": "Hrel jechał z workiem mułu na kolanach, żeby zważyć się ciężej przy wejściu i lżej przy zejściu — \"wszyscy tak robią, tylko nie wszyscy noszą worek, bo wstyd\".",
+      "threads": [
+        "nyst-dzwig-naprawa"
+      ]
+    },
+    {
+      "id": "mielizna-z-gory",
+      "kind": "scene",
+      "content": "Z okna kosza na szczycie wstęgi widać całą mieliznę naraz: woda nie cofa się, tylko się obraca, a Hanna stoi w tym jak mały biały owad na czterech nogach, mniej przechylony niż wczoraj.",
+      "threads": [
+        "nyst-dzwig-naprawa"
+      ]
+    }
+  ],
+  "sketch": "Mały kosz wjazdowy wiszący na cienkiej wstędze nad rozległą mielizną, z białą jednostką na czterech podporach widoczną daleko w dole."
+}
