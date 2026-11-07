@@ -1,0 +1,27 @@
+{
+  "day": 148,
+  "threads": [
+    {
+      "id": "nyst-dzwig-naprawa",
+      "op": "update",
+      "summary": "Ebner przełożył nową linę przez krążek, osadził kausz i trzy zaciski klinowe (siodło na linie roboczej, klin na martwym końcu), czwarty zacisk umieścił na końcu ogona liny jako zabezpieczenie bez funkcji nośnej. Próba obciążenia beczką smoły wypadła dobrze, ale zaciski wymagają dociągnięcia po pierwszym obciążeniu — zaplanowane na wieczorny odpływ."
+    }
+  ],
+  "facts_opened": [
+    {
+      "id": "f-nyst-kosz-podkladki-zuzyte",
+      "content": "Przy montażu zacisków zużyto sześć z niepoliczonych wcześniej podkładek (dwie nakrętki miały wytarte gniazda i siadały krzywo); pozostałe podkładki wciąż nieprzeliczone.",
+      "subject": "nyst"
+    },
+    {
+      "id": "f-jedda-ksiega-pozycja-32",
+      "content": "Jedda wpisała w książce portowej Nyst pod pozycją trzydzieści drugą materiał użyty na dźwig numer dwa: kausz jeden, zaciski cztery (mimo że założono trzy jako nośne, czwarty doliczono jako element na statku).",
+      "subject": "nyst"
+    },
+    {
+      "id": "f-hanna-stoi-rowno-nyst",
+      "content": "Po wzmocnieniu prawej stopy podpory Hanna po raz pierwszy od przylotu do Nyst stoi równo na czterech nogach, bez widocznego przechylenia na prawą stronę.",
+      "subject": "hanna"
+    }
+  ]
+}
